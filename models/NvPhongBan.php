@@ -9,11 +9,9 @@ use Yii;
  *
  * @property int $id
  * @property string $ten_phong_ban
- * @property int|null $nguoi_tao
- * @property string|null $thoi_gian_tao
+ * @property string $ghi_chu
  *
  * @property NvNhanVien[] $nvNhanViens
- * @property NvTo[] $nvTos
  */
 class NvPhongBan extends \yii\db\ActiveRecord
 {
@@ -31,10 +29,9 @@ class NvPhongBan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ten_phong_ban'], 'required'],
-            [['nguoi_tao'], 'integer'],
-            [['thoi_gian_tao'], 'safe'],
-            [['ten_phong_ban'], 'string', 'max' => 255],
+            [['ten_phong_ban', 'ghi_chu'], 'required'],
+            [['ghi_chu'], 'string'],
+            [['ten_phong_ban'], 'string', 'max' => 30],
         ];
     }
 
@@ -46,8 +43,7 @@ class NvPhongBan extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'ten_phong_ban' => 'Ten Phong Ban',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'ghi_chu' => 'Ghi Chu',
         ];
     }
 
@@ -59,15 +55,5 @@ class NvPhongBan extends \yii\db\ActiveRecord
     public function getNvNhanViens()
     {
         return $this->hasMany(NvNhanVien::class, ['id_phong_ban' => 'id']);
-    }
-
-    /**
-     * Gets query for [[NvTos]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getNvTos()
-    {
-        return $this->hasMany(NvTo::class, ['id_phong_ban' => 'id']);
     }
 }

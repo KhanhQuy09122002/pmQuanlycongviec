@@ -1,1 +1,0 @@
-<p> Phiếu chưa được duyệt ! </p>

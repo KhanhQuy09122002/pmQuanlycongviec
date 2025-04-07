@@ -30,14 +30,14 @@ $dash = new Dashboard();
 		<div class="card custom-card service">
 			<div class="card-body">
 				<div class="item-box text-center">
-					<div class=" text-center mb-2 text-primary"><i class="fa fa-graduation-cap"></i>
+					<div class=" text-center mb-2 text-primary"><i class="fas fa-tools"></i>
 					</div>
 					<div class="item-box-wrap">						
 						<h5 class="mb-2">
-							<a href="/khoahoc/khoa-hoc?menu=khoahoc">Quản lý khóa học</a>
+							<a href="/khoahoc/khoa-hoc?menu=khoahoc">Quản lý công trình</a>
 						</h5>						
-						<p class="text-muted mb-0">Quản lý thông tin khóa học, 
-							<br/>hạng đào tạo, lịch học</p>
+						<p class="text-muted mb-0">Quản lý đơn hàng, 
+							<br/>tạo báo giá, hợp đồng,...</p>
 					</div>
 				</div>
 			</div>
@@ -51,10 +51,10 @@ $dash = new Dashboard();
 					</div>
 					<div class="item-box-wrap">
 						<h5 class="mb-2">
-							<a href="/hocvien/hoc-vien?menu=hv2">Quản lý học viên</a>
+							<a href="/hocvien/hoc-vien?menu=hv2">Quản lý nhân viên</a>
 						</h5>
-						<p class="text-muted mb-0">Quản lý thông tin học viên, <br/>
-							học phí, sắp xếp lịch học</p>
+						<p class="text-muted mb-0">Quản lý thông tin nhân viên, <br/>
+							phòng ban,....</p>
 					</div>
 				</div>
 			</div>
@@ -64,14 +64,14 @@ $dash = new Dashboard();
 		<div class="card custom-card service">
 			<div class="card-body">
 				<div class="item-box text-center">
-					<div class=" text-center text-success mb-2"><i class="fa fa-users"></i>
+					<div class=" text-center text-success mb-2"><i class="	fa fa-barcode"></i>
 					</div>
 					<div class="item-box-wrap">
 						<h5 class="mb-2">
-							<a href="/giaovien/giao-vien?menu=gv1">Quản lý giáo viên</a>
+							<a href="/giaovien/giao-vien?menu=gv1">Quản lý sản phẩm</a>
 						</h5>
-						<p class="text-muted mb-0">Quản lý thông tin giáo viên, 
-							hồ sơ giáo viên, lên lịch giảng dạy</p>
+						<p class="text-muted mb-0">Quản lý thông tin sản phẩm, 
+							giá sản phẩm, phân loại,....</p>
 					</div>
 				</div>
 			</div>
@@ -81,14 +81,14 @@ $dash = new Dashboard();
 		<div class="card custom-card service">
 			<div class="card-body">
 				<div class="item-box text-center">
-					<div class="text-center text-warning mb-2"><i class="fa fa-automobile"></i>
+					<div class="text-center text-warning mb-2"><i class="fa fa-file-text-o"></i>
 					</div>
 					<div class="item-box-wrap">
 						<h5 class="mb-2">
-							<a href="/hoc-vien/quan-ly-hoc-vien?menu=qlhv">Quản lý thuê xe</a>
+							<a href="/hoc-vien/quan-ly-hoc-vien?menu=qlhv">Quản lý hợp đồng</a>
 						</h5>
-						<p class="text-muted mb-0">Quản lý xe, thời gian cho thuê, 
-							quản lý phân phối xe giảng dạy</p>
+						<p class="text-muted mb-0">Quản lý hợp đồng, 
+							danh sách hợp đồng,....</p>
 					</div>
 				</div>
 			</div>
@@ -100,7 +100,7 @@ $dash = new Dashboard();
 	<div class="col-sm-12">
         <div class="card custom-card">
         	<div class="card-body" style="width: 100%; height:450px">
-        		<img src="/libs/images/truonglai.jpg" alt="img" style="width: 100%; height: 100%; object-fit: cover;">
+        		<img src="/libs/images/CongViec.jpg" alt="img" style="width: 100%; height: 100%; object-fit: cover;">
         	</div>
         </div>
     </div>

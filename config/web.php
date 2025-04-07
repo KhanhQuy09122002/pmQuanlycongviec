@@ -14,37 +14,16 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'modules'=>[
-        'khoahoc' => [
-            'class' => 'app\modules\khoahoc\Khoahoc',
-        ],
-        'vanban' => [
-            'class' => 'app\modules\vanban\Vanban',
+       
+        /* 'dynamikjs' => [
+            'class' => 'dastanaron\dropzone\DynamicJSModule'
+        ], */
+        'user' => [
+            'class' => 'app\modules\user\UserModule',
         ],
         'nhanvien' => [
             'class' => 'app\modules\nhanvien\Nhanvien',
         ],
-        
-        'kholuutru' => [
-            'class' => 'app\modules\kholuutru\Kholuutru',
-        ],
-        
-        'user' => [
-            'class' => 'app\modules\user\UserModule',
-        ],
-        'giaovien' => [
-            'class' => 'app\modules\giaovien\Giaovien',
-        ],
-        'hocvien' => [
-            'class' => 'app\modules\hocvien\Hocvien',
-        ],
-        'thuexe' => [
-            'class' => 'app\modules\thuexe\ThueXe',
-        ],
-
-        /* 'dynamikjs' => [
-            'class' => 'dastanaron\dropzone\DynamicJSModule'
-        ], */
-       
         'user-management' => [
             'class' => 'webvimark\modules\UserManagement\UserManagementModule',
             

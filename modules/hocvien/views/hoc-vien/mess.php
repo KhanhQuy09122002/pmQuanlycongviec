@@ -1,1 +1,0 @@
-<p  style="color:blue"> Học viên đã nộp đủ học phí rồi !</p>

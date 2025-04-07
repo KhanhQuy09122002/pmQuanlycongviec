@@ -1,1 +1,0 @@
-<p style="color:red"> Vui lòng chọn Khóa học cho Học viên </p>
