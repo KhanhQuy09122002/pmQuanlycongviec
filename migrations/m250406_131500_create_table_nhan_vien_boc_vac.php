@@ -18,6 +18,7 @@ class m250406_131500_create_table_nhan_vien_boc_vac extends Migration
             'so_dien_thoai'=>$this->string(12)->notNull(),
             'so_cccd'=>$this->string(15)->notNull(),
             'hinh_anh'=>$this->string(),
+            'muc_luong'=>$this->integer()->notNull(),
             'trang_thai'=>$this->string(30),
             'nguoi_tao'=>$this->integer(),
             'thoi_gian_tao'=>$this->datetime(),

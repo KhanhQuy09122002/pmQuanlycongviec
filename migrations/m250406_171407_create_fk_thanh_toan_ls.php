@@ -37,7 +37,7 @@ class m250406_171407_create_fk_thanh_toan_ls extends Migration
     {
         $this->dropForeignKey(
             'fk-thau_phu_thanh_toan-ls',
-            'ct_nhan_cong_thanh_toan_lich_su'
+            'ct_thau_phu_thanh_toan_lich_su'
         );
         $this->dropForeignKey(
             'fk-nhan_cong_thanh_toan-ls',
