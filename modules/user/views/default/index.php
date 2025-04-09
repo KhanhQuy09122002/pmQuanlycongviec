@@ -30,7 +30,7 @@ $dash = new Dashboard();
 		<div class="card custom-card service">
 			<div class="card-body">
 				<div class="item-box text-center">
-					<div class=" text-center mb-2 text-primary"><i class="fas fa-tools"></i>
+					<div class=" text-center mb-2 text-primary"><i class="fa fa-industry"></i>
 					</div>
 					<div class="item-box-wrap">						
 						<h5 class="mb-2">
@@ -47,14 +47,14 @@ $dash = new Dashboard();
 		<div class="card custom-card service">
 			<div class="card-body">
 				<div class="item-box text-center">
-					<div class=" text-center text-danger mb-2"><i class="fa fa-users"></i>
+					<div class=" text-center text-danger mb-2"><i class="fa fa-money"></i>
 					</div>
 					<div class="item-box-wrap">
 						<h5 class="mb-2">
-							<a href="/hocvien/hoc-vien?menu=hv2">Quản lý nhân viên</a>
+							<a href="/hocvien/hoc-vien?menu=hv2">Quản lý lương</a>
 						</h5>
-						<p class="text-muted mb-0">Quản lý thông tin nhân viên, <br/>
-							phòng ban,....</p>
+						<p class="text-muted mb-0">Quản lý lương nhân viên bóc vác, <br/>
+							xuất bản lương,....</p>
 					</div>
 				</div>
 			</div>
@@ -64,14 +64,14 @@ $dash = new Dashboard();
 		<div class="card custom-card service">
 			<div class="card-body">
 				<div class="item-box text-center">
-					<div class=" text-center text-success mb-2"><i class="	fa fa-barcode"></i>
+					<div class=" text-center text-success mb-2"><i class="fa fa-user-tie"></i>
 					</div>
 					<div class="item-box-wrap">
 						<h5 class="mb-2">
-							<a href="/giaovien/giao-vien?menu=gv1">Quản lý sản phẩm</a>
+							<a href="/giaovien/giao-vien?menu=gv1">Quản lý khách hàng</a>
 						</h5>
-						<p class="text-muted mb-0">Quản lý thông tin sản phẩm, 
-							giá sản phẩm, phân loại,....</p>
+						<p class="text-muted mb-0">Quản lý thông tin khách hàng, 
+							đơn hàng, công nợ,....</p>
 					</div>
 				</div>
 			</div>
@@ -81,14 +81,14 @@ $dash = new Dashboard();
 		<div class="card custom-card service">
 			<div class="card-body">
 				<div class="item-box text-center">
-					<div class="text-center text-warning mb-2"><i class="fa fa-file-text-o"></i>
+					<div class="text-center text-warning mb-2"><i class="fa fa-truck"></i>
 					</div>
 					<div class="item-box-wrap">
 						<h5 class="mb-2">
-							<a href="/hoc-vien/quan-ly-hoc-vien?menu=qlhv">Quản lý hợp đồng</a>
+							<a href="/hoc-vien/quan-ly-hoc-vien?menu=qlhv">Quản lý nhà cung cấp</a>
 						</h5>
-						<p class="text-muted mb-0">Quản lý hợp đồng, 
-							danh sách hợp đồng,....</p>
+						<p class="text-muted mb-0">Quản lý thông tin nhà cung cấp, 
+							đơn hàng, công nợ,....</p>
 					</div>
 				</div>
 			</div>

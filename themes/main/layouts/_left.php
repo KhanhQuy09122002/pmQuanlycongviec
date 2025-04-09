@@ -43,8 +43,13 @@ use app\modules\user\models\User;
 				
 				<li class="side-item side-item-category">CHỨC NĂNG</li>
 	
-				<?= $this->render('menus/tai-khoan') ?>				
-				
+							
+				<?= $this->render('menus/cong-trinh') ?>	
+				<?= $this->render('menus/hang-hoa') ?>
+				<?= $this->render('menus/nha-cung-cap') ?>
+				<?= $this->render('menus/khach-hang') ?>
+				<?= $this->render('menus/luong-nhan-vien') ?>
+				<?= $this->render('menus/tai-khoan') ?>		
 				<!-- 
 				<li class="side-item side-item-category">Tùy chỉnh</li>
 				<li>

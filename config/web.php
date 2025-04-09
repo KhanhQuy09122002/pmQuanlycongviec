@@ -21,8 +21,17 @@ $config = [
         'user' => [
             'class' => 'app\modules\user\UserModule',
         ],
-        'nhanvien' => [
-            'class' => 'app\modules\nhanvien\Nhanvien',
+        'luongnhanvien' => [
+            'class' => 'app\modules\luongnhanvien\LuongNhanVien',
+        ],
+        'hanghoa' => [
+            'class' => 'app\modules\hanghoa\HangHoa',
+        ],
+        'khachhang' => [
+            'class' => 'app\modules\khachhang\KhachHang',
+        ],
+        'nhacungcap' => [
+            'class' => 'app\modules\nhacungcap\NhaCungCap',
         ],
         'user-management' => [
             'class' => 'webvimark\modules\UserManagement\UserManagementModule',

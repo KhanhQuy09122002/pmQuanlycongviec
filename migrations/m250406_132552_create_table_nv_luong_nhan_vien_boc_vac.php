@@ -17,6 +17,7 @@ class m250406_132552_create_table_nv_luong_nhan_vien_boc_vac extends Migration
             'id_nhan_vien_boc_vac'=>$this->integer()->notNull(),
             'ngay_thang'=>$this->integer()->notNull(),
             'so_tien'=>$this->integer()->notNull(),
+            'ghi_chu'=>$this->text(),
             'da_nhan'=>$this->integer(),
             'nguoi_tao'=>$this->integer(),
             'thoi_gian_tao'=>$this->datetime(),
