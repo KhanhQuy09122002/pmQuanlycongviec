@@ -33,6 +33,9 @@ $config = [
         'nhacungcap' => [
             'class' => 'app\modules\nhacungcap\NhaCungCap',
         ],
+        'congtrinh' => [
+            'class' => 'app\modules\congtrinh\CongTrinh',
+        ],
         'user-management' => [
             'class' => 'webvimark\modules\UserManagement\UserManagementModule',
             

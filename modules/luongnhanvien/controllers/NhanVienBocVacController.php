@@ -70,7 +70,7 @@ class NhanVienBocVacController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Nhân viên bóc vacs/ vận chuyển #".$id,
+                    'title'=> "Nhân viên bóc vác / vận chuyển #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),

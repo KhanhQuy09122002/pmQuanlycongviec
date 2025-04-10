@@ -3,7 +3,7 @@
 namespace app\modules\hanghoa\models\base;
 
 use Yii;
-
+use app\custom\CustomFunc;
 /**
  * This is the model class for table "hh_hang_hoa".
  *
@@ -56,11 +56,18 @@ class HangHoaBase extends \app\models\HhHangHoa
             'ma_hang_hoa' => 'Mã hàng hóa',
             'ngay_san_xuat' => 'Ngày sản xuất',
             'so_luong_ton_kho' => 'Số lượng tồn kho',
-            'don_gia' => 'Đơn gái',
+            'don_gia' => 'Đơn giá',
             'ghi_chu' => 'Ghi chú',
             'nguoi_tao' => 'Người tạo',
             'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
-
+    public function beforeSave($insert) {
+        $this->ngay_san_xuat = CustomFunc::convertDMYToYMD($this->ngay_san_xuat);
+        if ($this->isNewRecord) {
+            $this->nguoi_tao = Yii::$app->user->identity->id;
+            $this->thoi_gian_tao = date('Y-m-d H:i:s');        
+        }
+        return parent::beforeSave($insert);
+    }
 }

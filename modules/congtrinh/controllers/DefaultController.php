@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\nhacungcap\controllers;
+namespace app\modules\congtrinh\controllers;
 
 use yii\web\Controller;
 
 /**
- * Default controller for the `nhacungcap` module
+ * Default controller for the `congtrinh` module
  */
 class DefaultController extends Controller
 {

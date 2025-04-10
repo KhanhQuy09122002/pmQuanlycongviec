@@ -25,9 +25,9 @@
 						<ul class="sidemenu-list">
 							<li class="side-menu__label1"><a href="javascript:void(0)">Danh mục chức năng</a>
 							</li>
-							<li><a href="<?= Yii::getAlias('@web/user/user-ajax?menu=kh1') ?>" class="slide-item" data-menu="kh1"><i class="fe fe-file-text"></i> Quản lý khách hàng</a>
+							<li><a href="<?= Yii::getAlias('@web/khachhang/khach-hang?menu=kh1') ?>" class="slide-item" data-menu="kh1"><i class="fe fe-file-text"></i> Quản lý khách hàng</a>
 							</li>
-                            <li><a href="<?= Yii::getAlias('@web/user/user-ajax?menu=kh2') ?>" class="slide-item" data-menu="kh2"><i class="fe fe-file-text"></i> Danh sách đơn hàng</a>
+                            <li><a href="<?= Yii::getAlias('@web/khachhang/don-hang-khach-hang?menu=kh2') ?>" class="slide-item" data-menu="kh2"><i class="fe fe-file-text"></i> Danh sách đơn hàng</a>
 							</li>
 						</ul>
 						<div class="menutabs-content px-0">

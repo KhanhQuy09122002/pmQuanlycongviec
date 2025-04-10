@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\nhacungcap\models\base;
+namespace app\models;
 
 use Yii;
 
@@ -20,7 +20,7 @@ use Yii;
  * @property NccCongNoNhaCungCap[] $nccCongNoNhaCungCaps
  * @property NccDonHangNhaCungCap[] $nccDonHangNhaCungCaps
  */
-class NhaCungCapBase extends \app\models\NccNhacungCap 
+class NccNhaCungCap extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -51,23 +51,34 @@ class NhaCungCapBase extends \app\models\NccNhacungCap
     {
         return [
             'id' => 'ID',
-            'ten_nha_cung_cap' => 'Tên nhà cung cấp',
-            'so_dien_thoai' => 'Số điện thoại',
-            'dia_chi' => 'Địa chỉ',
-            'tong_hop_cong_no' => 'Tổng hợp công nợ',
-            'da_thanh_toan' => 'Đã thanh toán',
-            'con_lai' => 'Còn lại',
-            'nguoi_tao' => 'Người tạo',
-            'thoi_gian_tao' => 'Thời gian tạo',
+            'ten_nha_cung_cap' => 'Ten Nha Cung Cap',
+            'so_dien_thoai' => 'So Dien Thoai',
+            'dia_chi' => 'Dia Chi',
+            'tong_hop_cong_no' => 'Tong Hop Cong No',
+            'da_thanh_toan' => 'Da Thanh Toan',
+            'con_lai' => 'Con Lai',
+            'nguoi_tao' => 'Nguoi Tao',
+            'thoi_gian_tao' => 'Thoi Gian Tao',
         ];
     }
 
-    public function beforeSave($insert) {
-      
-        if ($this->isNewRecord) {
-            $this->nguoi_tao = Yii::$app->user->identity->id;
-            $this->thoi_gian_tao = date('Y-m-d H:i:s');        
-        }
-        return parent::beforeSave($insert);
+    /**
+     * Gets query for [[NccCongNoNhaCungCaps]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNccCongNoNhaCungCaps()
+    {
+        return $this->hasMany(NccCongNoNhaCungCap::class, ['id_nha_cung_cap' => 'id']);
+    }
+
+    /**
+     * Gets query for [[NccDonHangNhaCungCaps]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNccDonHangNhaCungCaps()
+    {
+        return $this->hasMany(NccDonHangNhaCungCap::class, ['id_nha_cung_cap' => 'id']);
     }
 }
