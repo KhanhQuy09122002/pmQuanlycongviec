@@ -32,12 +32,12 @@ use app\widgets\KhoDisplayWidget;
             <div class="card-header custom-card-header rounded-bottom-0">
                <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item" role="presentation">
-                      <a class="nav-link active" id="add-detail-tab" data-bs-toggle="tab" href="#add-detail" role="tab" aria-controls="add-detail" aria-selected="false" style="color: blue;">
+                      <a class="nav-link active" id="ct1-tab" data-bs-toggle="tab" href="#ct1" role="tab" aria-controls="ct1" aria-selected="false" style="color: blue;">
                            <i class="fa fa-file-contract"></i> Giá trị thực hiện hợp đồng
                       </a>
                   </li>
                   <li class="nav-item" role="presentation">
-                      <a class="nav-link" id="advance-tab" data-bs-toggle="tab" href="#advance" role="tab" aria-controls="advance" aria-selected="false" style="color: blue;">
+                      <a class="nav-link" id="ct2-tab" data-bs-toggle="tab" href="#ct2" role="tab" aria-controls="ct2" aria-selected="false" style="color: blue;">
                          <i class="fa fa-hand-holding-usd"></i> Giá trị tạm ứng
                       </a>
                   </li>
@@ -83,7 +83,14 @@ use app\widgets\KhoDisplayWidget;
                       <div class="skill-tags">
                       
                         <div class="tab-content" id="myTabContent">
-                          
+                             <div class="tab-pane fade show active" id="ct1" role="tabpanel" aria-labelledby="ct1-tab">
+                                    <!-- Giá trị thực hiện hợp đồng -->
+                                    <?= $this->render('gia_tri_thuc_hien_hop_dong', ['model' => $model]) ?>
+                             </div>
+                             <div class="tab-pane fade" id="ct2" role="tabpanel" aria-labelledby="ct2-tab">
+                                    <!-- Giá trị tạm ứng -->
+                                    <?= $this->render('gia_tri_tam_ung', ['model' => $model]) ?>
+                             </div>
                         </div>
                       </div>
                   </div>

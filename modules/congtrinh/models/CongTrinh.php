@@ -30,12 +30,12 @@ class CongTrinh extends CongTrinhBase
     }
 
  
-    public function getCtGiaTriTamUngs()
+    public function getGiaTriTamUng()
     {
         return $this->hasMany(GiaTriTamUng::class, ['id_cong_trinh' => 'id']);
     }
 
-    public function getCtGiaTriThucHienHopDongs()
+    public function getGiaTriThucHienHopDong()
     {
         return $this->hasMany(GiaTriThucHienHopDong::class, ['id_cong_trinh' => 'id']);
     }

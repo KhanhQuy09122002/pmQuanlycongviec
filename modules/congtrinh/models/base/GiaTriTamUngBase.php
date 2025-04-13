@@ -4,6 +4,7 @@ namespace app\modules\congtrinh\models\base;
 
 use Yii;
 use app\modules\congtrinh\models\CongTrinh;
+use app\custom\CustomFunc;
 /**
  * This is the model class for table "ct_gia_tri_tam_ung".
  *
@@ -54,6 +55,7 @@ class GiaTriTamUngBase extends \app\models\CtGiaTriTamUng
         ];
     }
     public function beforeSave($insert) {
+        $this->ngay_thang_bao_lanh = CustomFunc::convertDMYToYMD($this->ngay_thang_bao_lanh);
         if ($this->isNewRecord) {
             $this->nguoi_tao = Yii::$app->user->identity->id;
             $this->thoi_gian_tao = date('Y-m-d H:i:s');        

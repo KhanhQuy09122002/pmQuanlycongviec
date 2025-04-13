@@ -60,6 +60,7 @@ class CongNoNhaCungCapBase extends \app\models\NccCongNoNhaCungCap
             'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
+
     public function beforeSave($insert) {
         $this->ngay_phat_sinh = CustomFunc::convertDMYToYMD($this->ngay_phat_sinh);
         if ($this->isNewRecord) {
