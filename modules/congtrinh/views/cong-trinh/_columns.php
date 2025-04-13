@@ -49,42 +49,86 @@ return [
         // 'attribute'=>'id',
     // ],
     [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'id_nhan_vien_boc_vac',
-        'value' => function ($model) {
-            return $model->nhanVienBocVac ? $model->nhanVienBocVac->ho_ten : null;
-        },
-        'label' => 'Họ tên nhân viên',
-    ],
-    
-    [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'ngay_thang',
-        'value' => function ($model) {
-            return date('d-m-Y', strtotime($model->ngay_thang));
-        },
-        'label' => 'Ngày tháng',
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'ten_cong_trinh',
     ],
     [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'so_tien',
-        'value' => function ($model) {
-            return number_format($model->so_tien, 0, ',', '.') . ' VNĐ';
-        },
-        'format' => 'raw', 
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'dia_diem',
     ],
-    
+  
     [
         'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'da_nhan',
+        'attribute' => 'thoi_han_hop_dong_tu_ngay',
         'value' => function ($model) {
-            return $model->da_nhan
-                ? '<span style="color: blue; font-weight: bold;">Đã nhận</span>'
-                : '<span style="color: red; font-weight: bold;">Chưa nhận</span>';
+            return date('d-m-Y', strtotime($model->thoi_han_hop_dong_tu_ngay));
         },
+        'label' => 'Ngày sản xuất',
+    ],
+    [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'thoi_han_hop_dong_den_ngay',
+        'value' => function ($model) {
+            return date('d-m-Y', strtotime($model->thoi_han_hop_dong_den_ngay));
+        },
+        'label' => 'Ngày sản xuất',
+    ],
+    [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'trang_thai',
         'format' => 'raw',
+        'value' => function ($model) {
+            $colors = [
+                'Sắp thi công' => 'warning text-dark',
+                'Đang thi công' => 'primary',
+                'Đã hoàn thành' => 'success',
+            ];
+            $colorClass = $colors[$model->trang_thai] ?? 'secondary';
+            return '<span class="badge bg-' . $colorClass . '">' . $model->trang_thai . '</span>';
+        },
+        'filter' => [
+            'Sắp thi công' => 'Sắp thi công',
+            'Đang thi công' => 'Đang thi công',
+            'Đã hoàn thành' => 'Đã hoàn thành',
+        ],
     ],
     
-    
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'gia_tri_tam_ung',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'gia_tri_bao_lanh_thoi_han_hop_dong',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'gia_tri_bao_hanh',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'gia_tri_da_thanh_toan',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'gia_tri_hop_dong_con_lai',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'khoi_luong_phat_sinh_tang_giam',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'trang_thai',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'nguoi_tao',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'thoi_gian_tao',
+    // ],
+
 
 ];   

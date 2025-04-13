@@ -51,7 +51,10 @@ use app\widgets\KhoDisplayWidget;
                       <div class="skill-tags">
                       
                         <div class="tab-content" id="myTabContent">
-                            
+                              <div class="tab-pane fade show active" id="add-detail" role="tabpanel" aria-labelledby="add-detail-tab">
+                                    <!-- Bảng lương -->
+                                    <?= $this->render('bang_luong', ['model' => $model]) ?>
+                             </div>
                         </div>
                       </div>
                   </div>

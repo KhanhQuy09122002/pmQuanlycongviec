@@ -25,7 +25,7 @@
 						<ul class="sidemenu-list">
 							<li class="side-menu__label1"><a href="javascript:void(0)">Danh mục chức năng</a>
 							</li>
-							<li><a href="<?= Yii::getAlias('@web/user/user-ajax?menu=ct1') ?>" class="slide-item" data-menu="ct1"><i class="fe fe-file-text"></i> Danh sách công trình</a>
+							<li><a href="<?= Yii::getAlias('@web/congtrinh/cong-trinh?menu=ct1') ?>" class="slide-item" data-menu="ct1"><i class="fe fe-file-text"></i> Danh sách công trình</a>
 							</li>
 						</ul>
 						<div class="menutabs-content px-0">

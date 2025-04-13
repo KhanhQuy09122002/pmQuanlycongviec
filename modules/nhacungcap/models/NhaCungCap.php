@@ -7,7 +7,7 @@ use app\modules\nhacungcap\models\base\NhaCungCapBase;
 
 class NhaCungCap extends NhaCungCapBase
 {
-    public function getNccCongNoNhaCungCaps()
+    public function getCongNoNhaCungCap()
     {
         return $this->hasMany(CongNoNhaCungCap::class, ['id_nha_cung_cap' => 'id']);
     }

@@ -7,7 +7,7 @@ use app\modules\khachhang\models\base\KhachHangBase;
 
 class KhachHang extends KhachHangBase
 {
-    public function getKhCongNoKhachHangs()
+    public function getCongNoKhachHang()
     {
         return $this->hasMany(CongNoKhachHang::class, ['id_khach_hang' => 'id']);
     }

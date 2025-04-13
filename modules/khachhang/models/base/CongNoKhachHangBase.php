@@ -4,6 +4,7 @@ namespace app\modules\khachhang\models\base;
 
 use Yii;
 use app\modules\khachhang\models\KhachHang;
+use app\custom\CustomFunc;
             
 /**
  * This is the model class for table "kh_cong_no_khach_hang".
@@ -51,15 +52,22 @@ class CongNoKhachHangBase extends \app\models\KhCongNoKhachHang
     {
         return [
             'id' => 'ID',
-            'id_khach_hang' => 'Id Khach Hang',
-            'loai_cong_no' => 'Loai Cong No',
-            'so_tien' => 'So Tien',
-            'ghi_chu' => 'Ghi Chu',
-            'ngay_phat_sinh' => 'Ngay Phat Sinh',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'id_khach_hang' => 'Khách hàng',
+            'loai_cong_no' => 'Loại công nợ',
+            'so_tien' => 'Số tiền',
+            'ghi_chu' => 'Ghi chú',
+            'ngay_phat_sinh' => 'Ngày phát sinh',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
 
-  
+    public function beforeSave($insert) {
+        $this->ngay_phat_sinh = CustomFunc::convertDMYToYMD($this->ngay_phat_sinh);
+        if ($this->isNewRecord) {
+            $this->nguoi_tao = Yii::$app->user->identity->id;
+            $this->thoi_gian_tao = date('Y-m-d H:i:s');        
+        }
+        return parent::beforeSave($insert);
+    }
 }

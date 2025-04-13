@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\modules\vanban\models\search\VBDenSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Danh sách nhà cung cấp';
+$this->title = 'Danh sách công nợ';
 $this->params['breadcrumbs'][] = $this->title;
 //CrudAsset::register($this);
 Yii::$app->params['showSearch'] = true;
@@ -86,7 +86,7 @@ Yii::$app->params['showExport'] = true;
             'summary'=>'Tổng: {totalCount} dòng dữ liệu',
             'panel' => [
                 'headingOptions'=>['class'=>'card-header rounded-bottom-0 card-header text-dark'],
-                'heading' => '<i class="typcn typcn-folder-open"></i> DANH SÁCH NHÀ CUNG CẤP ',
+                'heading' => '<i class="typcn typcn-folder-open"></i> DANH SÁCH CÔNG NỢ ',
                 'before'=>false,
             ],
             'export'=>[

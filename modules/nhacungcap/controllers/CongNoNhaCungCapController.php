@@ -1,22 +1,22 @@
 <?php
 
-namespace app\modules\luongnhanvien\controllers;
+namespace app\modules\nhacungcap\controllers;
 
 use Yii;
-use app\modules\luongnhanvien\models\LuongNhanVienBocVac;
-use app\modules\luongnhanvien\models\search\LuongNhanVienBocVacSearch;
+use app\modules\nhacungcap\models\CongNoNhaCungCap;
+use app\modules\nhacungcap\models\search\CongNoNhaCungCapSearch;
+use app\modules\nhacungcap\models\NhaCungCap;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
-use app\modules\luongnhanvien\models\NhanVienBocVac;
 
 /**
- * LuongNhanVienBocVacController implements the CRUD actions for LuongNhanVienBocVac model.
+ * CongNoNhaCungCapController implements the CRUD actions for CongNoNhaCungCap model.
  */
-class LuongNhanVienBocVacController extends Controller
+class CongNoNhaCungCapController extends Controller
 {
     /**
      * @inheritdoc
@@ -27,7 +27,7 @@ class LuongNhanVienBocVacController extends Controller
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete','get-luong'],
+						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -43,12 +43,12 @@ class LuongNhanVienBocVacController extends Controller
 	}
 
     /**
-     * Lists all LuongNhanVienBocVac models.
+     * Lists all CongNoNhaCungCap models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new LuongNhanVienBocVacSearch();
+        $searchModel = new CongNoNhaCungCapSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -59,7 +59,7 @@ class LuongNhanVienBocVacController extends Controller
 
 
     /**
-     * Displays a single LuongNhanVienBocVac model.
+     * Displays a single CongNoNhaCungCap model.
      * @param integer $id
      * @return mixed
      */
@@ -69,7 +69,7 @@ class LuongNhanVienBocVacController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Tính lương #".$id,
+                    'title'=> "CongNoNhaCungCap #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -84,16 +84,16 @@ class LuongNhanVienBocVacController extends Controller
     }
 
     /**
-     * Creates a new LuongNhanVienBocVac model.
+     * Creates a new CongNoNhaCungCap model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idNCC)
     {
         $request = Yii::$app->request;
-        $model = new LuongNhanVienBocVac();  
-
+        $model = new CongNoNhaCungCap();  
+        $modelNCC = NhaCungCap::find()->where(['id' => $idNCC])->one();
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -101,7 +101,7 @@ class LuongNhanVienBocVacController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Tính lương",
+                    'title'=> "Thêm công nợ",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -109,18 +109,25 @@ class LuongNhanVienBocVacController extends Controller
                                 Html::button('Lưu lại',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Tính lương",
-                    'content'=>'<span class="text-success">Thêm lương thành công !</span>',
-                    'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Tiếp tục tạo',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
-                ];         
+            } else if ($model->load($request->post())) {
+                $model->id_nha_cung_cap = $idNCC; 
+                if ($model->save()) {
+                    return [
+                        'forceClose'=>true,   
+                         'reloadType'=>'congNoNCC',
+                         'reloadBlock'=>'#congNoNCCContent',
+                         'reloadContent'=>$this->renderAjax('_cong_no', [
+                            'modelNCC'=>$modelNCC,
+                            'congNos' => $modelNCC->congNoNhaCungCap
+                            
+                         ]),
+                         
+                         'tcontent'=>'Thêm công nợ thành công!',
+                     ];  
+                }
             }else{           
                 return [
-                    'title'=> "Tính lương",
+                    'title'=> "Thêm công nợ",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -145,17 +152,17 @@ class LuongNhanVienBocVacController extends Controller
     }
 
     /**
-     * Updates an existing LuongNhanVienBocVac model.
+     * Updates an existing CongNoNhaCungCap model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id,$idNCC)
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
-
+        $modelNCC = NhaCungCap::find()->where(['id' => $idNCC])->one();
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -163,26 +170,29 @@ class LuongNhanVienBocVacController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật #".$id,
+                    'title'=> "Cập nhật công nợ #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Lưu lại',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('LƯu lại',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Lương nhân viên #".$id,
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Sửa',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
+                    'forceClose'=>true,   
+                     'reloadType'=>'congNoNCC',
+                     'reloadBlock'=>'#congNoNCCContent',
+                     'reloadContent'=>$this->renderAjax('_cong_no', [
+                        'modelNCC'=>$modelNCC,
+                        'congNos' => $modelNCC->congNoNhaCungCap
+                        
+                     ]),
+                     
+                     'tcontent'=>'Cập nhật thành công!',
+                 ];  
             }else{
                  return [
-                    'title'=> "Cập nhật #".$id,
+                    'title'=> "Cập nhật công nợ #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -205,7 +215,7 @@ class LuongNhanVienBocVacController extends Controller
     }
 
     /**
-     * Delete an existing LuongNhanVienBocVac model.
+     * Delete an existing CongNoNhaCungCap model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -233,7 +243,7 @@ class LuongNhanVienBocVacController extends Controller
     }
 
      /**
-     * Delete multiple existing LuongNhanVienBocVac model.
+     * Delete multiple existing CongNoNhaCungCap model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -264,30 +274,18 @@ class LuongNhanVienBocVacController extends Controller
     }
 
     /**
-     * Finds the LuongNhanVienBocVac model based on its primary key value.
+     * Finds the CongNoNhaCungCap model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return LuongNhanVienBocVac the loaded model
+     * @return CongNoNhaCungCap the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = LuongNhanVienBocVac::findOne($id)) !== null) {
+        if (($model = CongNoNhaCungCap::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
-
-    public function actionGetLuong($id)
-{
-    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-    $nhanVien = NhanVienBocVac::findOne($id);
-    if ($nhanVien) {
-        return ['muc_luong' => $nhanVien->muc_luong];
-    }
-    return ['muc_luong' => 0];
-}
-
 }

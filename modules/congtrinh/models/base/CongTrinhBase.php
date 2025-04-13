@@ -3,7 +3,7 @@
 namespace app\modules\congtrinh\models\base;
 
 use Yii;
-
+use app\custom\CustomFunc;
 /**
  * This is the model class for table "ct_cong_trinh".
  *
@@ -64,23 +64,25 @@ class CongTrinhBase extends \app\models\CtCongTrinh
     {
         return [
             'id' => 'ID',
-            'ten_cong_trinh' => 'Ten Cong Trinh',
-            'dia_diem' => 'Dia Diem',
-            'gia_tri_hop_dong' => 'Gia Tri Hop Dong',
-            'thoi_han_hop_dong_tu_ngay' => 'Thoi Han Hop Dong Tu Ngay',
-            'thoi_han_hop_dong_den_ngay' => 'Thoi Han Hop Dong Den Ngay',
-            'gia_tri_tam_ung' => 'Gia Tri Tam Ung',
-            'gia_tri_bao_lanh_thoi_han_hop_dong' => 'Gia Tri Bao Lanh Thoi Han Hop Dong',
-            'gia_tri_bao_hanh' => 'Gia Tri Bao Hanh',
-            'gia_tri_da_thanh_toan' => 'Gia Tri Da Thanh Toan',
-            'gia_tri_hop_dong_con_lai' => 'Gia Tri Hop Dong Con Lai',
-            'khoi_luong_phat_sinh_tang_giam' => 'Khoi Luong Phat Sinh Tang Giam',
-            'trang_thai' => 'Trang Thai',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'ten_cong_trinh' => 'Tên công trình',
+            'dia_diem' => 'Địa điểm',
+            'gia_tri_hop_dong' => 'Giá trị hợp đồng',
+            'thoi_han_hop_dong_tu_ngay' => 'Thời hạn hợp đồng từ ngày',
+            'thoi_han_hop_dong_den_ngay' => 'Thời hạn hợp đồng đến ngày',
+            'gia_tri_tam_ung' => 'Gía trị tạm ứng',
+            'gia_tri_bao_lanh_thoi_han_hop_dong' => 'Giá trị bảo lãnh thời hạn hợp đồng',
+            'gia_tri_bao_hanh' => 'Gía trị bảo hành',
+            'gia_tri_da_thanh_toan' => 'Giá trị đã thanh toán',
+            'gia_tri_hop_dong_con_lai' => 'Giá trị hợp đồng còn lại',
+            'khoi_luong_phat_sinh_tang_giam' => 'Khối lượng phát sinh',
+            'trang_thai' => 'Trạng thái',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
     public function beforeSave($insert) {
+        $this->thoi_han_hop_dong_tu_ngay = CustomFunc::convertDMYToYMD($this->thoi_han_hop_dong_tu_ngay);
+        $this->thoi_han_hop_dong_den_ngay = CustomFunc::convertDMYToYMD($this->thoi_han_hop_dong_den_ngay);
         if ($this->isNewRecord) {
             $this->nguoi_tao = Yii::$app->user->identity->id;
             $this->thoi_gian_tao = date('Y-m-d H:i:s');        
