@@ -52,15 +52,15 @@ class DonHangKhachHangBase extends \app\models\KhDonHang
     {
         return [
             'id' => 'ID',
-            'id_khach_hang' => 'Id Khach Hang',
-            'so_don_hang' => 'So Don Hang',
-            'ngay_dat_hang' => 'Ngay Dat Hang',
-            'tong_tien' => 'Tong Tien',
-            'da_giao_hang' => 'Da Giao Hang',
-            'ngay_giao_hang' => 'Ngay Giao Hang',
-            'chi_phi_van_chuyen' => 'Chi Phi Van Chuyen',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'id_khach_hang' => 'Khách hàng',
+            'so_don_hang' => 'Số đơn hàng',
+            'ngay_dat_hang' => 'Ngày đặt hàng',
+            'tong_tien' => 'Tổng tiền',
+            'da_giao_hang' => 'Đã giao hàng',
+            'ngay_giao_hang' => 'Ngày giao hàng',
+            'chi_phi_van_chuyen' => 'Chi phí vận chuyển',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
 

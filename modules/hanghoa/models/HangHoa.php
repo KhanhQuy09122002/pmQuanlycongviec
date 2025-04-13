@@ -4,7 +4,7 @@ namespace app\modules\hanghoa\models;
 use app\modules\hanghoa\models\base\HangHoaBase;
 use app\modules\nhacungcap\models\ChiTietDonHangNcc;
 use app\modules\khachhang\models\ChiTietDonHangKhachHang;
-
+use app\modules\user\models\User;
 class HangHoa extends HangHoaBase
 {
     
@@ -19,5 +19,11 @@ class HangHoa extends HangHoaBase
     {
         return $this->hasMany(ChiTietDonHangNcc::class, ['id_hang_hoa' => 'id']);
     }
+
+    public function getNguoiTao()
+    {
+        return $this->hasOne(User::class, ['id' => 'nguoi_tao']);
+    }
+
    
 }

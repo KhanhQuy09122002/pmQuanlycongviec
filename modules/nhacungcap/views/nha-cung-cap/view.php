@@ -29,7 +29,7 @@
             <div class="card-header custom-card-header rounded-bottom-0">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="add-detail-tab" data-bs-toggle="tab" href="#add-detail" role="tab" aria-controls="add-detail" aria-selected="false"style="color: blue;"><i class="fa fa-money-bill-wave"></i> Công nợ </a>
+                        <a class="nav-link active" id="cong-no-tab" data-bs-toggle="tab" href="#cong-no" role="tab" aria-controls="cong-no" aria-selected="false"style="color: blue;"><i class="fa fa-money-bill-wave"></i> Công nợ </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="don-hang-tab" data-bs-toggle="tab" href="#don-hang" role="tab" aria-controls="don-hang" aria-selected="false"style="color: blue;"><i class="fa fa-shopping-cart"></i> Đơn hàng </a>
@@ -45,7 +45,7 @@
                                     <!-- Công nợ -->
                                     <?= $this->render('cong_no', ['model' => $model]) ?>
                              </div>
-                             <div class="tab-pane fade" id="don-hang" role="tabpanel" aria-labelledby="don-hang-tab">
+                             <div class="tab-pane fade" id="don-hang" role="tab" aria-labelledby="don-hang-tab">
                                     <!-- Đơn hàng -->
                                     <?= $this->render('don_hang', ['model' => $model]) ?>
                              </div>

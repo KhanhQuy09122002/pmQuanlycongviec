@@ -12,7 +12,7 @@ class KhachHang extends KhachHangBase
         return $this->hasMany(CongNoKhachHang::class, ['id_khach_hang' => 'id']);
     }
 
-    public function getKhDonHangs()
+    public function getDonHang()
     {
         return $this->hasMany(DonHangKhachHang::class, ['id_khach_hang' => 'id']);
     }
