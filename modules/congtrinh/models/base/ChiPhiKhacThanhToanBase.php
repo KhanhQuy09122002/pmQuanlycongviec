@@ -50,9 +50,9 @@ class ChiPhiKhacThanhToanBase extends \app\models\CtChiPhiKhacThanhToan
         return [
             'id' => 'ID',
             'id_cong_trinh' => 'Id Cong Trinh',
-            'ten_chi_phi' => 'Ten Chi Phi',
-            'so_tien' => 'So Tien',
-            'ghi_chu' => 'Ghi Chu',
+            'ten_chi_phi' => 'Tên chi phí',
+            'so_tien' => 'Số tiền',
+            'ghi_chu' => 'Ghi chú',
             'nguoi_tao' => 'Nguoi Tao',
             'thoi_gian_tao' => 'Thoi Gian Tao',
         ];

@@ -49,13 +49,13 @@ class VatTuThanhToanBase extends \app\models\CtVatTuThanhToan
     {
         return [
             'id' => 'ID',
-            'id_cong_trinh' => 'Id Cong Trinh',
-            'ten_vat_tu' => 'Ten Vat Tu',
-            'so_luong' => 'So Luong',
-            'don_gia' => 'Don Gia',
-            'thanh_tien' => 'Thanh Tien',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'id_cong_trinh' => 'Công trình',
+            'ten_vat_tu' => 'Tên vật tư',
+            'so_luong' => 'Số lượng',
+            'don_gia' => 'Đơn giá',
+            'thanh_tien' => 'Thành tiền',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
     public function beforeSave($insert) {

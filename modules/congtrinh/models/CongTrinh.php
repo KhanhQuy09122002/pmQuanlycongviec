@@ -7,24 +7,24 @@ use app\modules\congtrinh\models\base\CongTrinhBase;
 class CongTrinh extends CongTrinhBase
 {
     
-    public function getCtCaMayThanhToans()
+    public function getCaMayThanhToan()
     {
         return $this->hasMany(CaMayThanhToan::class, ['id_cong_trinh' => 'id']);
     }
 
  
-    public function getCtChiPhiKhacThanhToans()
+    public function getChiPhiKhacThanhToan()
     {
         return $this->hasMany(ChiPhiKhacThanhToan::class, ['id_cong_trinh' => 'id']);
     }
 
  
-    public function getCtGiaTriBaoHanhs()
+    public function getGiaTriBaoHanh()
     {
         return $this->hasMany(GiaTriBaoHanh::class, ['id_cong_trinh' => 'id']);
     }
 
-    public function getCtGiaTriDaThanhToans()
+    public function getGiaTriDaThanhToan()
     {
         return $this->hasMany(GiaTriDaThanhToan::class, ['id_cong_trinh' => 'id']);
     }
@@ -41,18 +41,18 @@ class CongTrinh extends CongTrinhBase
     }
 
    
-    public function getCtNhanCongThanhToans()
+    public function getNhanCongThanhToan()
     {
         return $this->hasMany(NhanCongThanhToan::class, ['id_cong_trinh' => 'id']);
     }
 
 
-    public function getCtThauPhuThanhToans()
+    public function getThauPhuThanhToan()
     {
         return $this->hasMany(ThauPhuThanhToan::class, ['id_cong_trinh' => 'id']);
     }
 
-    public function getCtVatTuThanhToans()
+    public function getVatTuThanhToan()
     {
         return $this->hasMany(VatTuThanhToan::class, ['id_cong_trinh' => 'id']);
     }

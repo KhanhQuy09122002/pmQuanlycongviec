@@ -48,10 +48,10 @@ class CaMayThanhToanBase extends \app\models\CtCaMayThanhToan
         return [
             'id' => 'ID',
             'id_cong_trinh' => 'Id Cong Trinh',
-            'ten_ca_may' => 'Ten Ca May',
-            'so_tien' => 'So Tien',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'ten_ca_may' => 'Tên ca máy',
+            'so_tien' => 'Số tiền',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
 

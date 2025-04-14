@@ -4,6 +4,7 @@ namespace app\modules\congtrinh\models\base;
 
 use Yii;
 use app\modules\congtrinh\models\CongTrinh;
+use app\custom\CustomFunc;
 /**
  * This is the model class for table "ct_gia_tri_bao_hanh".
  *
@@ -46,14 +47,15 @@ class GiaTriBaoHanhBase extends \app\models\CtGiaTriBaoHanh
     {
         return [
             'id' => 'ID',
-            'id_cong_trinh' => 'Id Cong Trinh',
-            'so_tien' => 'So Tien',
-            'ngay_thang_bao_hanh' => 'Ngay Thang Bao Hanh',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'id_cong_trinh' => 'Công trình',
+            'so_tien' => 'Số tiền',
+            'ngay_thang_bao_hanh' => 'Ngày tháng bảo hành',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
     public function beforeSave($insert) {
+        $this->ngay_thang_bao_hanh = CustomFunc::convertDMYToYMD($this->ngay_thang_bao_hanh);
         if ($this->isNewRecord) {
             $this->nguoi_tao = Yii::$app->user->identity->id;
             $this->thoi_gian_tao = date('Y-m-d H:i:s');        

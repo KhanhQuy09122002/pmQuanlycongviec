@@ -10,7 +10,7 @@ $congNos = $model->donHang;
 <div class="cong-no-khach-hang" id="congNoContent">
 <div class="mb-3">
     <?= Html::a('<i class="fa fa-plus"></i> Thêm đơn hàng', 
-        ['/khachhang/don-hang/create', 'idKH' => $model->id], 
+        ['/khachhang/don-hang-khach-hang/create', 'idKH' => $model->id], 
         [
             'class' => 'btn fw-bold btn-warning',
             'style' => 'color: white;',

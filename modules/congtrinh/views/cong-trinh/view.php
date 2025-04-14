@@ -42,12 +42,12 @@ use app\widgets\KhoDisplayWidget;
                       </a>
                   </li>
                   <li class="nav-item" role="presentation">
-                      <a class="nav-link" id="warranty-tab" data-bs-toggle="tab" href="#warranty" role="tab" aria-controls="warranty" aria-selected="false" style="color: blue;">
+                      <a class="nav-link" id="ct3-tab" data-bs-toggle="tab" href="#ct3" role="tab" aria-controls="ct3" aria-selected="false" style="color: blue;">
                           <i class="fa fa-shield-alt"></i> Giá trị bảo hành
                       </a>
                   </li>
                  <li class="nav-item" role="presentation">
-                      <a class="nav-link" id="payment-tab" data-bs-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="false" style="color: blue;">
+                      <a class="nav-link" id="ct4-tab" data-bs-toggle="tab" href="#ct4" role="tab" aria-controls="ct4" aria-selected="false" style="color: blue;">
                          <i class="fa fa-money-check-alt"></i> Giá trị thanh toán
                       </a>
                  </li>
@@ -57,22 +57,22 @@ use app\widgets\KhoDisplayWidget;
                      </a>
                  </li>
                  <li class="nav-item" role="presentation">
-                     <a class="nav-link" id="materials-tab" data-bs-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false" style="color: blue;">
+                     <a class="nav-link" id="ct6-tab" data-bs-toggle="tab" href="#ct6" role="tab" aria-controls="ct6" aria-selected="false" style="color: blue;">
                         <i class="fa fa-boxes"></i> Vật tư thanh toán
                      </a>
                  </li>
                  <li class="nav-item" role="presentation">
-                     <a class="nav-link" id="subcontractor-tab" data-bs-toggle="tab" href="#subcontractor" role="tab" aria-controls="subcontractor" aria-selected="false" style="color: blue;">
+                     <a class="nav-link" id="ct7-tab" data-bs-toggle="tab" href="#ct7" role="tab" aria-controls="ct7" aria-selected="false" style="color: blue;">
                         <i class="fa fa-people-carry"></i> Thầu phụ thanh toán
                      </a>
                  </li>
                  <li class="nav-item" role="presentation">
-                     <a class="nav-link" id="machinery-tab" data-bs-toggle="tab" href="#machinery" role="tab" aria-controls="machinery" aria-selected="false" style="color: blue;">
+                     <a class="nav-link" id="ct8-tab" data-bs-toggle="tab" href="#ct8" role="tab" aria-controls="ct8" aria-selected="false" style="color: blue;">
                         <i class="fa fa-industry"></i> Ca máy thanh toán
                      </a>
                  </li>
                  <li class="nav-item" role="presentation">
-                     <a class="nav-link" id="other-costs-tab" data-bs-toggle="tab" href="#other-costs" role="tab" aria-controls="other-costs" aria-selected="false" style="color: blue;">
+                     <a class="nav-link" id="ct9-tab" data-bs-toggle="tab" href="#ct9" role="tab" aria-controls="ct9" aria-selected="false" style="color: blue;">
                         <i class="fa fa-coins"></i> Chi phí khác đã thanh toán
                      </a>
                  </li>
@@ -90,6 +90,35 @@ use app\widgets\KhoDisplayWidget;
                              <div class="tab-pane fade" id="ct2" role="tabpanel" aria-labelledby="ct2-tab">
                                     <!-- Giá trị tạm ứng -->
                                     <?= $this->render('gia_tri_tam_ung', ['model' => $model]) ?>
+                             </div>
+
+                             <div class="tab-pane fade" id="ct3" role="tabpanel" aria-labelledby="ct3-tab">
+                                    <!-- Giá trị bảo hành -->
+                                    <?= $this->render('gia_tri_bao_hanh', ['model' => $model]) ?>
+                             </div>
+                             <div class="tab-pane fade" id="ct4" role="tabpanel" aria-labelledby="ct4-tab">
+                                    <!-- Giá trị đã thanh toán -->
+                                    <?= $this->render('gia_tri_da_thanh_toan', ['model' => $model]) ?>
+                             </div>
+                             <div class="tab-pane fade" id="ct5" role="tabpanel" aria-labelledby="ct5-tab">
+                                    <!-- Nhân công thanh toán -->
+                                    <?= $this->render('nhan_cong_thanh_toan', ['model' => $model]) ?>
+                             </div>
+                             <div class="tab-pane fade" id="ct6" role="tabpanel" aria-labelledby="ct6-tab">
+                                    <!-- Vật tư thanh toán -->
+                                    <?= $this->render('vat_tu_thanh_toan', ['model' => $model]) ?>
+                             </div>
+                             <div class="tab-pane fade" id="ct7" role="tabpanel" aria-labelledby="ct7-tab">
+                                    <!-- Thầu phụ thanh toán -->
+                                    <?= $this->render('thau_phu_thanh_toan', ['model' => $model]) ?>
+                             </div>
+                             <div class="tab-pane fade" id="ct8" role="tabpanel" aria-labelledby="ct8-tab">
+                                    <!-- Ca máy thanh toán -->
+                                    <?= $this->render('ca_may_thanh_toan', ['model' => $model]) ?>
+                             </div>
+                             <div class="tab-pane fade" id="ct9" role="tabpanel" aria-labelledby="ct9-tab">
+                                    <!-- Chi phí khác thanh toán -->
+                                    <?= $this->render('chi_phi_khac_thanh_toan', ['model' => $model]) ?>
                              </div>
                         </div>
                       </div>

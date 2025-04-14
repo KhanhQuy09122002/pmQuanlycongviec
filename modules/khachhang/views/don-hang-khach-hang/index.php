@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\modules\vanban\models\search\VBDenSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Danh sách khách hàng';
+$this->title = 'Danh sách đơn hàng';
 $this->params['breadcrumbs'][] = $this->title;
 //CrudAsset::register($this);
 Yii::$app->params['showSearch'] = true;
@@ -24,7 +24,7 @@ Yii::$app->params['showExport'] = true;
 		<div class="expanel expanel-default">
 			<div class="expanel-body">
 				<?php 
-                    echo $this->render("_search", ["model" => $searchModel]);
+                   // echo $this->render("_search", ["model" => $searchModel]);
                 ?>
 			</div>
 		</div>
@@ -86,7 +86,7 @@ Yii::$app->params['showExport'] = true;
             'summary'=>'Tổng: {totalCount} dòng dữ liệu',
             'panel' => [
                 'headingOptions'=>['class'=>'card-header rounded-bottom-0 card-header text-dark'],
-                'heading' => '<i class="typcn typcn-folder-open"></i> DANH SÁCH KHÁCH HÀNG ',
+                'heading' => '<i class="typcn typcn-folder-open"></i> DANH SÁCH ĐƠN HÀNG',
                 'before'=>false,
             ],
             'export'=>[
@@ -124,7 +124,7 @@ Yii::$app->params['showExport'] = true;
    'closeButton'=>['label'=>'<span aria-hidden=\'true\'>×</span>'],
    'id'=>'ajaxCrudModal2',
     'footer'=>'',// always need it for jquery plugin
-    'size'=>Modal::SIZE_EXTRA_LARGE
+    'size'=>Modal::SIZE_LARGE
    // 'size'=>Modal::SIZE_EXTRA_LARGE
 ])?>
 

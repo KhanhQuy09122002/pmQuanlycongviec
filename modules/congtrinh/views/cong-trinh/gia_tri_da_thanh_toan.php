@@ -1,14 +1,13 @@
 <?php
 use yii\helpers\Html;
-use yii\helpers\StringHelper;
 
-$GTTHHD = $model->giaTriTamUng; 
+$GTTT = $model->giaTriDaThanhToan; 
 ?>
 
-<div class="gttu" id="gttuContent">
+<div class="gttt" id="gtttContent">
 <div class="mb-3">
     <?= Html::a('<i class="fa fa-plus"></i> Thêm ', 
-        ['/congtrinh/gia-tri-tam-ung/create', 'idCT' => $model->id], 
+        ['/congtrinh/gia-tri-da-thanh-toan/create', 'idCT' => $model->id], 
         [
             'class' => 'btn fw-bold btn-warning',
             'style' => 'color: white;',
@@ -23,22 +22,22 @@ $GTTHHD = $model->giaTriTamUng;
     <thead class="table-light">
         <tr>
             <th style="width: 40px;">#</th>
+            <th style="width: 100px;">Tên lần thanh toán</th>
             <th style="width: 100px;">Số tiền</th>
-            <th style="width: 100px;">Ngày tháng bảo lãnh</th>
             <th style="width: 100px;">Thao tác</th>
         </tr>
     </thead>
     <tbody>
-        <?php if (!empty($GTTHHD)): ?>
-            <?php foreach ($GTTHHD as $index => $item): ?>
+        <?php if (!empty($GTTT)): ?>
+            <?php foreach ($GTTT as $index => $item): ?>
                 <tr>
                     <td><?= $index + 1 ?></td>
+                    <td><?=$item->ten_lan_thanh_toan ?></td>
                     <td style="text-align: left;"><?= number_format($item->so_tien, 0, ',', '.') . ' VNĐ' ?> </td>
-                    <td><?= date('d/m/Y', strtotime($item->ngay_thang_bao_lanh)) ?></td>
                     <td>
                     
                          <?= Html::a('<i class="fa fa-edit"></i> Sửa', 
-                           ['/congtrinh/gia-tri-tam-ung/update', 'id' => $item->id, 'idCT'=>$model->id], 
+                           ['/congtrinh/gia-tri-da-thanh-toan/update', 'id' => $item->id, 'idCT'=>$model->id], 
                                [
                                   'class' => 'btn fw-bold btn-warning',
                                   'style' => 'color: white;',

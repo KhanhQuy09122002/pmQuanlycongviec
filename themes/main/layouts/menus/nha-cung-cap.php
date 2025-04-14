@@ -27,7 +27,7 @@
 							</li>
 							<li><a href="<?= Yii::getAlias('@web/nhacungcap/nha-cung-cap?menu=ncc1') ?>" class="slide-item" data-menu="ncc1"><i class="fe fe-file-text"></i> Danh sách nhà cung cấp</a>
 							</li>
-                            <li><a href="<?= Yii::getAlias('@web/user/user-ajax?menu=ncc2') ?>" class="slide-item" data-menu="ncc2"><i class="fe fe-file-text"></i> Danh sách đơn hàng</a>
+                            <li><a href="<?= Yii::getAlias('@web/nhacungcap/don-hang-nha-cung-cap?menu=ncc2') ?>" class="slide-item" data-menu="ncc2"><i class="fe fe-file-text"></i> Danh sách đơn hàng</a>
 							</li>
 						</ul>
 						<div class="menutabs-content px-0">
