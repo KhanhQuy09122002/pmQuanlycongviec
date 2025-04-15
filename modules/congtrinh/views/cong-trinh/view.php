@@ -114,6 +114,10 @@ use app\widgets\KhoDisplayWidget;
                                     <!-- Nhân công thanh toán -->
                                     <?= $this->render('nhan_cong_thanh_toan', ['model' => $model]) ?>
                              </div>
+                             <div class="tab-pane fade" id="ct10" role="tabpanel" aria-labelledby="ct10-tab">
+                                    <!-- Nhân công thanh toán ls -->
+                                    <?= $this->render('nhan_cong_thanh_toan_ls', [ 'idCongTrinh' => $model->id]) ?>
+                             </div>
                              <div class="tab-pane fade" id="ct6" role="tabpanel" aria-labelledby="ct6-tab">
                                     <!-- Vật tư thanh toán -->
                                     <?= $this->render('vat_tu_thanh_toan', ['model' => $model]) ?>
@@ -121,6 +125,10 @@ use app\widgets\KhoDisplayWidget;
                              <div class="tab-pane fade" id="ct7" role="tabpanel" aria-labelledby="ct7-tab">
                                     <!-- Thầu phụ thanh toán -->
                                     <?= $this->render('thau_phu_thanh_toan', ['model' => $model]) ?>
+                             </div>
+                             <div class="tab-pane fade" id="ct11" role="tabpanel" aria-labelledby="ct11-tab">
+                                    <!-- Thầu phụ thanh toán -->
+                                    <?= $this->render('thau_phu_thanh_toan_ls') ?>
                              </div>
                              <div class="tab-pane fade" id="ct8" role="tabpanel" aria-labelledby="ct8-tab">
                                     <!-- Ca máy thanh toán -->

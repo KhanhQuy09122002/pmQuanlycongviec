@@ -13,6 +13,10 @@ use yii\helpers\Html;
 use yii\filters\AccessControl;
 use app\modules\luongnhanvien\models\NhanVienBocVac;
 
+use yii\base\DynamicModel;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 
 /**
  * LuongNhanVienBocVacController implements the CRUD actions for LuongNhanVienBocVac model.
@@ -28,7 +32,7 @@ class LuongNhanVienBocVacController extends Controller
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete','get-luong','choose-print','choose-excel'],
+						'actions' => ['index', 'view', 'update','create','delete','bulkdelete','get-luong','choose-print','choose-excel','get-print-content','export-excel'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -358,4 +362,90 @@ public function actionChooseExcel()
     ]);
 }
 
+
+
+public function actionGetPrintContent($id, $kieu, $thang = null, $tu_ngay = null, $den_ngay = null)
+{
+    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+    $nhanVien = NhanVienBocVac::findOne($id);
+
+    if (!$nhanVien) {
+        return ['status' => 'error', 'message' => 'Không tìm thấy nhân viên'];
+    }
+
+    $query = LuongNhanVienBocVac::find()->where(['id_nhan_vien_boc_vac' => $id]);
+
+    if ($kieu == 'thang' && $thang) {
+        $query->andWhere(['like', 'ngay_thang', $thang]); // format YYYY-MM
+    } elseif ($kieu == 'khoang' && $tu_ngay && $den_ngay) {
+        $query->andWhere(['between', 'ngay_thang', $tu_ngay, $den_ngay]);
+    }
+
+    $dsLuong = $query->orderBy(['ngay_thang' => SORT_ASC])->all();
+
+    $html = $this->renderPartial('_print_bang_luong', [
+        'nhanVien' => $nhanVien,
+        'dsLuong' => $dsLuong
+    ]);
+
+    return ['status' => 'success', 'content' => $html];
+}
+
+
+public function actionExportExcel()
+    {
+        // Lấy dữ liệu từ request (người dùng chọn tháng, ngày, nhân viên...)
+        $idNhanVien = Yii::$app->request->get('id');
+        $kieu = Yii::$app->request->get('kieu');
+        $thang = Yii::$app->request->get('thang');
+        $tuNgay = Yii::$app->request->get('tu_ngay');
+        $denNgay = Yii::$app->request->get('den_ngay');
+
+        // Xây dựng query dựa trên các tham số người dùng
+        $query = NhanVienBocVac::find();  // Giả sử bạn có model NhanVien
+
+        // Nếu chọn xuất theo tháng
+        if ($kieu == 'thang' && $thang) {
+            $query->andWhere(['MONTH(ngay_tao)' => (int)date('m', strtotime($thang))]);
+        }
+
+        // Nếu chọn xuất theo khoảng ngày
+        if ($kieu == 'khoang' && $tuNgay && $denNgay) {
+            $query->andWhere(['between', 'ngay_tao', $tuNgay, $denNgay]);
+        }
+
+        // Lấy dữ liệu nhân viên (có thể thêm các điều kiện khác nếu cần)
+        $data = $query->all();  // Lấy tất cả nhân viên
+
+        // Khởi tạo một Spreadsheet mới
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Ghi tiêu đề
+        $sheet->setCellValue('A1', 'ID Nhân viên')
+              ->setCellValue('B1', 'Tên nhân viên')
+              ->setCellValue('C1', 'Ngày tạo')
+              ->setCellValue('D1', 'Lương');
+
+        // Dữ liệu từ CSDL
+        $rowIndex = 2;  // Dòng bắt đầu ghi dữ liệu (dòng 1 là tiêu đề)
+        foreach ($data as $nhanVien) {
+            $sheet->setCellValue('A' . $rowIndex, $nhanVien->id)
+                  ->setCellValue('B' . $rowIndex, $nhanVien->ten)  // Giả sử có trường 'ten'
+                  ->setCellValue('C' . $rowIndex, $nhanVien->ngay_tao)  // Giả sử có trường 'ngay_tao'
+                  ->setCellValue('D' . $rowIndex, $nhanVien->luong);  // Giả sử có trường 'luong'
+            $rowIndex++;
+        }
+
+        // Khởi tạo một đối tượng Writer
+        $writer = new Xlsx($spreadsheet);
+
+        // Lưu file vào server hoặc trả về trực tiếp cho người dùng
+        $filePath = 'exports/bang_luong.xlsx';
+        $writer->save($filePath);
+
+        // Trả về URL của file để tải về
+        return $this->asJson(['status' => 'success', 'fileUrl' => Yii::$app->getUrlManager()->createUrl($filePath)]);
+    }
 }

@@ -53,6 +53,17 @@ use yii\widgets\ActiveForm;
     </div>
     <?php ActiveForm::end(); ?>
 </div>
+<p>
+    <?= Html::button('<i class="fa fa-print"></i> In bảng lương', [
+        'class' => 'btn btn-success',
+        'onclick' => 'inBangLuong()'
+    ]) ?>
+</p>
+
+<!-- Phần tử ẩn chứa nội dung in -->
+<div style="display:none">
+    <div id="print-bang-luong"></div>
+</div>
 
 <?php
 $script = <<<JS
@@ -71,4 +82,86 @@ JS;
 
 $this->registerJs($script);
 ?>
+<script>
+function inBangLuong() {
+    const idNhanVien = $('#dynamicmodel-id_nhan_vien').val();
+    const kieuIn = $('input[name="chon_kieu"]:checked').val();
+    const thang = $('#dynamicmodel-thang').val();
+    const tuNgay = $('#dynamicmodel-tu_ngay').val();
+    const denNgay = $('#dynamicmodel-den_ngay').val();
+
+    $.ajax({
+        type: 'GET',
+        url: '/luongnhanvien/luong-nhan-vien-boc-vac/get-print-content',
+        data: {
+            id: idNhanVien,
+            kieu: kieuIn,
+            thang: thang,
+            tu_ngay: tuNgay,
+            den_ngay: denNgay
+        },
+        success: function (data) {
+            if (data.status === 'success') {
+                $('#print-bang-luong').html(data.content);
+                printBangLuong();
+            } else {
+                alert('Không thể tải nội dung in.');
+            }
+        },
+        error: function (xhr, status, error) {
+    console.error('AJAX Error:', xhr);
+    console.error('Status:', status);
+    console.error('Error:', error);
+    
+    let message = 'Đã xảy ra lỗi khi in.\n';
+    message += 'Trạng thái: ' + status + '\n';
+    message += 'Lỗi: ' + error + '\n';
+
+    // Nếu server có trả về lỗi dạng HTML hoặc JSON
+    if (xhr.responseText) {
+        message += 'Phản hồi server:\n' + xhr.responseText;
+    }
+
+    alert(message);
+}
+
+    });
+}
+
+function printBangLuong() {
+    var printContents = document.getElementById('print-bang-luong').innerHTML;
+
+    var iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.width = '0px';
+    iframe.style.height = '0px';
+    iframe.style.border = 'none';
+    document.body.appendChild(iframe);
+
+    var doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(`
+        <html>
+            <head>
+                <title>In bảng lương</title>
+                 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    table { border-collapse: collapse; width: 100%; }
+                    th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+                </style>
+            </head>
+            <body>
+                ${printContents}
+            </body>
+        </html>
+    `);
+    doc.close();
+
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print();
+
+    setTimeout(() => document.body.removeChild(iframe), 1000);
+}
+</script>
 

@@ -51,6 +51,11 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <?= Html::button('Xuất Excel', ['class' => 'btn btn-success', 'id' => 'export-excel']) ?>
+    </div>
+
     <?php ActiveForm::end(); ?>
 </div>
 
@@ -67,8 +72,42 @@ function toggleFields() {
 
 $('#radio-thang, #radio-khoang').on('change', toggleFields);
 toggleFields(); // chạy lần đầu khi load
+
+// Handle export to Excel
+$('#export-excel').on('click', function() {
+    const idNhanVien = $('#dynamicmodel-id_nhan_vien').val();
+    const kieuIn = $('input[name="chon_kieu"]:checked').val();
+    const thang = $('#dynamicmodel-thang').val();
+    const tuNgay = $('#dynamicmodel-tu_ngay').val();
+    const denNgay = $('#dynamicmodel-den_ngay').val();
+
+    $.ajax({
+        type: 'GET',
+        url: '/luongnhanvien/luong-nhan-vien-boc-vac/export-excel',
+        data: {
+            id: idNhanVien,
+            kieu: kieuIn,
+            thang: thang,
+            tu_ngay: tuNgay,
+            den_ngay: denNgay
+        },
+        success: function(data) {
+            if (data.status === 'success') {
+                // Create a link to download the Excel file
+                var link = document.createElement('a');
+                link.href = data.fileUrl; // Đảm bảo server trả về URL file Excel
+                link.download = 'bang_luong.xlsx';
+                link.click();
+            } else {
+                alert('Không thể xuất file Excel.');
+            }
+        },
+        error: function() {
+            alert('Đã xảy ra lỗi khi xuất Excel.');
+        }
+    });
+});
 JS;
 
 $this->registerJs($script);
 ?>
-
