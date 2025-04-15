@@ -37,6 +37,7 @@ Yii::$app->params['showExport'] = true;
     'formSelector' => '.myFilterForm'
 ]); ?>
 
+<div class="mb-3">
 <div class="nhan-vien-index">
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
@@ -53,6 +54,22 @@ Yii::$app->params['showExport'] = true;
 						<div class="dropdown-menu tx-13" style="">
 							<h6 class="dropdown-header tx-uppercase tx-11 tx-bold bg-info tx-spacing-1">
 								Chọn chức năng</h6>'
+                                .
+                               Html::a('<i class="fas fa-print" aria-hidden="true"></i> In bảng lương', 
+                               ['/luongnhanvien/luong-nhan-vien-boc-vac/choose-print'], 
+                                   [
+                                     'role'=>'modal-remote-2',
+                                     'title'=> 'In bảng lương',
+                                     'class'=>'dropdown-item text-primary'
+                                   ])
+                                   .
+                                   Html::a('<i class="fas fa-file-excel" aria-hidden="true"></i> Xuất Excel', 
+                                       ['/luongnhanvien/luong-nhan-vien-boc-vac/choose-excel'], 
+                                           [
+                                             'role'=>'modal-remote-2',
+                                             'title'=> 'In bảng lương',
+                                             'class'=>'dropdown-item text-primary'
+                                           ])
                     .
                     Html::a('<i class="fas fa fa-plus" aria-hiddi="true"></i> Thêm mới', ['create'],
                         ['role'=>'modal-remote','title'=> 'Thêm mới','class'=>'dropdown-item'])
@@ -95,8 +112,12 @@ Yii::$app->params['showExport'] = true;
                 ]
             ]
         ])?>
+
+ 
     </div>
-    
+  
+</div>
+
 </div>
 
 <?php Pjax::end(); ?>
@@ -130,10 +151,7 @@ Yii::$app->params['showExport'] = true;
 
 <?php Modal::end(); ?>
 
-<?php
-    /* $searchContent = $this->render("_search", ["model" => $searchModel]);
-    echo FilterFormWidget::widget(["content"=>$searchContent, "description"=>"Nhập thông tin tìm kiếm."])  */
-?>
+
 <script>
     $(document).ready(function () {
     $('#ajaxCrudModal2').on('hidden.bs.modal', function () {

@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
-
+use app\modules\congtrinh\models\CongTrinh;
 /**
  * NhanCongThanhToanController implements the CRUD actions for NhanCongThanhToan model.
  */
@@ -88,11 +88,11 @@ class NhanCongThanhToanController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idCT)
     {
         $request = Yii::$app->request;
         $model = new NhanCongThanhToan();  
-
+        $modelCT = CongTrinh::find()->where(['id' => $idCT])->one();
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -108,16 +108,22 @@ class NhanCongThanhToanController extends Controller
                                 Html::button('Lưu lại',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Thêm",
-                    'content'=>'<span class="text-success">Create NhanCongThanhToan success</span>',
-                    'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Tiếp tục tạo',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
-                ];         
-            }else{           
+            }else if ($model->load($request->post())) {
+                $model->id_cong_trinh = $idCT; 
+                if ($model->save()) {
+                    return [
+                        'forceClose'=>true,   
+                         'reloadType'=>'NCTT',
+                         'reloadBlock'=>'#ncttContent',
+                         'reloadContent'=>$this->renderAjax('_nhan_cong_thanh_toan', [
+                            'modelCT'=>$modelCT,
+                            'NCTT' => $modelCT->nhanCongThanhToan  
+                            
+                         ]),
+                         
+                         'tcontent'=>'Thêm nhân công thanh toán thành công!',
+                     ];  
+                }else{           
                 return [
                     'title'=> "Thêm",
                     'content'=>$this->renderAjax('create', [
@@ -140,7 +146,7 @@ class NhanCongThanhToanController extends Controller
                 ]);
             }
         }
-       
+    }
     }
 
     /**
@@ -150,11 +156,11 @@ class NhanCongThanhToanController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $idCT)
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
-
+        $modelCT = CongTrinh::find()->where(['id' => $idCT])->one();
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -171,14 +177,17 @@ class NhanCongThanhToanController extends Controller
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "NhanCongThanhToan #".$id,
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Sửa',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
+                    'forceClose'=>true,   
+                     'reloadType'=>'NCTT',
+                     'reloadBlock'=>'#ncttContent',
+                     'reloadContent'=>$this->renderAjax('_nhan_cong_thanh_toan', [
+                        'modelCT'=>$modelCT,
+                        'NCTT' => $modelCT->nhanCongThanhToan  
+                        
+                     ]),
+                     
+                     'tcontent'=>'Cập nhật nhân công thanh toán thành công!',
+                 ];     
             }else{
                  return [
                     'title'=> "Cập nhật NhanCongThanhToan #".$id,

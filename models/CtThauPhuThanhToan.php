@@ -35,7 +35,7 @@ class CtThauPhuThanhToan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_cong_trinh', 'ten_cong_viec', 'tong_hop_dong', 'da_thanh_toan', 'con_lai'], 'required'],
+            [['id_cong_trinh', 'ten_cong_viec', 'tong_hop_dong'], 'required'],
             [['id_cong_trinh', 'tong_hop_dong', 'da_thanh_toan', 'con_lai', 'nguoi_tao'], 'integer'],
             [['thoi_gian_tao'], 'safe'],
             [['ten_cong_viec'], 'string', 'max' => 255],

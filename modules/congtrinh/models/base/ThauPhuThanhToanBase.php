@@ -35,7 +35,7 @@ class ThauPhuThanhToanBase extends \app\models\CtThauPhuThanhToan
     public function rules()
     {
         return [
-            [['id_cong_trinh', 'ten_cong_viec', 'tong_hop_dong', 'da_thanh_toan', 'con_lai'], 'required'],
+            [['id_cong_trinh', 'ten_cong_viec', 'tong_hop_dong'], 'required'],
             [['id_cong_trinh', 'tong_hop_dong', 'da_thanh_toan', 'con_lai', 'nguoi_tao'], 'integer'],
             [['thoi_gian_tao'], 'safe'],
             [['ten_cong_viec'], 'string', 'max' => 255],
@@ -51,19 +51,26 @@ class ThauPhuThanhToanBase extends \app\models\CtThauPhuThanhToan
         return [
             'id' => 'ID',
             'id_cong_trinh' => 'Id Cong Trinh',
-            'ten_cong_viec' => 'Ten Cong Viec',
-            'tong_hop_dong' => 'Tong Hop Dong',
-            'da_thanh_toan' => 'Da Thanh Toan',
-            'con_lai' => 'Con Lai',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'ten_cong_viec' => 'Tên công việc',
+            'tong_hop_dong' => 'Tổng hợp đồng',
+            'da_thanh_toan' => 'Đã thanh toán',
+            'con_lai' => 'Còn lại',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
-    public function beforeSave($insert) {
+    public function beforeSave($insert)
+    {
         if ($this->isNewRecord) {
             $this->nguoi_tao = Yii::$app->user->identity->id;
             $this->thoi_gian_tao = date('Y-m-d H:i:s');        
         }
+    
+        $tongHopDong = $this->tong_hop_dong ?? 0;
+        $daThanhToan = $this->da_thanh_toan ?? 0;
+    
+        $this->con_lai = $tongHopDong - $daThanhToan;
+    
         return parent::beforeSave($insert);
     }
 }

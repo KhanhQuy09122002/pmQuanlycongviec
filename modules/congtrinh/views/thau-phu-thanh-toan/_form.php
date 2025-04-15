@@ -7,13 +7,13 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="nhan-cong-thanh-toan-form">
+<div class="thau-phu-thanh-toan-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
         <div class="col-md-4">
-              <?= $form->field($model, 'ho_ten')->textInput(['maxlength' => true]) ?>
+              <?= $form->field($model, 'ten_cong_viec')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-4">
               <?= $form->field($model, 'tong_hop_dong')->textInput() ?>

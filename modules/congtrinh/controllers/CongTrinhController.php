@@ -26,7 +26,7 @@ class CongTrinhController extends Controller
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
+						'actions' => ['index', 'view', 'update','create','delete','bulkdelete','choose-print','choose-excel'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -277,4 +277,74 @@ class CongTrinhController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+
+    public function actionChoosePrint()
+    {
+        $request = Yii::$app->request;
+        $model = new \yii\base\DynamicModel(['id_cong_trinh']);
+        $model->addRule(['id_cong_trinh'], 'required');
+    
+        $congTrinhList = \yii\helpers\ArrayHelper::map(
+            CongTrinh::find()->all(), 
+            'id', 
+            'ten_cong_trinh'
+        );
+    
+        if ($request->isAjax) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return [
+                'title' => 'Chọn thông tin để xuất',
+                'content' => $this->renderAjax('_form_choose_excel', [
+                    'model' => $model,
+                    'congTrinhList' => $congTrinhList
+                ]),
+                'footer' => 
+                    Html::button('Đóng lại', ['class'=>'btn btn-secondary', 'data-bs-dismiss'=>'modal']) 
+                   
+            ];
+        }
+    
+        return $this->render('_form_choose_print', [
+            'model' => $model,
+            'congTrinhList' => $congTrinhList
+        ]);
+    }
+    
+    
+
+
+public function actionChooseExcel()
+{
+    $request = Yii::$app->request;
+    $model = new \yii\base\DynamicModel(['id_cong_trinh']);
+    $model->addRule(['id_cong_trinh'], 'required');
+
+    $congTrinhList = \yii\helpers\ArrayHelper::map(
+        CongTrinh::find()->all(), 
+        'id', 
+        'ten_cong_trinh'
+    );
+
+    if ($request->isAjax) {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [
+            'title' => 'Chọn thông tin để xuất',
+            'content' => $this->renderAjax('_form_choose_excel', [
+                'model' => $model,
+                'congTrinhList' => $congTrinhList
+            ]),
+            'footer' => 
+                Html::button('Đóng lại', ['class'=>'btn btn-secondary', 'data-bs-dismiss'=>'modal']) 
+               
+        ];
+    }
+
+    return $this->render('_form_choose_print', [
+        'model' => $model,
+        'congTrinhList' => $congTrinhList
+    ]);
+}
+
 }

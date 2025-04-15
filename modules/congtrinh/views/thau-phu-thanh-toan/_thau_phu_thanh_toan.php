@@ -1,13 +1,12 @@
 <?php
 use yii\helpers\Html;
 
-$TPTT = $model->thauPhuThanhToan; 
 ?>
 
 <div class="tptt" id="tpttContent">
 <div class="mb-3">
     <?= Html::a('<i class="fa fa-plus"></i> Thêm ', 
-        ['/congtrinh/thau-phu-thanh-toan/create', 'idCT' => $model->id], 
+        ['/congtrinh/thau-phu-thanh-toan/create', 'idCT' => $modelCT->id], 
         [
             'class' => 'btn fw-bold btn-warning',
             'style' => 'color: white;',
@@ -42,7 +41,7 @@ $TPTT = $model->thauPhuThanhToan;
                     <td>
                     
                          <?= Html::a('<i class="fa fa-edit"></i> Sửa', 
-                           ['/congtrinh/thau-phu-thanh-toan/update', 'id' => $item->id, 'idCT'=>$model->id], 
+                           ['/congtrinh/thau-phu-thanh-toan/update', 'id' => $item->id, 'idCT'=>$modelCT->id], 
                                [
                                   'class' => 'btn fw-bold btn-warning',
                                   'style' => 'color: white;',

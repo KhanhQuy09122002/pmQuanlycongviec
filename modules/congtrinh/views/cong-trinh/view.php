@@ -52,8 +52,13 @@ use app\widgets\KhoDisplayWidget;
                       </a>
                  </li>
                  <li class="nav-item" role="presentation">
-                     <a class="nav-link" id="labor-tab" data-bs-toggle="tab" href="#labor" role="tab" aria-controls="labor" aria-selected="false" style="color: blue;">
+                     <a class="nav-link" id="ct5-tab" data-bs-toggle="tab" href="#ct5" role="tab" aria-controls="ct5" aria-selected="false" style="color: blue;">
                         <i class="fa fa-users-cog"></i> Nhân công thanh toán
+                     </a>
+                 </li>
+                 <li class="nav-item" role="presentation">
+                     <a class="nav-link" id="ct10-tab" data-bs-toggle="tab" href="#ct10" role="tab" aria-controls="ct10" aria-selected="false" style="color: blue;">
+                        <i class="fas fa-history"></i> Nhân công thanh toán lịch sử 
                      </a>
                  </li>
                  <li class="nav-item" role="presentation">
@@ -64,6 +69,11 @@ use app\widgets\KhoDisplayWidget;
                  <li class="nav-item" role="presentation">
                      <a class="nav-link" id="ct7-tab" data-bs-toggle="tab" href="#ct7" role="tab" aria-controls="ct7" aria-selected="false" style="color: blue;">
                         <i class="fa fa-people-carry"></i> Thầu phụ thanh toán
+                     </a>
+                 </li>
+                 <li class="nav-item" role="presentation">
+                     <a class="nav-link" id="ct11-tab" data-bs-toggle="tab" href="#ct11" role="tab" aria-controls="ct7" aria-selected="false" style="color: blue;">
+                        <i class="fas fa-history"></i> Thầu phụ thanh toán lịch sử
                      </a>
                  </li>
                  <li class="nav-item" role="presentation">
