@@ -4,7 +4,7 @@ namespace app\modules\luongnhanvien\controllers;
 
 use Yii;
 use app\modules\luongnhanvien\models\NhanVienBocVac;
-use app\modules\luongnhanvien\models\search\LNhanVienBocVacSearch;
+use app\modules\luongnhanvien\models\search\NhanVienBocVacSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -49,7 +49,7 @@ class NhanVienBocVacController extends Controller
      */
     public function actionIndex()
     {    
-        $searchModel = new LNhanVienBocVacSearch();
+        $searchModel = new NhanVienBocVacSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

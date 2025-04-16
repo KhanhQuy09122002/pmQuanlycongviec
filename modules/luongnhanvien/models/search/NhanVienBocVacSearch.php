@@ -10,7 +10,7 @@ use app\modules\luongnhanvien\models\NhanVienBocVac;
 /**
  * LNhanVienBocVacSearch represents the model behind the search form about `app\modules\luongnhanvien\models\NhanVienBocVac`.
  */
-class LNhanVienBocVacSearch extends NhanVienBocVac
+class NhanVienBocVacSearch extends NhanVienBocVac
 {
     /**
      * @inheritdoc
