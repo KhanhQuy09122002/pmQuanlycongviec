@@ -13,9 +13,8 @@ use yii\widgets\ActiveForm;
 
     <div class="row">
         <div class="col-md-12 mb-3">
-            <?= $form->field($model, 'id_nhan_vien', [
-                'labelOptions' => ['class' => 'fw-bold']
-            ])->dropDownList($nhanVienList, ['prompt'=>'-- Chọn nhân viên --'])->label('Nhân viên') ?>
+            <?= Html::label('Nhân viên', 'id_nhan_vien', ['class' => 'fw-bold']) ?>
+            <?= Html::dropDownList('id_nhan_vien', null, $nhanVienList, ['class' => 'form-control', 'prompt' => '-- Chọn nhân viên --']) ?>
         </div>
 
         <div class="col-md-12 mb-3">
@@ -31,29 +30,26 @@ use yii\widgets\ActiveForm;
         </div>
 
         <div class="col-md-6 mb-3" id="field-thang">
-            <?= $form->field($model, 'thang', [
-                'labelOptions' => ['class' => 'fw-bold']
-            ])->input('month', ['class' => 'form-control'])->label('Tháng') ?>
+            <?= Html::label('Tháng', 'thang', ['class' => 'fw-bold']) ?>
+            <?= Html::input('month', 'thang', null, ['class' => 'form-control']) ?>
         </div>
 
-        <div class="col-md-6 mb-3" id="field-khoang">
+        <div class="col-md-6 mb-3" id="field-khoang" style="display:none">
             <div class="row">
                 <div class="col-6">
-                    <?= $form->field($model, 'tu_ngay', [
-                        'labelOptions' => ['class' => 'fw-bold']
-                    ])->input('date', ['class' => 'form-control'])->label('Từ ngày') ?>
+                    <?= Html::label('Từ ngày', 'tu_ngay', ['class' => 'fw-bold']) ?>
+                    <?= Html::input('date', 'tu_ngay', null, ['class' => 'form-control']) ?>
                 </div>
                 <div class="col-6">
-                    <?= $form->field($model, 'den_ngay', [
-                        'labelOptions' => ['class' => 'fw-bold']
-                    ])->input('date', ['class' => 'form-control'])->label('Đến ngày') ?>
+                    <?= Html::label('Đến ngày', 'den_ngay', ['class' => 'fw-bold']) ?>
+                    <?= Html::input('date', 'den_ngay', null, ['class' => 'form-control']) ?>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="form-group">
-        <?= Html::button('Xuất Excel', ['class' => 'btn btn-success', 'id' => 'export-excel']) ?>
+        <?= Html::submitButton('Xuất Excel', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -65,49 +61,9 @@ function toggleFields() {
     let isThang = $('#radio-thang').is(':checked');
     $('#field-thang').toggle(isThang);
     $('#field-khoang').toggle(!isThang);
-    $('#form-print input[name="DynamicModel[thang]"]').prop('disabled', !isThang);
-    $('#form-print input[name="DynamicModel[tu_ngay]"]').prop('disabled', isThang);
-    $('#form-print input[name="DynamicModel[den_ngay]"]').prop('disabled', isThang);
 }
-
 $('#radio-thang, #radio-khoang').on('change', toggleFields);
-toggleFields(); // chạy lần đầu khi load
-
-// Handle export to Excel
-$('#export-excel').on('click', function() {
-    const idNhanVien = $('#dynamicmodel-id_nhan_vien').val();
-    const kieuIn = $('input[name="chon_kieu"]:checked').val();
-    const thang = $('#dynamicmodel-thang').val();
-    const tuNgay = $('#dynamicmodel-tu_ngay').val();
-    const denNgay = $('#dynamicmodel-den_ngay').val();
-
-    $.ajax({
-        type: 'GET',
-        url: '/luongnhanvien/luong-nhan-vien-boc-vac/export-excel',
-        data: {
-            id: idNhanVien,
-            kieu: kieuIn,
-            thang: thang,
-            tu_ngay: tuNgay,
-            den_ngay: denNgay
-        },
-        success: function(data) {
-            if (data.status === 'success') {
-                // Create a link to download the Excel file
-                var link = document.createElement('a');
-                link.href = data.fileUrl; // Đảm bảo server trả về URL file Excel
-                link.download = 'bang_luong.xlsx';
-                link.click();
-            } else {
-                alert('Không thể xuất file Excel.');
-            }
-        },
-        error: function() {
-            alert('Đã xảy ra lỗi khi xuất Excel.');
-        }
-    });
-});
+toggleFields();
 JS;
-
 $this->registerJs($script);
 ?>

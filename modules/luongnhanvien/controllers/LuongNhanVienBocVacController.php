@@ -12,11 +12,11 @@ use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
 use app\modules\luongnhanvien\models\NhanVienBocVac;
-
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use yii\base\DynamicModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
+use yii\helpers\Inflector;
 
 /**
  * LuongNhanVienBocVacController implements the CRUD actions for LuongNhanVienBocVac model.
@@ -32,7 +32,7 @@ class LuongNhanVienBocVacController extends Controller
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete','get-luong','choose-print','choose-excel','get-print-content','export-excel'],
+						'actions' => ['index', 'view', 'update','create','delete','bulkdelete','get-luong','choose-print','choose-excel','get-print-content','print-preview'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -356,7 +356,7 @@ public function actionChooseExcel()
         ];
     }
 
-    return $this->render('_form_choose_print', [
+    return $this->render('_form_choose_excel', [
         'model' => $model,
         'nhanVienList' => $nhanVienList
     ]);
@@ -393,59 +393,91 @@ public function actionGetPrintContent($id, $kieu, $thang = null, $tu_ngay = null
 }
 
 
-public function actionExportExcel()
-    {
-        // Lấy dữ liệu từ request (người dùng chọn tháng, ngày, nhân viên...)
-        $idNhanVien = Yii::$app->request->get('id');
-        $kieu = Yii::$app->request->get('kieu');
-        $thang = Yii::$app->request->get('thang');
-        $tuNgay = Yii::$app->request->get('tu_ngay');
-        $denNgay = Yii::$app->request->get('den_ngay');
 
-        // Xây dựng query dựa trên các tham số người dùng
-        $query = NhanVienBocVac::find();  // Giả sử bạn có model NhanVien
 
-        // Nếu chọn xuất theo tháng
-        if ($kieu == 'thang' && $thang) {
-            $query->andWhere(['MONTH(ngay_tao)' => (int)date('m', strtotime($thang))]);
-        }
+public function actionPrintPreview()
+{
+    $request = Yii::$app->request;
+    $idNhanVien = $request->get('id_nhan_vien');
+    $chonKieu = $request->get('chon_kieu');
+    $thang = $request->get('thang');
+    $tuNgay = $request->get('tu_ngay');
+    $denNgay = $request->get('den_ngay');
+    
 
-        // Nếu chọn xuất theo khoảng ngày
-        if ($kieu == 'khoang' && $tuNgay && $denNgay) {
-            $query->andWhere(['between', 'ngay_tao', $tuNgay, $denNgay]);
-        }
+    $nhanVien = NhanVienBocVac::findOne($idNhanVien);
+    $query = LuongNhanVienBocVac::find()->where(['id_nhan_vien_boc_vac' => $idNhanVien]);
 
-        // Lấy dữ liệu nhân viên (có thể thêm các điều kiện khác nếu cần)
-        $data = $query->all();  // Lấy tất cả nhân viên
-
-        // Khởi tạo một Spreadsheet mới
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-
-        // Ghi tiêu đề
-        $sheet->setCellValue('A1', 'ID Nhân viên')
-              ->setCellValue('B1', 'Tên nhân viên')
-              ->setCellValue('C1', 'Ngày tạo')
-              ->setCellValue('D1', 'Lương');
-
-        // Dữ liệu từ CSDL
-        $rowIndex = 2;  // Dòng bắt đầu ghi dữ liệu (dòng 1 là tiêu đề)
-        foreach ($data as $nhanVien) {
-            $sheet->setCellValue('A' . $rowIndex, $nhanVien->id)
-                  ->setCellValue('B' . $rowIndex, $nhanVien->ten)  // Giả sử có trường 'ten'
-                  ->setCellValue('C' . $rowIndex, $nhanVien->ngay_tao)  // Giả sử có trường 'ngay_tao'
-                  ->setCellValue('D' . $rowIndex, $nhanVien->luong);  // Giả sử có trường 'luong'
-            $rowIndex++;
-        }
-
-        // Khởi tạo một đối tượng Writer
-        $writer = new Xlsx($spreadsheet);
-
-        // Lưu file vào server hoặc trả về trực tiếp cho người dùng
-        $filePath = 'exports/bang_luong.xlsx';
-        $writer->save($filePath);
-
-        // Trả về URL của file để tải về
-        return $this->asJson(['status' => 'success', 'fileUrl' => Yii::$app->getUrlManager()->createUrl($filePath)]);
+    if ($chonKieu === 'thang' && $thang) {
+        [$year, $month] = explode('-', $thang);
+        $query->andWhere(['YEAR(ngay_thang)' => $year, 'MONTH(ngay_thang)' => $month]);
+    } elseif ($chonKieu === 'khoang') {
+        $query->andWhere(['between', 'ngay_thang', $tuNgay, $denNgay]);
     }
+
+    $listLuong = $query->orderBy('ngay_thang')->all();
+
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // Tiêu đề chính
+    $sheet->mergeCells('A1:D1');
+    $sheet->setCellValue('A1', 'BẢNG LƯƠNG NHÂN VIÊN');
+    $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+    $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+    // Họ tên
+    $sheet->setCellValue('A2', 'Họ tên: ' . ($nhanVien->ho_ten ?? ''));
+    $sheet->mergeCells('A2:D2');
+
+    // Header bảng
+    $sheet->setCellValue('A4', 'Ngày');
+    $sheet->getColumnDimension('A')->setAutoSize(true);
+    $sheet->setCellValue('B4', 'Số tiền');
+    $sheet->getColumnDimension('B')->setAutoSize(true);
+    $sheet->setCellValue('C4', 'Ghi chú');
+    $sheet->getColumnDimension('C')->setAutoSize(true);
+    $sheet->setCellValue('D4', 'Đã nhận');
+    $sheet->getColumnDimension('D')->setAutoSize(true);
+
+    $sheet->getStyle('A4:D4')->getFont()->setBold(true);
+    $sheet->getStyle('A4:D4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+    // Ghi dữ liệu bảng
+    $row = 5;
+    foreach ($listLuong as $luong) {
+        $sheet->setCellValue('A' . $row, Yii::$app->formatter->asDate($luong->ngay_thang, 'php:d/m/Y'));
+        $sheet->setCellValue('B' . $row, $luong->so_tien);
+        $sheet->setCellValue('C' . $row, $luong->ghi_chu);
+        $daNhanIcon = $luong->da_nhan == 1 ? '✓' : '✗';
+        $sheet->setCellValue('D' . $row, $daNhanIcon);
+        $row++;
+    }
+
+
+    $sheet->getStyle('B5:B' . ($row - 1))->getNumberFormat()
+        ->setFormatCode('#,##0₫');
+
+ 
+    foreach (range('A', 'D') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+   $tenNhanVien = $nhanVien->ho_ten ?? 'nhan_vien';
+   $tenNhanVien = Inflector::slug($tenNhanVien); // Ví dụ: "Nguyễn Văn A" -> "nguyen-van-a"
+
+$filename = 'bang_luong_' . $tenNhanVien . '_' . date('Ymd_His') . '.xlsx';
+   
+    $writer = new Xlsx($spreadsheet);
+
+    Yii::$app->response->format = Response::FORMAT_RAW;
+    Yii::$app->response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    Yii::$app->response->headers->set('Content-Disposition', "attachment;filename={$filename}");
+    Yii::$app->response->headers->set('Cache-Control', 'max-age=0');
+
+    ob_start();
+    $writer->save('php://output');
+    return ob_get_clean();
+}
+
 }
