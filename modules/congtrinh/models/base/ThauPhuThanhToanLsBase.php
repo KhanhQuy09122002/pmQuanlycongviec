@@ -4,7 +4,7 @@ namespace app\modules\congtrinh\models\base;
 
 use Yii;
 use app\modules\congtrinh\models\ThauPhuThanhToan;
-
+use app\custom\CustomFunc;
 /**
  * This is the model class for table "ct_thau_phu_thanh_toan_lich_su".
  *
@@ -59,10 +59,28 @@ class ThauPhuThanhToanLsBase extends \app\models\CtThauPhuThanhToanLichSu
     }
 
     public function beforeSave($insert) {
+        $this->ngay_thanh_toan = CustomFunc::convertDMYToYMD($this->ngay_thanh_toan);
         if ($this->isNewRecord) {
             $this->nguoi_tao = Yii::$app->user->identity->id;
             $this->thoi_gian_tao = date('Y-m-d H:i:s');        
         }
         return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+      parent::afterSave($insert, $changedAttributes);
+
+       // Tính tổng số tiền từ các bản ghi lịch sử
+       $tongDaThanhToan = self::find()
+        ->where(['id_thau_phu_thanh_toan' => $this->id_thau_phu_thanh_toan])
+        ->sum('so_tien');
+
+       // Cập nhật lại vào bảng ThauPhuThanhToan
+       $nctt = \app\modules\congtrinh\models\ThauPhuThanhToan::findOne($this->id_thau_phu_thanh_toan);
+         if ($nctt) {
+            $nctt->da_thanh_toan = $tongDaThanhToan;
+            $nctt->save(false); 
+          }
     }
 }

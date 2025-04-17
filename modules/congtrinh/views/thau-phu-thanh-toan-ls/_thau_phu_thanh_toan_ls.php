@@ -1,22 +1,5 @@
 <?php
 use yii\helpers\Html;
-use app\modules\congtrinh\models\ThauPhuThanhToan;
-use app\modules\congtrinh\models\ThauPhuThanhToanLs;
-
-// Lấy danh sách NhanCongThanhToan theo công trình
-$dsTPTT = ThauPhuThanhToan::find()
-    ->where(['id_cong_trinh' => $idCongTrinh])
-    ->all();
-
-$ids = array_column($dsTPTT, 'id');
-
-// Tránh lỗi nếu $ids rỗng
-$TPTTLS = [];
-if (!empty($ids)) {
-    $TPTTLS = ThauPhuThanhToanLs::find()
-        ->where(['in', 'id_thau_phu_thanh_toan', $ids])
-        ->all();
-}
 ?>
 
 <div class="tpttls" id="tpttlsContent">

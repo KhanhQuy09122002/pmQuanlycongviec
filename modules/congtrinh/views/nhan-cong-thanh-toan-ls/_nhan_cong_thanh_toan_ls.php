@@ -1,28 +1,13 @@
 <?php
 use yii\helpers\Html;
-use app\modules\congtrinh\models\ThauPhuThanhToan;
-use app\modules\congtrinh\models\ThauPhuThanhToanLs;
 
-// Lấy danh sách NhanCongThanhToan theo công trình
-$dsTPTT = ThauPhuThanhToan::find()
-    ->where(['id_cong_trinh' => $idCongTrinh])
-    ->all();
 
-$ids = array_column($dsTPTT, 'id');
-
-// Tránh lỗi nếu $ids rỗng
-$TPTTLS = [];
-if (!empty($ids)) {
-    $TPTTLS = ThauPhuThanhToanLs::find()
-        ->where(['in', 'id_thau_phu_thanh_toan', $ids])
-        ->all();
-}
 ?>
 
-<div class="tpttls" id="tpttlsContent">
+<div class="ncttls" id="ncttlsContent">
     <div class="mb-3">
         <?= Html::a('<i class="fa fa-plus"></i> Thêm', 
-            ['/congtrinh/thau-phu-thanh-toan-ls/create', 'idCongTrinh' => $idCongTrinh], 
+            ['/congtrinh/nhan-cong-thanh-toan-ls/create', 'idCongTrinh' => $idCongTrinh], 
             [
                 'class' => 'btn fw-bold btn-warning',
                 'style' => 'color: white;',
@@ -36,7 +21,7 @@ if (!empty($ids)) {
         <thead class="table-light">
             <tr>
                 <th style="width: 40px;">#</th>
-                <th style="width: 100px;">Thầu phụ thanh toán</th>
+                <th style="width: 100px;">Nhân công thanh toán</th>
                 <th style="width: 100px;">Ngày thanh toán</th>
                 <th style="width: 100px;">Số tiền</th>
                 <th style="width: 100px;">Ghi chú</th>
@@ -48,7 +33,7 @@ if (!empty($ids)) {
                 <?php foreach ($TPTTLS as $index => $item): ?>
                     <tr>
                         <td><?= $index + 1 ?></td>
-                        <td><?= $item->thauPhuThanhToan ? $item->thauPhuThanhToan->ten_cong_viec : '' ?></td>
+                        <td><?= $item->nhanCongThanhToan ? $item->nhanCongThanhToan->ho_ten : '' ?></td>
                         <td><?= Yii::$app->formatter->asDate($item->ngay_thanh_toan, 'php:d/m/Y') ?></td>
                         <td style="text-align: left;">
                             <?= number_format($item->so_tien, 0, ',', '.') ?> VNĐ
@@ -56,7 +41,7 @@ if (!empty($ids)) {
                         <td><?= $item->ghi_chu ?></td>
                         <td>
                             <?= Html::a('<i class="fa fa-edit"></i> Sửa', 
-                                ['/congtrinh/thau-phu-thanh-toan-ls/update', 'id' => $item->id, 'idCongTrinh' => $idCongTrinh], 
+                                ['/congtrinh/nhan-cong-thanh-toan-ls/update', 'id' => $item->id, 'idCongTrinh' => $idCongTrinh], 
                                 [
                                     'class' => 'btn fw-bold btn-warning',
                                     'style' => 'color: white;',

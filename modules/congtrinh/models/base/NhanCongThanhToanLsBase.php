@@ -4,7 +4,7 @@ namespace app\modules\congtrinh\models\base;
 
 use Yii;
 use app\modules\congtrinh\models\NhanCongThanhToan;
-
+use app\custom\CustomFunc;
 /**
  * This is the model class for table "ct_nhan_cong_thanh_toan_lich_su".
  *
@@ -49,20 +49,39 @@ class NhanCongThanhToanLsBase extends \app\models\CtNhanCongThanhToanLichSu
     {
         return [
             'id' => 'ID',
-            'id_nhan_cong_thanh_toan' => 'Id Nhan Cong Thanh Toan',
-            'ngay_thanh_toan' => 'Ngay Thanh Toan',
-            'so_tien' => 'So Tien',
-            'ghi_chu' => 'Ghi Chu',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'id_nhan_cong_thanh_toan' => 'Nhân công thanh toán',
+            'ngay_thanh_toan' => 'Ngày thanh toán',
+            'so_tien' => 'Số tiền',
+            'ghi_chu' => 'Ghi chú',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
 
     public function beforeSave($insert) {
+        $this->ngay_thanh_toan = CustomFunc::convertDMYToYMD($this->ngay_thanh_toan);
         if ($this->isNewRecord) {
             $this->nguoi_tao = Yii::$app->user->identity->id;
             $this->thoi_gian_tao = date('Y-m-d H:i:s');        
         }
         return parent::beforeSave($insert);
     }
-}
+
+    public function afterSave($insert, $changedAttributes)
+    {
+      parent::afterSave($insert, $changedAttributes);
+
+       // Tính tổng số tiền từ các bản ghi lịch sử
+       $tongDaThanhToan = self::find()
+        ->where(['id_nhan_cong_thanh_toan' => $this->id_nhan_cong_thanh_toan])
+        ->sum('so_tien');
+
+       // Cập nhật lại vào bảng NhanCongThanhToan
+       $nctt = \app\modules\congtrinh\models\NhanCongThanhToan::findOne($this->id_nhan_cong_thanh_toan);
+         if ($nctt) {
+            $nctt->da_thanh_toan = $tongDaThanhToan;
+            $nctt->save(false); 
+          }
+    }
+
+   }

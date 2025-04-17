@@ -19,7 +19,7 @@ if (!empty($ids)) {
 }
 ?>
 
-<div class="nctt" id="ncttContent">
+<div class="ncttls" id="ncttlsContent">
     <div class="mb-3">
         <?= Html::a('<i class="fa fa-plus"></i> Thêm', 
             ['/congtrinh/nhan-cong-thanh-toan-ls/create', 'idCongTrinh' => $idCongTrinh], 
@@ -48,7 +48,7 @@ if (!empty($ids)) {
                 <?php foreach ($NCTTLS as $index => $item): ?>
                     <tr>
                         <td><?= $index + 1 ?></td>
-                        <td><?= $item->id_nhan_cong_thanh_toan ?></td>
+                        <td><?= $item->nhanCongThanhToan ? $item->nhanCongThanhToan->ho_ten : '' ?></td>
                         <td><?= Yii::$app->formatter->asDate($item->ngay_thanh_toan, 'php:d/m/Y') ?></td>
                         <td style="text-align: left;">
                             <?= number_format($item->so_tien, 0, ',', '.') ?> VNĐ

@@ -128,7 +128,7 @@ use app\widgets\KhoDisplayWidget;
                              </div>
                              <div class="tab-pane fade" id="ct11" role="tabpanel" aria-labelledby="ct11-tab">
                                     <!-- Thầu phụ thanh toán -->
-                                    <?= $this->render('thau_phu_thanh_toan_ls') ?>
+                                    <?= $this->render('thau_phu_thanh_toan_ls', [ 'idCongTrinh' => $model->id]) ?>
                              </div>
                              <div class="tab-pane fade" id="ct8" role="tabpanel" aria-labelledby="ct8-tab">
                                     <!-- Ca máy thanh toán -->

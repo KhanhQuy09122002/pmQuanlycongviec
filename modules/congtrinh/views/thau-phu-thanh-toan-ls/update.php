@@ -2,14 +2,14 @@
 
 use yii\bootstrap5\Html;
 
-
 /* @var $this yii\web\View */
-/* @var $model app\modules\congtrinh\models\NhanCongThanhToanLs */
-
+/* @var $model app\modules\congtrinh\models\ThauPhuThanhToanLs */
 ?>
-<div class="nhan-cong-thanh-toan-ls-create">
+<div class="thau-phu-thanh-toan-ls-update">
+
     <?= $this->render('_form', [
         'model' => $model,
         'idCongTrinh'=>$idCongTrinh 
     ]) ?>
+
 </div>

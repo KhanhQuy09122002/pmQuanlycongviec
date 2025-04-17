@@ -9,6 +9,7 @@ use yii\bootstrap5\Html;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'idCongTrinh'=>$idCongTrinh,
     ]) ?>
 
 </div>

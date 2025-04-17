@@ -3,7 +3,7 @@ use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
-use app\modules\congtrinh\models\NhanCongThanhToan;
+use app\modules\congtrinh\models\ThauPhuThanhToan;
 /* @var $this yii\web\View */
 /* @var $model app\modules\congtrinh\models\NhanCongThanhToanLs */
 /* @var $form yii\widgets\ActiveForm */
@@ -16,16 +16,16 @@ use app\custom\CustomFunc;
      $model->ngay_thanh_toan = CustomFunc::convertYMDToDMY($model->ngay_thanh_toan);
 ?>
 
-<div class="nhan-cong-thanh-toan-ls-form">
+<div class="thau-phu-thanh-toan-ls-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
          <div class="col-md-4">
-         <?= $form->field($model, 'id_nhan_cong_thanh_toan')->widget(Select2::classname(), [
+         <?= $form->field($model, 'id_thau_phu_thanh_toan')->widget(Select2::classname(), [
     'data' => ArrayHelper::map(
-        NhanCongThanhToan::find()->where(['id_cong_trinh' => $idCongTrinh])->all(), // Lọc theo id_cong_trinh
-        'id', 'ho_ten'
+        ThauPhuThanhToan::find()->where(['id_cong_trinh' => $idCongTrinh])->all(), // Lọc theo id_cong_trinh
+        'id', 'ten_cong_viec'
     ), 
     'language' => 'vi', 
     'options' => ['placeholder' => 'Chọn nhân công thanh toán...', 'id' => 'id_nhan_cong_thanh_toan'], 

@@ -37,7 +37,7 @@ $dash = new Dashboard();
 							<a href="/khoahoc/khoa-hoc?menu=khoahoc">Quản lý công trình</a>
 						</h5>						
 						<p class="text-muted mb-0">Quản lý công trình, 
-							<br/>các thông tin chi tiết công trình,...</p>
+							<br/>thông tin chi tiết,...</p>
 					</div>
 				</div>
 			</div>
