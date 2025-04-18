@@ -13,6 +13,9 @@ use yii\helpers\Html;
 use yii\filters\AccessControl;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+
 
 /**
  * CongTrinhController implements the CRUD actions for CongTrinh model.
@@ -375,36 +378,278 @@ public function actionExportExcel($id)
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
 
-    $sheet->setCellValue('A1', 'Chi tiết công trình');
-    $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14)->getColor()->setRGB('FF0000');
-    $sheet->mergeCells('A1:C1');
+    // Tiêu đề chính
+    $sheet->mergeCells('A1:E1');
+    $sheet->setCellValue('A1', 'CHI TIẾT CÔNG TRÌNH');
+    $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(16)->getColor()->setRGB('FF0000');
+    $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    $sheet->setCellValue('A3', 'Tên công trình:');
+   // Thông tin cơ bản
+   $sheet->setCellValue('A3', 'Tên công trình:');
     $sheet->setCellValue('B3', $model->ten_cong_trinh);
     $sheet->setCellValue('A4', 'Địa điểm:');
     $sheet->setCellValue('B4', $model->dia_diem);
-    $sheet->setCellValue('A5', 'Thời hạn hợp đồng:');
+    $sheet->setCellValue('A5', 'Thời hạn HĐ:');
     $sheet->setCellValue('B5', Yii::$app->formatter->asDate($model->thoi_han_hop_dong_tu_ngay, 'php:d/m/Y') . ' - ' . Yii::$app->formatter->asDate($model->thoi_han_hop_dong_den_ngay, 'php:d/m/Y'));
 
-    $sheet->getStyle('B3:B5')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
-    foreach (range('A', 'C') as $col) {
+    // Đặt màu chữ
+    $sheet->getStyle('A3')->getFont()->getColor()->setRGB('FF0000'); 
+    $sheet->getStyle('A4')->getFont()->getColor()->setRGB('FF0000');
+    $sheet->getStyle('A5')->getFont()->getColor()->setRGB('FF0000');
+
+    $sheet->getStyle('B3')->getFont()->getColor()->setRGB('0000FF');
+    $sheet->getStyle('B4')->getFont()->getColor()->setRGB('0000FF');
+    $sheet->getStyle('B5')->getFont()->getColor()->setRGB('0000FF');
+
+    foreach (range('A', 'E') as $col) {
         $sheet->getColumnDimension($col)->setAutoSize(true);
     }
 
+    $row = 7;
+
+    // Hàm tạo tiêu đề mục
+    $setSectionTitle = function($title) use (&$sheet, &$row) {
+        $sheet->setCellValue("A$row", $title);
+        $sheet->mergeCells("A$row:E$row");
+        $sheet->getStyle("A$row")->getFont()->setBold(true)->setSize(12)->getColor()->setRGB('0000FF');
+        $sheet->getStyle("A$row")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+        $row++;
+    };
+
+    // Hàm tạo tiêu đề cột
+    $setTableHeader = function(array $headers) use (&$sheet, &$row) {
+        $col = 'A';
+        foreach ($headers as $header) {
+            $sheet->setCellValue($col . $row, $header);
+            $sheet->getStyle($col . $row)->getFont()->setBold(true)->setItalic(true);
+            $sheet->getStyle($col . $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $col++;
+        }
+        $row++;
+    };
+
+    $applyBorder = function($startRow, $endRow, $cols = 'A:E') use ($sheet) {
+        [$startCol, $endCol] = explode(':', $cols);
+        $sheet->getStyle("{$startCol}{$startRow}:{$endCol}{$endRow}")
+              ->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+    };
+    
+
+    $setSectionTitle('Giá trị tạm ứng');
+    $startRow = $row;
+    $setTableHeader(['STT', 'Số tiền', 'Ngày tháng bảo lãnh']);
+    foreach ($model->giaTriTamUng as $index => $item) {
+        // Cài đặt giá trị cho các ô
+        $sheet->setCellValue("A$row", $index + 1);
+        $sheet->setCellValue("B$row", Yii::$app->formatter->asDecimal($item->so_tien, 0) . ' VNĐ');
+        $sheet->setCellValue("C$row", Yii::$app->formatter->asDate($item->ngay_thang_bao_lanh, 'php:d/m/Y'));
+        
+        // Căn giữa cho các ô
+        $sheet->getStyle("A$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle("B$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle("C$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        
+        $row++;
+    }
+    
+    // Áp dụng viền cho cột A, B, và C
+    $applyBorder($startRow, $row - 1, 'A:C');
+    $row++;
+    
+    
+    // Giá trị thực hiện HĐ
+    $setSectionTitle('Giá trị thực hiện hợp đồng');
+    $startRow = $row;
+    $setTableHeader(['STT', 'Số tiền', 'Ngày bảo lãnh']);
+    foreach ($model->giaTriThucHienHopDong as $index => $item) {
+    // Cài đặt giá trị cho các ô
+    $sheet->setCellValue("A$row", $index + 1);
+    $sheet->setCellValue("B$row", Yii::$app->formatter->asDecimal($item->so_tien, 0) . ' VNĐ');
+    $sheet->setCellValue("C$row", Yii::$app->formatter->asDate($item->ngay_thang_bao_lanh, 'php:d/m/Y'));
+
+    // Căn giữa cho các ô
+    $sheet->getStyle("A$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("B$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("C$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    
+    $row++;
+    }   
+
+    // Áp dụng viền cho cột A, B, và C
+    $applyBorder($startRow, $row - 1, 'A:C');
+    $row++;
+
+
+    // Giá trị bảo hành
+    $setSectionTitle('Giá trị bảo hành');
+    $startRow = $row;
+    $setTableHeader(['STT', 'Số tiền', 'Ngày bảo hành']);
+    foreach ($model->giaTriBaoHanh as $index => $item) {
+    // Cài đặt giá trị cho các ô
+    $sheet->setCellValue("A$row", $index + 1);
+    $sheet->setCellValue("B$row", Yii::$app->formatter->asDecimal($item->so_tien, 0) . ' VNĐ');
+    $sheet->setCellValue("C$row", Yii::$app->formatter->asDate($item->ngay_thang_bao_hanh, 'php:d/m/Y'));
+
+    // Căn giữa cho các ô
+    $sheet->getStyle("A$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("B$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("C$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    
+    $row++;
+    }
+
+    // Áp dụng viền cho cột A, B, và C
+    $applyBorder($startRow, $row - 1, 'A:C');
+    $row++;
+
+
+    // Các lần thanh toán
+    $setSectionTitle('Giá trị đã thanh toán');
+    $startRow = $row;
+    $setTableHeader(['Tên lần thanh toán', 'Số tiền']);
+    foreach ($model->giaTriDaThanhToan as $item) {
+    // Cài đặt giá trị cho các ô
+    $sheet->setCellValue("A$row", $item->ten_lan_thanh_toan);
+    $sheet->setCellValue("B$row", Yii::$app->formatter->asDecimal($item->so_tien, 0) . ' VNĐ');
+    
+    // Căn giữa cho các ô
+    $sheet->getStyle("A$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("B$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    
+    $row++;
+    }
+
+    // Áp dụng viền cho cột A và B
+    $applyBorder($startRow, $row - 1, 'A:B');
+    $row++;
+
+
+    // Thanh toán nhân công
+    $setSectionTitle('Thanh toán nhân công');
+    $startRow = $row;
+    $setTableHeader(['Họ tên', 'Tổng HĐ', 'Đã TT', 'Còn lại']);
+    foreach ($model->nhanCongThanhToan as $item) {
+    // Cài đặt giá trị cho các ô
+    $sheet->setCellValue("A$row", $item->ho_ten);
+    $sheet->setCellValue("B$row", Yii::$app->formatter->asDecimal($item->tong_hop_dong, 0) . ' VNĐ');
+    $sheet->setCellValue("C$row", Yii::$app->formatter->asDecimal($item->da_thanh_toan, 0) . ' VNĐ');
+    $sheet->setCellValue("D$row", Yii::$app->formatter->asDecimal($item->con_lai, 0) . ' VNĐ');
+    
+    
+    // Căn giữa cho các ô
+    $sheet->getStyle("A$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("B$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("C$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("D$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    
+    $row++;
+    }
+
+    // Áp dụng viền cho cột A đến D
+    $applyBorder($startRow, $row - 1, 'A:D');
+    $row++;
+    // Thanh toán vật tư
+    $setSectionTitle('Thanh toán vật tư');
+    $startRow = $row;
+    $setTableHeader(['Tên vật tư', 'Số lượng', 'Đơn giá', 'Thành tiền']);
+    foreach ($model->vatTuThanhToan as $item) {
+    // Cài đặt giá trị cho các ô
+    $sheet->setCellValue("A$row", $item->ten_vat_tu);
+    $sheet->setCellValue("B$row", $item->so_luong);
+    $sheet->setCellValue("C$row", Yii::$app->formatter->asDecimal($item->don_gia, 0) . ' VNĐ');
+    $sheet->setCellValue("D$row", Yii::$app->formatter->asDecimal($item->thanh_tien, 0) . ' VNĐ');
+    
+    
+    // Căn giữa cho các ô
+    $sheet->getStyle("A$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("B$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("C$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("D$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    
+    $row++;
+    }
+
+    // Áp dụng viền cho cột A đến D
+    $applyBorder($startRow, $row - 1, 'A:D');
+    $row++;
+
+
+    // Thanh toán thầu phụ
+    $setSectionTitle('Thanh toán thầu phụ');
+    $startRow = $row;
+    $setTableHeader(['Công việc', 'Tổng HĐ', 'Đã TT', 'Còn lại']);
+    foreach ($model->thauPhuThanhToan as $item) {
+    // Cài đặt giá trị cho các ô
+    $sheet->setCellValue("A$row", $item->ten_cong_viec);
+    $sheet->setCellValue("B$row", Yii::$app->formatter->asDecimal($item->tong_hop_dong, 0) . ' VNĐ');
+    $sheet->setCellValue("C$row", Yii::$app->formatter->asDecimal($item->da_thanh_toan, 0) . ' VNĐ');
+    $sheet->setCellValue("D$row", Yii::$app->formatter->asDecimal($item->con_lai, 0) . ' VNĐ');
+    
+    
+    // Căn giữa cho các ô
+    $sheet->getStyle("A$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("B$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("C$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("D$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    
+    $row++;
+    }
+
+    // Áp dụng viền cho cột A đến D
+    $applyBorder($startRow, $row - 1, 'A:D');
+    $row++;
+
+    // Thanh toán ca máy
+    $setSectionTitle('Thanh toán ca máy');
+    $startRow = $row;
+    $setTableHeader(['Tên ca máy', 'Số tiền']);
+    foreach ($model->caMayThanhToan as $item) {
+    // Cài đặt giá trị cho các ô
+    $sheet->setCellValue("A$row", $item->ten_ca_may);
+    $sheet->setCellValue("B$row", Yii::$app->formatter->asDecimal($item->so_tien, 0) . ' VNĐ');
+    
+    // Căn giữa cho các ô
+    $sheet->getStyle("A$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("B$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    
+    $row++;
+    }
+
+    // Áp dụng viền cho cột A và B
+    $applyBorder($startRow, $row - 1, 'A:B');
+    $row++;
+
+    // Chi phí khác
+    $setSectionTitle('Chi phí khác');
+    $startRow = $row;
+    $setTableHeader(['Tên chi phí', 'Số tiền', 'Ghi chú']);
+    foreach ($model->chiPhiKhacThanhToan as $item) {
+    // Cài đặt giá trị cho các ô
+    $sheet->setCellValue("A$row", $item->ten_chi_phi);
+    $sheet->setCellValue("B$row", Yii::$app->formatter->asDecimal($item->so_tien, 0) . ' VNĐ');
+    $sheet->setCellValue("C$row", $item->ghi_chu);
+    
+    // Căn giữa cho các ô
+    $sheet->getStyle("A$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("B$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle("C$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    
+    $row++;
+    }
+
+    // Áp dụng viền cho cột A, B, C
+    $applyBorder($startRow, $row - 1, 'A:C');
+    $row++;
+
+
+    // Xuất file
     $filename = 'thong_tin_cong_trinh.xlsx';
     $writer = new Xlsx($spreadsheet);
 
-    // Dọn dẹp mọi output trước khi gửi file
     if (ob_get_length()) ob_end_clean();
-
-    header('Content-Description: File Transfer');
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment; filename="' . $filename . '"');
-    header('Content-Transfer-Encoding: binary');
-    header('Expires: 0');
-    header('Cache-Control: must-revalidate');
-    header('Pragma: public');
-
+    header('Cache-Control: max-age=0');
     $writer->save('php://output');
     exit;
 }
