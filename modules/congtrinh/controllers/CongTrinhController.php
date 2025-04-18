@@ -26,7 +26,7 @@ class CongTrinhController extends Controller
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete','choose-print','choose-excel'],
+						'actions' => ['index', 'view', 'update','create','delete','bulkdelete','choose-print','choose-excel','get-print-content'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -295,8 +295,8 @@ class CongTrinhController extends Controller
         if ($request->isAjax) {
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return [
-                'title' => 'Chọn thông tin để xuất',
-                'content' => $this->renderAjax('_form_choose_excel', [
+                'title' => 'Chọn thông tin để in',
+                'content' => $this->renderAjax('_form_choose_print', [
                     'model' => $model,
                     'congTrinhList' => $congTrinhList
                 ]),
@@ -345,6 +345,20 @@ public function actionChooseExcel()
         'model' => $model,
         'congTrinhList' => $congTrinhList
     ]);
+}
+public function actionGetPrintContent($id)
+{
+    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+    $model = CongTrinh::findOne($id);
+    if ($model === null) {
+        return ['status' => 'error', 'message' => 'Không tìm thấy công trình.'];
+    }
+
+    return [
+        'status' => 'success',
+        'content' => $this->renderPartial('_print_content', ['model' => $model])
+    ];
 }
 
 }
