@@ -47,11 +47,11 @@ class GiaTriTamUngBase extends \app\models\CtGiaTriTamUng
     {
         return [
             'id' => 'ID',
-            'id_cong_trinh' => 'Id Cong Trinh',
-            'so_tien' => 'So Tien',
-            'ngay_thang_bao_lanh' => 'Ngay Thang Bao Lanh',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'id_cong_trinh' => 'Công trình',
+            'so_tien' => 'Số tiền',
+            'ngay_thang_bao_lanh' => 'Ngày tháng bảo lãnh',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
     public function beforeSave($insert) {

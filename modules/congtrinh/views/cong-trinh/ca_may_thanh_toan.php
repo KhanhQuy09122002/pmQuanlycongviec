@@ -21,20 +21,20 @@ $CMTT = $model->caMayThanhToan;
 <table class="table table-bordered table-hover table-striped">
     <thead class="table-light">
         <tr>
-            <th style="width: 40px;">#</th>
-            <th style="width: 100px;">Tên ca máy</th>
-            <th style="width: 100px;">Số tiền</th>
-            <th style="width: 100px;">Thao tác</th>
+            <th style="width: 40px; text-align: center;">#</th>
+            <th style="width: 200px; text-align: center;">Tên ca máy</th>
+            <th style="width: 200px; text-align: center;">Số tiền</th>
+            <th style="width: 200px; text-align: center;">Thao tác</th>
         </tr>
     </thead>
     <tbody>
         <?php if (!empty($CMTT)): ?>
             <?php foreach ($CMTT as $index => $item): ?>
                 <tr>
-                    <td><?= $index + 1 ?></td>
-                    <td><?=$item->ten_ca_may ?></td>
-                    <td style="text-align: left;"><?= number_format($item->so_tien, 0, ',', '.') . ' VNĐ' ?> </td>
-                    <td>
+                    <td style="text-align: center;"><?= $index + 1 ?></td>
+                    <td style="text-align: center;"><?=$item->ten_ca_may ?></td>
+                    <td style="text-align: center;"><?= number_format($item->so_tien, 0, ',', '.') . ' VNĐ' ?> </td>
+                    <td style="text-align: center;">
                          <?= Html::a('<i class="fa fa-edit"></i> Sửa', 
                            ['/congtrinh/ca-may-thanh-toan/update', 'id' => $item->id, 'idCT'=>$model->id], 
                                [

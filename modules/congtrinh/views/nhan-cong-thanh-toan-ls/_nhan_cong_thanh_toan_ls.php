@@ -20,26 +20,26 @@ use yii\helpers\Html;
     <table class="table table-bordered table-hover table-striped">
         <thead class="table-light">
             <tr>
-                <th style="width: 40px;">#</th>
-                <th style="width: 100px;">Nhân công thanh toán</th>
-                <th style="width: 100px;">Ngày thanh toán</th>
-                <th style="width: 100px;">Số tiền</th>
-                <th style="width: 100px;">Ghi chú</th>
-                <th style="width: 100px;">Thao tác</th>
+                <th style="width: 40px;text-align: center;">#</th>
+                <th style="width: 200px;text-align: center;">Nhân công</th>
+                <th style="width: 200px;text-align: center;">Ngày thanh toán</th>
+                <th style="width: 200px;text-align: center;">Số tiền</th>
+                <th style="width: 200px;text-align: center;">Ghi chú</th>
+                <th style="width: 200px;text-align: center;">Thao tác</th>
             </tr>
         </thead>
         <tbody>
             <?php if (!empty($TPTTLS)): ?>
                 <?php foreach ($TPTTLS as $index => $item): ?>
                     <tr>
-                        <td><?= $index + 1 ?></td>
-                        <td><?= $item->nhanCongThanhToan ? $item->nhanCongThanhToan->ho_ten : '' ?></td>
-                        <td><?= Yii::$app->formatter->asDate($item->ngay_thanh_toan, 'php:d/m/Y') ?></td>
-                        <td style="text-align: left;">
+                        <td style="text-align: center;"><?= $index + 1 ?></td>
+                        <td style="text-align: center;"><?= $item->nhanCongThanhToan ? $item->nhanCongThanhToan->ho_ten : '' ?></td>
+                        <td style="text-align: center;"><?= Yii::$app->formatter->asDate($item->ngay_thanh_toan, 'php:d/m/Y') ?></td>
+                        <td style="text-align: center;">
                             <?= number_format($item->so_tien, 0, ',', '.') ?> VNĐ
                         </td>
-                        <td><?= $item->ghi_chu ?></td>
-                        <td>
+                        <td style="text-align: center;"><?= $item->ghi_chu ?></td>
+                        <td style="text-align: center;">
                             <?= Html::a('<i class="fa fa-edit"></i> Sửa', 
                                 ['/congtrinh/nhan-cong-thanh-toan-ls/update', 'id' => $item->id, 'idCongTrinh' => $idCongTrinh], 
                                 [

@@ -1,75 +1,8 @@
 <?php
 use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 
 /** @var \app\models\CongTrinh $model */
 ?>
-
-<style>
-    body {
-        font-family: "DejaVu Sans", Arial, sans-serif;
-        color: #333;
-        font-size: 14px;
-        line-height: 1.6;
-    }
-
-    h2 {
-        text-align: center;
-        margin-bottom: 30px;
-        text-transform: uppercase;
-        font-size: 20px;
-        letter-spacing: 1px;
-    }
-
-    .section {
-        margin-bottom: 40px;
-    }
-
-    .section-title {
-        background-color: #f7f9fc;
-        font-weight: bold;
-        padding: 10px 15px;
-        margin-bottom: 15px;
-        border-left: 5px solid #007bff;
-        font-size: 16px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 15px;
-    }
-
-    table th,
-    table td {
-        padding: 8px 12px;
-        border: 1px solid #ccc;
-        vertical-align: top;
-        text-align: left;
-    }
-
-    table th {
-        background-color: #f0f0f0;
-        font-weight: bold;
-        text-align: center;
-    }
-
-    .info-table td.label {
-        width: 25%;
-        font-weight: bold;
-        background-color: #f9f9f9;
-    }
-
-    .info-table td.value {
-        width: 75%;
-    }
-
-    .footer-note {
-        margin-top: 50px;
-        text-align: right;
-        font-style: italic;
-    }
-</style>
 
 <h2 style="color: red; font-weight: bold;">Chi tiết công trình</h2>
 
@@ -357,3 +290,69 @@ use yii\helpers\ArrayHelper;
 <div class="footer-note">
     Ngày in: <?= Yii::$app->formatter->asDate('now', 'php:d/m/Y') ?>
 </div>
+
+<style>
+    body {
+        font-family: "DejaVu Sans", Arial, sans-serif;
+        color: #333;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        font-size: 20px;
+        letter-spacing: 1px;
+    }
+
+    .section {
+        margin-bottom: 40px;
+    }
+
+    .section-title {
+        background-color: #f7f9fc;
+        font-weight: bold;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+        border-left: 5px solid #007bff;
+        font-size: 16px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 15px;
+    }
+
+    table th,
+    table td {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        vertical-align: top;
+        text-align: left;
+    }
+
+    table th {
+        background-color: #f0f0f0;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .info-table td.label {
+        width: 25%;
+        font-weight: bold;
+        background-color: #f9f9f9;
+    }
+
+    .info-table td.value {
+        width: 75%;
+    }
+
+    .footer-note {
+        margin-top: 50px;
+        text-align: right;
+        font-style: italic;
+    }
+</style>

@@ -1,0 +1,52 @@
+
+    .nav-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        flex-wrap: nowrap;
+    }
+    .nav-tabs .nav-item {
+        float: none;
+        display: inline-block;
+    }
+    .nav-pills .nav-link {
+        border-radius: 5px;
+    }
+
+    /* Làm nổi bật tab đang chọn */
+    .nav-link.active {
+        background-color: #5D5FEF; /* Màu nền khi chọn */
+        color: white; /* Màu chữ khi chọn */
+        border-radius: 5px;
+    }
+
+    .nav-link {
+        color: #5D5FEF; /* Màu chữ của các tab chưa chọn */
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s, color 0.3s;
+        font-weight: 500;
+    }
+
+    .nav-link:hover {
+        background-color: #f1f1f1; /* Màu nền khi hover */
+        color: #5D5FEF; /* Màu chữ khi hover */
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #f9f9f9;
+        border-bottom: 1px solid #ddd;
+  
+    }
+
+    .nav-item i {
+        margin-right: 10px;
+    }
+
+    .nav-pills .nav-link.active {
+        background-color: #5D5FEF;
+    }
