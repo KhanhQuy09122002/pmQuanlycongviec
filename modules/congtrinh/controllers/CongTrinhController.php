@@ -11,6 +11,8 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * CongTrinhController implements the CRUD actions for CongTrinh model.
@@ -26,7 +28,7 @@ class CongTrinhController extends Controller
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete','choose-print','choose-excel','get-print-content'],
+						'actions' => ['index', 'view', 'update','create','delete','bulkdelete','choose-print','choose-excel','get-print-content','export-excel'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -361,4 +363,49 @@ public function actionGetPrintContent($id)
     ];
 }
 
+
+
+public function actionExportExcel($id)
+{
+    $model = CongTrinh::findOne($id);
+    if (!$model) {
+        throw new NotFoundHttpException("Không tìm thấy công trình.");
+    }
+
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    $sheet->setCellValue('A1', 'Chi tiết công trình');
+    $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14)->getColor()->setRGB('FF0000');
+    $sheet->mergeCells('A1:C1');
+
+    $sheet->setCellValue('A3', 'Tên công trình:');
+    $sheet->setCellValue('B3', $model->ten_cong_trinh);
+    $sheet->setCellValue('A4', 'Địa điểm:');
+    $sheet->setCellValue('B4', $model->dia_diem);
+    $sheet->setCellValue('A5', 'Thời hạn hợp đồng:');
+    $sheet->setCellValue('B5', Yii::$app->formatter->asDate($model->thoi_han_hop_dong_tu_ngay, 'php:d/m/Y') . ' - ' . Yii::$app->formatter->asDate($model->thoi_han_hop_dong_den_ngay, 'php:d/m/Y'));
+
+    $sheet->getStyle('B3:B5')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+    foreach (range('A', 'C') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+    $filename = 'thong_tin_cong_trinh.xlsx';
+    $writer = new Xlsx($spreadsheet);
+
+    // Dọn dẹp mọi output trước khi gửi file
+    if (ob_get_length()) ob_end_clean();
+
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    header('Content-Transfer-Encoding: binary');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+
+    $writer->save('php://output');
+    exit;
+}
 }

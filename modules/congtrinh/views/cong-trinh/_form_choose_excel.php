@@ -18,9 +18,28 @@ use yii\widgets\ActiveForm;
             ])->dropDownList($congTrinhList, ['prompt'=>'-- Chọn công trình --'])->label('Công trình') ?>
         </div>
 
-    
+        <div class="text-end">
+          <?= Html::button('<i class="fas fa-file-excel"></i> Xuất Excel', [
+            'class' => 'btn btn-success',
+            'onclick' => 'xuatExcelChiTiet()'
+          ]) ?>
+        </div>
+
     </div>
     <?php ActiveForm::end(); ?>
 </div>
 
+<script>
+    function xuatExcelChiTiet() {
+    const idCongTrinh = $('#dynamicmodel-id_cong_trinh').val();
 
+    if (!idCongTrinh) {
+        alert('Vui lòng chọn công trình.');
+        return;
+    }
+
+    // Điều hướng sang action xuất Excel
+    window.open('/congtrinh/cong-trinh/export-excel?id=' + idCongTrinh, '_blank');
+}
+
+</script>
