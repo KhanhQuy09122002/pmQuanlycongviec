@@ -188,7 +188,7 @@ class GiaTriBaoHanhController extends Controller
                         
                      ]),
                      
-                     'tcontent'=>'Thêm giá trị bảo hành thành công!',
+                     'tcontent'=>'Cập nhậtnhật giá trị bảo hành thành công!',
                  ]; 
             }else{
                  return [

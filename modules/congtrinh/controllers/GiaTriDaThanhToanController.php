@@ -187,7 +187,7 @@ class GiaTriDaThanhToanController extends Controller
                         
                      ]),
                      
-                     'tcontent'=>'Thêm giá trị thanh toán thành công!',
+                     'tcontent'=>'Cập nhật giá trị thanh toán thành công!',
                  ];    
             }else{
                  return [

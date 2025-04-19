@@ -188,7 +188,7 @@ class GiaTriThucHienHopDongController extends Controller
                         
                      ]),
                      
-                     'tcontent'=>'Thêm giá trị thực hiện hợp đồng thành công!',
+                     'tcontent'=>'Cập nhật giá trị thực hiện hợp đồng thành công!',
                  ];    
             }else{
                  return [
