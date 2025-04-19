@@ -29,8 +29,8 @@ use yii\helpers\Html;
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($TPTTLS)): ?>
-                <?php foreach ($TPTTLS as $index => $item): ?>
+            <?php if (!empty($NCTTLS)): ?>
+                <?php foreach ($NCTTLS as $index => $item): ?>
                     <tr>
                         <td style="text-align: center;"><?= $index + 1 ?></td>
                         <td style="text-align: center;"><?= $item->nhanCongThanhToan ? $item->nhanCongThanhToan->ho_ten : '' ?></td>

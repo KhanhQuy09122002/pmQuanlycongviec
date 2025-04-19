@@ -50,12 +50,12 @@ class ChiTietDonHangNccBase extends \app\models\NccChiTietDonHangNcc
     {
         return [
             'id' => 'ID',
-            'id_don_hang' => 'Id Don Hang',
-            'id_hang_hoa' => 'Id Hang Hoa',
-            'so_luong' => 'So Luong',
-            'thanh_tien' => 'Thanh Tien',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'id_don_hang' => 'Đơn hàng',
+            'id_hang_hoa' => 'Hàng hóa',
+            'so_luong' => 'Số lượng',
+            'thanh_tien' => 'Thành tiền',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
 

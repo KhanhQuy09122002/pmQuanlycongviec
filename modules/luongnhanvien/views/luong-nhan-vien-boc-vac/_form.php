@@ -18,16 +18,22 @@ use app\custom\CustomFunc;
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'id_nhan_vien_boc_vac')->widget(Select2::classname(), [
-                  'data' => ArrayHelper::map(NhanVienBocVac::find()->all(), 'id', 'ho_ten'), 
-                  'language' => 'vi', 
-                  'options' => ['placeholder' => 'Chọn nhân viên...','id' => 'id_nhan_vien_boc_vac'], 
-                  'pluginOptions' => [
-                      'allowClear' => true, 
-                      'dropdownParent' => new yii\web\JsExpression('$("#ajaxCrudModal")'), 
-                      'containerCssClass' => 'select2-dropdown-adjustment', 
-                     ],
-            ]); ?>
+        <?= $form->field($model, 'id_nhan_vien_boc_vac')->widget(Select2::classname(), [
+    'data' => ArrayHelper::map(NhanVienBocVac::find()->all(), 'id', 'ho_ten'),
+    'language' => 'vi',
+    'options' => [
+        'placeholder' => 'Chọn nhân viên...',
+        'id' => 'id_nhan_vien_boc_vac_old',
+        'class' => 'form-control', 
+    ],
+    'pluginOptions' => [
+        'allowClear' => true,
+        'dropdownParent' => new yii\web\JsExpression('$("#ajaxCrudModal")'),
+        'containerCssClass' => 'select2-dropdown-adjustment',
+        'width' => '100%',
+    ],
+]); ?>
+
         </div>
         <div class="col-md-4">
            <?= $form->field($model, 'ngay_thang')->widget(DatePicker::classname(), [
@@ -54,6 +60,8 @@ use app\custom\CustomFunc;
                    ])->checkbox(['class' => 'form-check-input ','id'=>'gray-checkbox'], false) ?>
                </div>
         </div>
+
+        
     </div>
   
 
@@ -74,7 +82,7 @@ use yii\helpers\Url;
 $urlGetLuong = Url::to(['/luongnhanvien/luong-nhan-vien-boc-vac/get-luong']);
 
 $script = <<<JS
-    $('#id_nhan_vien_boc_vac').on('change', function() {
+    $('#id_nhan_vien_boc_vac_old').on('change', function() {
         var id = $(this).val();
         if (id) {
             $.get('$urlGetLuong', { id: id }, function(data) {

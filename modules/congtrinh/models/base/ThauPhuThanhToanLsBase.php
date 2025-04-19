@@ -49,12 +49,12 @@ class ThauPhuThanhToanLsBase extends \app\models\CtThauPhuThanhToanLichSu
     {
         return [
             'id' => 'ID',
-            'id_thau_phu_thanh_toan' => 'Id Thau Phu Thanh Toan',
-            'ngay_thanh_toan' => 'Ngay Thanh Toan',
-            'so_tien' => 'So Tien',
-            'ghi_chu' => 'Ghi Chu',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'id_thau_phu_thanh_toan' => 'Tên công việc',
+            'ngay_thanh_toan' => 'Ngày thanh toán',
+            'so_tien' => 'Số tiền',
+            'ghi_chu' => 'Ghi chú',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
 

@@ -17,7 +17,7 @@ use app\custom\CustomFunc;
  *
  * @property CtCongTrinh $congTrinh
  */
-class GiaTriThucHienHopDongBase extends \app\models\CtGiaTriTHucHienHopDong 
+class GiaTriThucHienHopDongBase extends \app\models\CtGiaTriThucHienHopDong 
 {
     /**
      * {@inheritdoc}
