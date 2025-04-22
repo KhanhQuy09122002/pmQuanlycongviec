@@ -16,7 +16,10 @@ $this->registerCssFile('@web/css/cong-trinh.css', [
         <div class="card-body">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" id="ct1-tab" data-bs-toggle="pill" href="#ct1" role="tab" aria-controls="ct1" aria-selected="true">
+                    <a class="nav-link active" id="ct0-tab" data-bs-toggle="pill" href="#ct0" role="tab" aria-controls="ct0" aria-selected="true">
+                        <i class="fa fa-file-invoice-dollar"></i> Giá trị hợp đồng
+                    </a>
+                    <a class="nav-link" id="ct1-tab" data-bs-toggle="pill" href="#ct1" role="tab" aria-controls="ct1" aria-selected="true">
                         <i class="fa fa-file-contract"></i> Giá trị thực hiện hợp đồng
                     </a>
                 </li>
@@ -80,7 +83,11 @@ $this->registerCssFile('@web/css/cong-trinh.css', [
     <div class="card custom-card">
         <div class="card-header custom-card-header rounded-bottom-0">
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="ct1" role="tabpanel" aria-labelledby="ct1-tab">
+                <div class="tab-pane fade show active" id="ct0" role="tabpanel" aria-labelledby="ct0-tab">
+                    <!-- Giá trị hợp đồng -->
+                    <?= $this->render('gia_tri_hop_dong', ['model' => $model]) ?>
+                </div>
+                <div class="tab-pane fade" id="ct1" role="tabpanel" aria-labelledby="ct1-tab">
                     <!-- Giá trị thực hiện hợp đồng -->
                     <?= $this->render('gia_tri_thuc_hien_hop_dong', ['model' => $model]) ?>
                 </div>
@@ -124,6 +131,7 @@ $this->registerCssFile('@web/css/cong-trinh.css', [
                     <!-- Chi phí khác thanh toán -->
                     <?= $this->render('chi_phi_khac_thanh_toan', ['model' => $model]) ?>
                 </div>
+              
             </div>
         </div>
     </div>

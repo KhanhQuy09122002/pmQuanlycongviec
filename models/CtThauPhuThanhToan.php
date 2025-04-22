@@ -10,9 +10,9 @@ use Yii;
  * @property int $id
  * @property int $id_cong_trinh
  * @property string $ten_cong_viec
- * @property int $tong_hop_dong
- * @property int $da_thanh_toan
- * @property int $con_lai
+ * @property double $tong_hop_dong
+ * @property double $da_thanh_toan
+ * @property double $con_lai
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
  *
@@ -36,7 +36,8 @@ class CtThauPhuThanhToan extends \yii\db\ActiveRecord
     {
         return [
             [['id_cong_trinh', 'ten_cong_viec', 'tong_hop_dong'], 'required'],
-            [['id_cong_trinh', 'tong_hop_dong', 'da_thanh_toan', 'con_lai', 'nguoi_tao'], 'integer'],
+            [['id_cong_trinh', 'nguoi_tao'], 'integer'],
+            [['tong_hop_dong','da_thanh_toan','con_lai'],'number'],
             [['thoi_gian_tao'], 'safe'],
             [['ten_cong_viec'], 'string', 'max' => 255],
             [['id_cong_trinh'], 'exist', 'skipOnError' => true, 'targetClass' => CtCongTrinh::class, 'targetAttribute' => ['id_cong_trinh' => 'id']],

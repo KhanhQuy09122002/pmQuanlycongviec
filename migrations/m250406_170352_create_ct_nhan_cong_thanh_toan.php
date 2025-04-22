@@ -16,9 +16,9 @@ class m250406_170352_create_ct_nhan_cong_thanh_toan extends Migration
             'id'=>$this->primaryKey(),
             'id_cong_trinh'=>$this->integer()->notNull(),
             'ho_ten'=>$this->string()->notNull(),
-            'tong_hop_dong'=>$this->integer()->notNull(),
-            'da_thanh_toan'=>$this->integer(),
-            'con_lai'=>$this->integer(),
+            'tong_hop_dong'=>$this->double()->notNull(),
+            'da_thanh_toan'=>$this->double(),
+            'con_lai'=>$this->double(),
             'nguoi_tao'=>$this->integer(),
             'thoi_gian_tao'=>$this->datetime(),
            ]);

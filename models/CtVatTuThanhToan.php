@@ -10,9 +10,10 @@ use Yii;
  * @property int $id
  * @property int $id_cong_trinh
  * @property string $ten_vat_tu
+ * @property string|null $don_vi_tinh
  * @property int $so_luong
  * @property int $don_gia
- * @property int $thanh_tien
+ * @property double $thanh_tien
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
  *
@@ -35,9 +36,11 @@ class CtVatTuThanhToan extends \yii\db\ActiveRecord
     {
         return [
             [['id_cong_trinh', 'ten_vat_tu', 'so_luong', 'don_gia', 'thanh_tien'], 'required'],
-            [['id_cong_trinh', 'so_luong', 'don_gia', 'thanh_tien', 'nguoi_tao'], 'integer'],
+            [['id_cong_trinh', 'so_luong', 'don_gia', 'nguoi_tao'], 'integer'],
+            [['thanh_tien'],'number'],
             [['thoi_gian_tao'], 'safe'],
             [['ten_vat_tu'], 'string', 'max' => 255],
+            [['don_vi_tinh'], 'string', 'max' => 50],
             [['id_cong_trinh'], 'exist', 'skipOnError' => true, 'targetClass' => CtCongTrinh::class, 'targetAttribute' => ['id_cong_trinh' => 'id']],
         ];
     }
@@ -54,6 +57,7 @@ class CtVatTuThanhToan extends \yii\db\ActiveRecord
             'so_luong' => 'So Luong',
             'don_gia' => 'Don Gia',
             'thanh_tien' => 'Thanh Tien',
+            'don_vi_tinh'=>'Don vi tinh',
             'nguoi_tao' => 'Nguoi Tao',
             'thoi_gian_tao' => 'Thoi Gian Tao',
         ];

@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property int $id_thau_phu_thanh_toan
  * @property string $ngay_thanh_toan
- * @property int $so_tien
+ * @property double $so_tien
  * @property string|null $ghi_chu
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
@@ -34,7 +34,8 @@ class CtThauPhuThanhToanLichSu extends \yii\db\ActiveRecord
     {
         return [
             [['id_thau_phu_thanh_toan', 'ngay_thanh_toan', 'so_tien'], 'required'],
-            [['id_thau_phu_thanh_toan', 'so_tien', 'nguoi_tao'], 'integer'],
+            [['id_thau_phu_thanh_toan', 'nguoi_tao'], 'integer'],
+            [['so_tien'],'number'],
             [['ngay_thanh_toan', 'thoi_gian_tao'], 'safe'],
             [['ghi_chu'], 'string'],
             [['id_thau_phu_thanh_toan'], 'exist', 'skipOnError' => true, 'targetClass' => CtThauPhuThanhToan::class, 'targetAttribute' => ['id_thau_phu_thanh_toan' => 'id']],

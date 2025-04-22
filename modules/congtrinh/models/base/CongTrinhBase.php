@@ -10,7 +10,7 @@ use app\custom\CustomFunc;
  * @property int $id
  * @property string $ten_cong_trinh
  * @property string $dia_diem
- * @property int|null $gia_tri_hop_dong
+ * @property double|null $gia_tri_hop_dong
  * @property string $thoi_han_hop_dong_tu_ngay
  * @property string $thoi_han_hop_dong_den_ngay
  * @property int|null $gia_tri_tam_ung
@@ -50,8 +50,9 @@ class CongTrinhBase extends \app\models\CtCongTrinh
     {
         return [
             [['ten_cong_trinh', 'dia_diem', 'thoi_han_hop_dong_tu_ngay', 'thoi_han_hop_dong_den_ngay'], 'required'],
-            [['gia_tri_hop_dong', 'gia_tri_tam_ung', 'gia_tri_bao_lanh_thoi_han_hop_dong', 'gia_tri_bao_hanh', 'gia_tri_da_thanh_toan', 'gia_tri_hop_dong_con_lai', 'khoi_luong_phat_sinh_tang_giam', 'nguoi_tao'], 'integer'],
+            [['gia_tri_tam_ung', 'gia_tri_bao_lanh_thoi_han_hop_dong', 'gia_tri_bao_hanh', 'gia_tri_da_thanh_toan', 'gia_tri_hop_dong_con_lai', 'khoi_luong_phat_sinh_tang_giam', 'nguoi_tao'], 'integer'],
             [['thoi_han_hop_dong_tu_ngay', 'thoi_han_hop_dong_den_ngay', 'thoi_gian_tao'], 'safe'],
+            [['gia_tri_hop_dong'], 'number'],
             [['ten_cong_trinh', 'dia_diem'], 'string', 'max' => 255],
             [['trang_thai'], 'string', 'max' => 30],
         ];

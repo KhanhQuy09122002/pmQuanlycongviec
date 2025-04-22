@@ -16,7 +16,7 @@ class m250406_165840_create_table_ct_ca_may_thanh_toan extends Migration
             'id'=>$this->primaryKey(),
             'id_cong_trinh'=>$this->integer()->notNull(),
             'ten_ca_may'=>$this->string()->notNull(),
-            'so_tien'=>$this->integer()->notNull(),
+            'so_tien'=>$this->double()->notNull(),
             'nguoi_tao'=>$this->integer(),
             'thoi_gian_tao'=>$this->datetime(),
            ]);

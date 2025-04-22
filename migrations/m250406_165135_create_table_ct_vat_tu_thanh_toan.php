@@ -17,8 +17,9 @@ class m250406_165135_create_table_ct_vat_tu_thanh_toan extends Migration
             'id_cong_trinh'=>$this->integer()->notNull(),
             'ten_vat_tu'=>$this->string()->notNull(),
             'so_luong'=>$this->integer()->notNull(),
+            'don_vi_tinh'=>$this->string(50),
             'don_gia'=>$this->integer()->notNull(),
-            'thanh_tien'=>$this->integer()->notNull(),
+            'thanh_tien'=>$this->double()->notNull(),
             'nguoi_tao'=>$this->integer(),
             'thoi_gian_tao'=>$this->datetime(),
            ]);
