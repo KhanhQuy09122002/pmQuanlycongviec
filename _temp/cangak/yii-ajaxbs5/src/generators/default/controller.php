@@ -211,16 +211,20 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
                                 Html::button('Lưu lại',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "<?= $modelClass ?>",
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'tcontent'=>'Cập nhật thành công!',
-                    'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Sửa',['update','<?= substr($actionParams,1) ?>'=><?= $actionParams ?>],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
+            	if(Yii::$app->params['showView']){
+                    return [
+                        'forceReload'=>'#crud-datatable-pjax',
+                        'title'=> "<?= $modelClass ?>",
+                        'content'=>$this->renderAjax('view', [
+                            'model' => $model,
+                        ]),
+                        'tcontent'=>'Cập nhật thành công!',
+                        'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
+                                Html::a('Sửa',['update','<?= substr($actionParams,1) ?>'=><?= $actionParams ?>],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    ];    
+                }else{
+                	return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax','tcontent'=>'Cập nhật thành công!',];
+                }
             }else{
                  return [
                     'title'=> "Cập nhật <?= $modelClass ?>",
