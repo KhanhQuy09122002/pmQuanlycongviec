@@ -187,7 +187,7 @@ class VatTuThanhToanController extends Controller
                         
                      ]),
                      
-                     'tcontent'=>'Thêm vật tư thanh toán thành công!',
+                     'tcontent'=>'Cập nhật vật tư thanh toán thành công!',
                  ];    
             }else{
                  return [

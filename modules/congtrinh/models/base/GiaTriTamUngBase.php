@@ -10,7 +10,7 @@ use app\custom\CustomFunc;
  *
  * @property int $id
  * @property int $id_cong_trinh
- * @property int $so_tien
+ * @property double $so_tien
  * @property string $ngay_thang_bao_lanh
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
@@ -34,7 +34,8 @@ class GiaTriTamUngBase extends \app\models\CtGiaTriTamUng
     {
         return [
             [['id_cong_trinh', 'so_tien', 'ngay_thang_bao_lanh'], 'required'],
-            [['id_cong_trinh', 'so_tien', 'nguoi_tao'], 'integer'],
+            [['id_cong_trinh', 'nguoi_tao'], 'integer'],
+            [['so_tien'],'number'],
             [['ngay_thang_bao_lanh', 'thoi_gian_tao'], 'safe'],
             [['id_cong_trinh'], 'exist', 'skipOnError' => true, 'targetClass' => CongTrinh::class, 'targetAttribute' => ['id_cong_trinh' => 'id']],
         ];
@@ -47,11 +48,11 @@ class GiaTriTamUngBase extends \app\models\CtGiaTriTamUng
     {
         return [
             'id' => 'ID',
-            'id_cong_trinh' => 'Id Cong Trinh',
-            'so_tien' => 'So Tien',
-            'ngay_thang_bao_lanh' => 'Ngay Thang Bao Lanh',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'id_cong_trinh' => 'Công trình',
+            'so_tien' => 'Số tiền',
+            'ngay_thang_bao_lanh' => 'Ngày tháng bảo lãnh',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
     public function beforeSave($insert) {

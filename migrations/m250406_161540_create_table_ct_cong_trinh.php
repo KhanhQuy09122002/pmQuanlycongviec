@@ -16,7 +16,7 @@ class m250406_161540_create_table_ct_cong_trinh extends Migration
             'id'=>$this->primaryKey(),
             'ten_cong_trinh'=>$this->string()->notNull(),
             'dia_diem'=>$this->string()->notNull(),
-            'gia_tri_hop_dong'=>$this->integer(),
+            'gia_tri_hop_dong'=>$this->double(),
             'thoi_han_hop_dong_tu_ngay'=>$this->date()->notNull(),
             'thoi_han_hop_dong_den_ngay'=>$this->date()->notNull(),
             'gia_tri_tam_ung'=>$this->integer(),

@@ -51,14 +51,14 @@ class DonHangNhaCungCapBase extends \app\models\NccDonHangNhaCungCap
     {
         return [
             'id' => 'ID',
-            'id_nha_cung_cap' => 'Id Nha Cung Cap',
-            'so_don_hang' => 'So Don Hang',
-            'ngay_dat_hang' => 'Ngay Dat Hang',
-            'tong_tien' => 'Tong Tien',
-            'da_giao_hang' => 'Da Giao Hang',
-            'ngay_giao_hang' => 'Ngay Giao Hang',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'id_nha_cung_cap' => 'Nhà cung cấp',
+            'so_don_hang' => 'Số đơn hàng',
+            'ngay_dat_hang' => 'Ngày đặt hàng',
+            'tong_tien' => 'Tổng tiền',
+            'da_giao_hang' => 'Đã giao hàng',
+            'ngay_giao_hang' => 'Ngày giao hàng',
+            'nguoi_tao' => 'Người giao hàng',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
 

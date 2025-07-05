@@ -21,40 +21,51 @@ $GTTT = $model->giaTriDaThanhToan;
 <table class="table table-bordered table-hover table-striped">
     <thead class="table-light">
         <tr>
-            <th style="width: 40px;">#</th>
-            <th style="width: 100px;">Tên lần thanh toán</th>
-            <th style="width: 100px;">Số tiền</th>
-            <th style="width: 100px;">Thao tác</th>
+            <th style="width: 40px; text-align: center;">#</th>
+
+            <th style="width: 200px; text-align: center;">Tên lần thanh toán</th>
+            <th style="width: 200px; text-align: center;">Số tiền</th>
+            <th style="width: 200px; text-align: center;">Thao tác</th>
         </tr>
     </thead>
     <tbody>
-        <?php if (!empty($GTTT)): ?>
-            <?php foreach ($GTTT as $index => $item): ?>
-                <tr>
-                    <td><?= $index + 1 ?></td>
-                    <td><?=$item->ten_lan_thanh_toan ?></td>
-                    <td style="text-align: left;"><?= number_format($item->so_tien, 0, ',', '.') . ' VNĐ' ?> </td>
-                    <td>
-                    
-                         <?= Html::a('<i class="fa fa-edit"></i> Sửa', 
-                           ['/congtrinh/gia-tri-da-thanh-toan/update', 'id' => $item->id, 'idCT'=>$model->id], 
-                               [
-                                  'class' => 'btn fw-bold btn-warning',
-                                  'style' => 'color: white;',
-                                  'role' => 'modal-remote-2', 
-                                  'title' => 'Sửa'
-                               ]
-                         ) ?>
-        
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
+    <?php if (!empty($GTTT)): ?>
+        <?php 
+            $tongSoTien = 0;
+            foreach ($GTTT as $index => $item): 
+                $tongSoTien += $item->so_tien;
+        ?>
             <tr>
-                <td colspan="6" class="text-center text-muted">Không có dữ liệu.</td>
+                <td style="text-align: center;"><?= $index + 1 ?></td>
+                <td style="text-align: center;"><?= $item->ten_lan_thanh_toan ?></td>
+                <td style="text-align: center;"><?= number_format($item->so_tien, 0, ',', '.') . ' VNĐ' ?> </td>
+                <td style="text-align: center;">
+                    <?= Html::a('<i class="fa fa-edit"></i> Sửa', 
+                        ['/congtrinh/gia-tri-da-thanh-toan/update', 'id' => $item->id, 'idCT'=>$model->id], 
+                        [
+                            'class' => 'btn fw-bold btn-warning',
+                            'style' => 'color: white;',
+                            'role' => 'modal-remote-2', 
+                            'title' => 'Sửa'
+                        ]
+                    ) ?>
+                </td>
             </tr>
-        <?php endif; ?>
-    </tbody>
+        <?php endforeach; ?>
+        <tr>
+            <td colspan="4" style="text-align: right; font-weight: bold;">
+                Tổng: <?= number_format($tongSoTien, 0, ',', '.') . ' VNĐ' ?>
+            </td>
+        </tr>
+    <?php else: ?>
+        <tr>
+            <td colspan="4" class="text-center text-muted">Không có dữ liệu.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
+
+
+
 </table>
 </div>
 

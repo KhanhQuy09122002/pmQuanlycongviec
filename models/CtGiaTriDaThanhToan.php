@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int $id_cong_trinh
- * @property int $so_tien
+ * @property double $so_tien
  * @property string $ten_lan_thanh_toan
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
@@ -33,7 +33,8 @@ class CtGiaTriDaThanhToan extends \yii\db\ActiveRecord
     {
         return [
             [['id_cong_trinh', 'so_tien', 'ten_lan_thanh_toan'], 'required'],
-            [['id_cong_trinh', 'so_tien', 'nguoi_tao'], 'integer'],
+            [['id_cong_trinh', 'nguoi_tao'], 'integer'],
+            [['so_tien'],'number'],
             [['thoi_gian_tao'], 'safe'],
             [['ten_lan_thanh_toan'], 'string', 'max' => 255],
             [['id_cong_trinh'], 'exist', 'skipOnError' => true, 'targetClass' => CtCongTrinh::class, 'targetAttribute' => ['id_cong_trinh' => 'id']],

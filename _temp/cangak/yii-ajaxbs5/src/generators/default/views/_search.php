@@ -32,12 +32,15 @@ use yii\widgets\ActiveForm;
                 'class' => 'myFilterForm'
             ]
       	]); ?>
-
+	<div class="row">
 <?php foreach ($generator->getColumnNames() as $attribute) {
     if (in_array($attribute, $safeAttributes)) {
+        echo "<div class=\"col-md-4\">";
         echo "    <?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
+        echo "</div>";
     }
 } ?>  
+	</div>
 	<?='<?php if (!Yii::$app->request->isAjax){ ?>'."\n"?>
 	  	<div class="form-group">
 	        <?= "<?= " ?>Html::submitButton(<?= $generator->generateString('Tìm kiếm') ?>,['class' => 'btn btn-primary']) ?>

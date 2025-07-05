@@ -63,7 +63,7 @@ return [
         'value' => function ($model) {
             return date('d-m-Y', strtotime($model->thoi_han_hop_dong_tu_ngay));
         },
-        'label' => 'Ngày sản xuất',
+        'label' => 'Hợp đồng từ ngày',
     ],
     [
         'class' => '\kartik\grid\DataColumn',
@@ -71,7 +71,7 @@ return [
         'value' => function ($model) {
             return date('d-m-Y', strtotime($model->thoi_han_hop_dong_den_ngay));
         },
-        'label' => 'Ngày sản xuất',
+        'label' => 'Hợp đồng đến ngày',
     ],
     [
         'class' => '\kartik\grid\DataColumn',

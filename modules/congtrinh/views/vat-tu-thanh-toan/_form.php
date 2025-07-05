@@ -16,6 +16,9 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'ten_vat_tu')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-4">
+            <?= $form->field($model, 'don_vi_tinh')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-4">
             <?= $form->field($model, 'so_luong')->textInput(['id' => 'so-luong']) ?>
         </div>
         <div class="col-md-4">

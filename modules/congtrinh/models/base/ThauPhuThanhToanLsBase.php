@@ -11,7 +11,7 @@ use app\custom\CustomFunc;
  * @property int $id
  * @property int $id_thau_phu_thanh_toan
  * @property string $ngay_thanh_toan
- * @property int $so_tien
+ * @property double $so_tien
  * @property string|null $ghi_chu
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
@@ -35,7 +35,8 @@ class ThauPhuThanhToanLsBase extends \app\models\CtThauPhuThanhToanLichSu
     {
         return [
             [['id_thau_phu_thanh_toan', 'ngay_thanh_toan', 'so_tien'], 'required'],
-            [['id_thau_phu_thanh_toan', 'so_tien', 'nguoi_tao'], 'integer'],
+            [['id_thau_phu_thanh_toan', 'nguoi_tao'], 'integer'],
+            [['so_tien'],'number'],
             [['ngay_thanh_toan', 'thoi_gian_tao'], 'safe'],
             [['ghi_chu'], 'string'],
             [['id_thau_phu_thanh_toan'], 'exist', 'skipOnError' => true, 'targetClass' => ThauPhuThanhToan::class, 'targetAttribute' => ['id_thau_phu_thanh_toan' => 'id']],
@@ -49,12 +50,12 @@ class ThauPhuThanhToanLsBase extends \app\models\CtThauPhuThanhToanLichSu
     {
         return [
             'id' => 'ID',
-            'id_thau_phu_thanh_toan' => 'Id Thau Phu Thanh Toan',
-            'ngay_thanh_toan' => 'Ngay Thanh Toan',
-            'so_tien' => 'So Tien',
-            'ghi_chu' => 'Ghi Chu',
-            'nguoi_tao' => 'Nguoi Tao',
-            'thoi_gian_tao' => 'Thoi Gian Tao',
+            'id_thau_phu_thanh_toan' => 'Tên công việc',
+            'ngay_thanh_toan' => 'Ngày thanh toán',
+            'so_tien' => 'Số tiền',
+            'ghi_chu' => 'Ghi chú',
+            'nguoi_tao' => 'Người tạo',
+            'thoi_gian_tao' => 'Thời gian tạo',
         ];
     }
 

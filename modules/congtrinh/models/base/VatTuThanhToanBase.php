@@ -10,9 +10,10 @@ use app\modules\congtrinh\models\CongTrinh;
  * @property int $id
  * @property int $id_cong_trinh
  * @property string $ten_vat_tu
+* @property string $don_vi_tinh
  * @property int $so_luong
  * @property int $don_gia
- * @property int $thanh_tien
+ * @property double $thanh_tien
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
  *
@@ -35,9 +36,11 @@ class VatTuThanhToanBase extends \app\models\CtVatTuThanhToan
     {
         return [
             [['id_cong_trinh', 'ten_vat_tu', 'so_luong', 'don_gia', 'thanh_tien'], 'required'],
-            [['id_cong_trinh', 'so_luong', 'don_gia', 'thanh_tien', 'nguoi_tao'], 'integer'],
+            [['id_cong_trinh', 'so_luong', 'don_gia', 'nguoi_tao'], 'integer'],
+            [['thanh_tien'],'number'],
             [['thoi_gian_tao'], 'safe'],
             [['ten_vat_tu'], 'string', 'max' => 255],
+            [['don_vi_tinh'], 'string', 'max' => 50],
             [['id_cong_trinh'], 'exist', 'skipOnError' => true, 'targetClass' => CongTrinh::class, 'targetAttribute' => ['id_cong_trinh' => 'id']],
         ];
     }
@@ -54,6 +57,7 @@ class VatTuThanhToanBase extends \app\models\CtVatTuThanhToan
             'so_luong' => 'Số lượng',
             'don_gia' => 'Đơn giá',
             'thanh_tien' => 'Thành tiền',
+            'don_vi_tinh'=>'Đơn vị tính',
             'nguoi_tao' => 'Người tạo',
             'thoi_gian_tao' => 'Thời gian tạo',
         ];

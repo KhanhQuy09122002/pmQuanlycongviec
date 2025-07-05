@@ -11,7 +11,7 @@ use app\custom\CustomFunc;
  * @property int $id
  * @property int $id_nhan_cong_thanh_toan
  * @property string $ngay_thanh_toan
- * @property int $so_tien
+ * @property double $so_tien
  * @property string|null $ghi_chu
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
@@ -35,7 +35,8 @@ class NhanCongThanhToanLsBase extends \app\models\CtNhanCongThanhToanLichSu
     {
         return [
             [['id_nhan_cong_thanh_toan', 'ngay_thanh_toan', 'so_tien'], 'required'],
-            [['id_nhan_cong_thanh_toan', 'so_tien', 'nguoi_tao'], 'integer'],
+            [['id_nhan_cong_thanh_toan', 'nguoi_tao'], 'integer'],
+            [['so_tien'],'number'],
             [['ngay_thanh_toan', 'thoi_gian_tao'], 'safe'],
             [['ghi_chu'], 'string'],
             [['id_nhan_cong_thanh_toan'], 'exist', 'skipOnError' => true, 'targetClass' => NhanCongThanhToan::class, 'targetAttribute' => ['id_nhan_cong_thanh_toan' => 'id']],

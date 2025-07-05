@@ -20,7 +20,7 @@ use Yii;
  * @property NccCongNoNhaCungCap[] $nccCongNoNhaCungCaps
  * @property NccDonHangNhaCungCap[] $nccDonHangNhaCungCaps
  */
-class NhaCungCapBase extends \app\models\NccNhacungCap 
+class NhaCungCapBase extends \app\models\NccNhaCungCap 
 {
     /**
      * {@inheritdoc}

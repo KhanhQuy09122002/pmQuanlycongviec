@@ -16,7 +16,7 @@ class m250406_170703_create_table_ct_nhan_cong_thanh_toan_ls extends Migration
             'id'=>$this->primaryKey(),
             'id_nhan_cong_thanh_toan'=>$this->integer()->notNull(),
             'ngay_thanh_toan'=>$this->date()->notNull(),
-            'so_tien'=>$this->integer()->notNull(),
+            'so_tien'=>$this->double()->notNull(),
             'ghi_chu'=>$this->text(),
             'nguoi_tao'=>$this->integer(),
             'thoi_gian_tao'=>$this->datetime(),

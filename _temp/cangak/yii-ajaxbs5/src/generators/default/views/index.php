@@ -21,7 +21,6 @@ use kartik\grid\GridView;
 use cangak\ajaxcrud\CrudAsset; 
 use cangak\ajaxcrud\BulkButtonWidget;
 use yii\widgets\Pjax;
-use app\widgets\FilterFormWidget;
 
 /* @var $this yii\web\View */
 <?= !empty($generator->searchModelClass) ? "/* @var \$searchModel " . ltrim($generator->searchModelClass, '\\') . " */\n" : '' ?>
@@ -29,13 +28,27 @@ use app\widgets\FilterFormWidget;
 
 $this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>;
 $this->params['breadcrumbs'][] = $this->title;
-
-CrudAsset::register($this);
-
 Yii::$app->params['showSearch'] = true;
-Yii::$app->params['showExport'] = true;
+Yii::$app->params['showView'] = true;
+//CrudAsset::register($this);
 
 ?>
+<?='<?php if(Yii::$app->params[\'showSearch\']):?>'?>
+<div class="card border-default" id="divFilterExtend">
+	<div class="card-header rounded-bottom-0 card-header text-dark" id="simple">
+		<h5 class="mt-2"><i class="fe fe-search"></i> Tìm kiếm</h5>
+	</div>
+	<div class="card-body">
+		<div class="expanel expanel-default">
+			<div class="expanel-body">
+				<?= '<?php 
+                    echo $this->render("_search", ["model" => $searchModel]);
+                ?>' ?>
+			</div>
+		</div>
+	</div>
+</div>
+<?="<?php endif; ?>"?>
 
 <?="<?php Pjax::begin([
     'id'=>'myGrid',
@@ -53,38 +66,53 @@ Yii::$app->params['showExport'] = true;
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="fas fa fa-plus" aria-hidden="true"></i> Thêm mới', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Thêm mới <?= Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>','class'=>'btn btn-outline-primary']).
+                    '
+                    <div class="dropdown">
+						<button aria-expanded="false" aria-haspopup="true" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button"><i class="fa fa-navicon"></i></button>
+						<div class="dropdown-menu tx-13" style="">
+							<h6 class="dropdown-header tx-uppercase tx-11 tx-bold bg-info tx-spacing-1">
+								Chọn chức năng</h6>'
+                    .
+                    Html::a('<i class="fas fa fa-plus" aria-hiddi="true"></i> Thêm mới', ['create'],
+                        ['role'=>'modal-remote','title'=> 'Thêm mới','class'=>'dropdown-item'])
+                    .
                     Html::a('<i class="fas fa fa-sync" aria-hidden="true"></i> Tải lại', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-outline-primary', 'title'=>'Tải lại']).
-                    //'{toggleData}'.
+                        ['data-pjax'=>1, 'class'=>'dropdown-item', 'title'=>'Tải lại'])
+                    .
+                    Html::a('<i class="fas fa fa-trash" aria-hidden="true"></i>&nbsp; Xóa danh sách',
+                        ["bulkdelete"],
+                        [
+                            'class'=>'dropdown-item text-secondary',
+                            'role'=>'modal-remote-bulk',
+                            'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                            'data-request-method'=>'post',
+                            'data-confirm-title'=>'Xác nhận xóa?',
+                            'data-confirm-message'=>'Bạn có chắc muốn xóa?'
+                        ])
+                    .
+                    '
+						</div>
+					</div>
+                    '.
                     '{export}'
                 ],
-            ],          
+            ],             
             'striped' => false,
             'condensed' => true,
-            'responsive' => true,
-            'panelHeadingTemplate'=>'{title}',
-            'panelFooterTemplate'=>'{summary}',
-            'summary'=>'Hiển thị dữ liệu {count}/{totalCount}, Trang {page}/{pageCount}',          
+            'responsive' => false,
+            'panelHeadingTemplate'=>'<div style="width:100%;"><div class="float-start mt-2 text-primary">{title}</div> <div class="float-end">{toolbar}</div></div>',
+            'panelFooterTemplate'=>'<div style="width:100%;"><div class="float-start">{summary}</div><div class="float-end">{pager}</div></div>',
+            'summary'=>'Tổng: {totalCount} dòng dữ liệu',
             'panel' => [
-                //'type' => 'primary', 
-                'heading' => '<i class="fas fa fa-list" aria-hidden="true"></i> Danh sách',
-                'before'=>'<em>* Danh sách <?= Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?></em>',
-                'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="fas fa fa-trash" aria-hidden="true"></i>&nbsp; Xóa đã chọn',
-                                ["bulkdelete"] ,
-                                [
-                                    'class'=>'btn ripple btn-secondary',
-                                    'role'=>'modal-remote-bulk',
-                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                    'data-request-method'=>'post',
-                                    'data-confirm-title'=>'Xác nhận xóa?',
-                                    'data-confirm-message'=>'Bạn có chắc muốn xóa?'
-                                ]),
-                        ]).                        
-                        '<div class="clearfix"></div>',
-            ]
+                'headingOptions'=>['class'=>'card-header rounded-bottom-0 card-header text-dark'],
+                'heading' => '<i class="typcn typcn-folder-open"></i> DANH SÁCH <?= Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>',
+                'before'=>false,
+            ],
+            'export'=>[
+                'options' => [
+                    'class' => 'btn'
+                ]
+            ]          
         ])<?="?>\n"?>
     </div>
 </div>
@@ -106,8 +134,3 @@ Yii::$app->params['showExport'] = true;
 
 <?='<?php Modal::end(); ?>'?>
 <?= "\n" ?>
-
-<?='<?php
-    $searchContent = $this->render("_search", ["model" => $searchModel]);
-    echo FilterFormWidget::widget(["content"=>$searchContent, "description"=>"Nhập thông tin tìm kiếm."]) 
-?>'?>

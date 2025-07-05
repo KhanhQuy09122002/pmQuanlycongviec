@@ -10,7 +10,7 @@ use app\modules\congtrinh\models\CongTrinh;
  * @property int $id
  * @property int $id_cong_trinh
  * @property string $ten_chi_phi
- * @property int $so_tien
+ * @property double $so_tien
  * @property string|null $ghi_chu
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
@@ -34,7 +34,8 @@ class ChiPhiKhacThanhToanBase extends \app\models\CtChiPhiKhacThanhToan
     {
         return [
             [['id_cong_trinh', 'ten_chi_phi', 'so_tien'], 'required'],
-            [['id_cong_trinh', 'so_tien', 'nguoi_tao'], 'integer'],
+            [['id_cong_trinh', 'nguoi_tao'], 'integer'],
+            [['so_tien'],'number'],
             [['ghi_chu'], 'string'],
             [['thoi_gian_tao'], 'safe'],
             [['ten_chi_phi'], 'string', 'max' => 255],

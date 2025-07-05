@@ -15,7 +15,7 @@ class m250406_164732_create_table_ct_gia_tri_da_thanh_toan extends Migration
         $this->createTable('ct_gia_tri_da_thanh_toan',[
             'id'=>$this->primaryKey(),
             'id_cong_trinh'=>$this->integer()->notNull(),
-            'so_tien'=>$this->integer()->notNull(),
+            'so_tien'=>$this->double()->notNull(),
             'ten_lan_thanh_toan'=>$this->string()->notNull(),
             'nguoi_tao'=>$this->integer(),
             'thoi_gian_tao'=>$this->datetime(),

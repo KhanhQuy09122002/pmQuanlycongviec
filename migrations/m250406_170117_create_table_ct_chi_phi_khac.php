@@ -16,7 +16,7 @@ class m250406_170117_create_table_ct_chi_phi_khac extends Migration
             'id'=>$this->primaryKey(),
             'id_cong_trinh'=>$this->integer()->notNull(),
             'ten_chi_phi'=>$this->string()->notNull(),
-            'so_tien'=>$this->integer()->notNull(),
+            'so_tien'=>$this->double()->notNull(),
             'ghi_chu'=>$this->text(),
             'nguoi_tao'=>$this->integer(),
             'thoi_gian_tao'=>$this->datetime(),
