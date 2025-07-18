@@ -39,7 +39,7 @@ $congNos = $model->donHang;
                     <td><?= $index + 1 ?></td>
                     <td><?= ucfirst($item->so_don_hang) ?></td>
                     <td><?= date('d/m/Y', strtotime($item->ngay_dat_hang)) ?></td>
-                    <td style="text-align: right;"><?= number_format($item->tong_tien, 0, ',', '.') ?></td>
+                    <td style="text-align: right;"><?php // number_format($item->tong_tien, 0, ',', '.') ?></td>
                     <td><?= ucfirst($item->da_giao_hang) ?></td>
                    
                     <td>

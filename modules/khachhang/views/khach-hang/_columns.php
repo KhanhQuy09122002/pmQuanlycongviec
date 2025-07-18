@@ -51,6 +51,13 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'id_loai_khach_hang',
+        'value'=>function($model){
+            return $model->loaiKhachHang?$model->loaiKhachHang->ten_loai_khach_hang:'';
+        }
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ho_ten',
     ],
     [

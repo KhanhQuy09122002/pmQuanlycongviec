@@ -304,6 +304,18 @@ function ModalRemote(modalId) {
             funcGv(response.functionResponse2);
         }
       */
+	 
+	 	if(response.runFunc == true){
+			if(response.runFuncVal1 != undefined && response.runFuncVal2 != undefined){
+				runFunc(response.runFuncVal1, response.runFuncVal2);
+			} else if(response.runFuncVal1 != undefined && response.runFuncVal2 == undefined){
+				runFunc(response.runFuncVal1);
+			} else {
+				runFunc();
+			}
+			//return;
+		}
+			
         if (response.excuteFunctionDay !== undefined && response.excuteFunctionDay) {
             funcUploadDay(response.functionResponseDay);
         }
@@ -432,7 +444,6 @@ function ModalRemote(modalId) {
                 this.hide();
             }
         );
-
     }
 
     /**

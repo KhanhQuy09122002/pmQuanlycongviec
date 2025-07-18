@@ -15,17 +15,17 @@ table,tr,td{
 	vertical-align: top;
 }
 #table-top tr td:first-child{
-	width: 30%;
+	width: 20%;
 }
-/*#table-top tr td:nth-child(2){
+#table-top tr td:nth-child(2){
 	width: 60%;
 	text-align: left;
-	padding-top:10px;
-}*/
+	padding-top:0px;
+}
 #table-top tr td:last-child{
-	width: 70%;
+	width: 20%;
 	text-align: left;
-	padding-top: 10px;
+	padding-top: 0px;
 }
 
 
@@ -85,7 +85,7 @@ table,tr,td{
 }
 
 #table-info{
-	font-size: 13pt;
+	font-size: 11pt;
 }
 #table-info tr td{
 	vertical-align: top;
@@ -98,7 +98,7 @@ table,tr,td{
 }
 
 #table-content{
-	font-size: 13pt;
+	font-size: 11pt;
 }
 #table-content, #table-content th, #table-content td {
   border: 1px solid black;
@@ -137,7 +137,7 @@ table,tr,td{
 	font-weight: bold;
 }
 #table-ky-ten tr:nth-child(2){
-	font-style: italic;
+	/*font-style: italic;*/
 }
 
 

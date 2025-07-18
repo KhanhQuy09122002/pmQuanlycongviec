@@ -1,5 +1,7 @@
 <?php
 use yii\helpers\Url;
+use app\custom\CustomFunc;
+use yii\helpers\Html;
 
 return [
     [
@@ -9,7 +11,7 @@ return [
     [
         'class' => 'kartik\grid\ActionColumn',
         'header'=>'',
-        'template' => '{view} {update} {delete}',
+        'template' => '{view} {nhapHang} {xuatHang} {update} {delete}',
         'dropdown' => true,
         'dropdownOptions' => ['class' => 'float-right'],
         'dropdownButton'=>[
@@ -19,8 +21,39 @@ return [
         'vAlign'=>'middle',
         'width' => '20px',
         'urlCreator' => function($action, $model, $key, $index) {
-        return Url::to([$action,'id'=>$key]);
+            if ($action === 'nhapHang') {
+                return Url::to(['ton-kho/nhap-kho-le', 'id' => $key]);
+            }
+            if ($action === 'xuatHang') {
+                return Url::to(['ton-kho/xuat-kho-le', 'id' => $key]);
+            }
+        	return Url::to([$action,'id'=>$key]);
         },
+        'visibleButtons' => [
+            'view' => function ($model, $key, $index) {
+                return Yii::$app->params['showView'];
+            },
+        ],
+        'buttons' => [
+            'nhapHang' => function ($url, $model, $key) {
+                return Html::a('<i class="fa fa-cart-arrow-down"></i> Nhập kho lẻ', $url, [
+                    'title' => 'Nhập kho',
+                    'role' => 'modal-remote',
+                    'class' => 'btn ripple btn-warning dropdown-item',
+                    'data-bs-placement' => 'top',
+                    'data-bs-toggle' => 'tooltip',
+                ]);
+            },
+            'xuatHang' => function ($url, $model, $key) {
+                return Html::a('<i class="fa fa-cart-arrow-down"></i> Xuất kho lẻ', $url, [
+                    'title' => 'Xuất kho',
+                    'role' => 'modal-remote',
+                    'class' => 'btn ripple btn-warning dropdown-item',
+                    'data-bs-placement' => 'top',
+                    'data-bs-toggle' => 'tooltip',
+                ]);
+            },
+        ],
         'viewOptions'=>['role'=>'modal-remote','title'=>'View','title'=>'Xem',
                'class'=>'btn ripple btn-primary btn-sm',
               'data-bs-placement'=>'top',
@@ -50,32 +83,64 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'ten_hang_hoa',
+        'attribute'=>'id_loai_hang_hoa',
+        'value'=>function($model){
+            return $model->loaiHangHoa->ten_loai_hang_hoa;
+        }
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ma_hang_hoa',
     ],
     [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'ngay_san_xuat',
-        'value' => function ($model) {
-            return date('d-m-Y', strtotime($model->ngay_san_xuat));
-        },
-        'label' => 'Ngày sản xuất',
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'ten_hang_hoa',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'so_luong_ton_kho',
+        'attribute'=>'ngay_san_xuat',
+        'value'=>function($model){
+            return CustomFunc::convertYMDToDMY($model->ngay_san_xuat);
+        },
+        'contentOptions' => ['style' => 'text-align:center'],
     ],
     [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'don_gia',
-        'value' => function ($model) {
-            return number_format($model->don_gia, 0, ',', '.') . ' VNĐ';
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'so_luong',
+        'value'=>function($model){
+            return $model->co_ton_kho ? number_format($model->so_luong) : '-';
         },
-        'format' => 'raw', 
+        'contentOptions' => ['style' => 'text-align:right'],
     ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'don_gia',
+        'value'=>function($model){
+            return number_format($model->don_gia);
+        },
+        'contentOptions' => ['style' => 'text-align:right'],
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'dvt',
+        'value'=>function($model){
+            return $model->donViTinh->ten_dvt;
+        },
+        'contentOptions' => ['style' => 'text-align:center'],
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'co_ton_kho',
+        'format'=>'html',
+        'value'=>function($model){
+            return $model->co_ton_kho ? '<i class="text-primary ion-checkmark-round"></i>' : '';
+        },
+        'contentOptions' => ['style' => 'text-align:center'],
+    ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'xuat_xu',
+    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'ghi_chu',
@@ -88,6 +153,4 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'thoi_gian_tao',
     // ],
-
-
 ];   

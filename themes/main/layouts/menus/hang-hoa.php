@@ -25,8 +25,13 @@
 						<ul class="sidemenu-list">
 							<li class="side-menu__label1"><a href="javascript:void(0)">Danh mục chức năng</a>
 							</li>
-							<li><a href="<?= Yii::getAlias('@web/hanghoa/hang-hoa?menu=hh1') ?>" class="slide-item" data-menu="ct1"><i class="fe fe-file-text"></i> Danh sách hàng hóa</a>
+							<li>
+								<a href="<?= Yii::getAlias('@web/hanghoa/hang-hoa?menu=hh1') ?>" class="slide-item" data-menu="hh1"><i class="fe fe-file-text"></i> Danh sách hàng hóa</a>
 							</li>
+							<li>
+								<a href="<?= Yii::getAlias('@web/hanghoa/loai-hang-hoa?menu=hh2') ?>" class="slide-item" data-menu="hh2"><i class="fe fe-file-text"></i> Loại hàng hóa</a>
+							</li>
+							<li><a href="<?= Yii::getAlias('@web/hanghoa/dvt?menu=bh3') ?>" class="slide-item" data-menu="bh3"><i class="fe fe-file-text"></i> Đơn vị tính</a>
 						</ul>
 						<div class="menutabs-content px-0">
 							<!-- menu tab here -->

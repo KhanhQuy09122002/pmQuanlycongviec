@@ -18,7 +18,7 @@ class KhachHangSearch extends KhachHang
     public function rules()
     {
         return [
-            [['id', 'tong_cong_no', 'da_thanh_toan', 'con_lai', 'nguoi_tao'], 'integer'],
+            [['id', 'id_loai_khach_hang', 'tong_cong_no', 'da_thanh_toan', 'con_lai', 'nguoi_tao'], 'integer'],
             [['ho_ten', 'so_dien_thoai', 'dia_chi', 'thoi_gian_tao'], 'safe'],
         ];
     }
@@ -62,6 +62,7 @@ class KhachHangSearch extends KhachHang
             'con_lai' => $this->con_lai,
             'nguoi_tao' => $this->nguoi_tao,
             'thoi_gian_tao' => $this->thoi_gian_tao,
+            'id_loai_khach_hang' => $this->id_loai_khach_hang
         ]);
 
         $query->andFilterWhere(['like', 'ho_ten', $this->ho_ten])

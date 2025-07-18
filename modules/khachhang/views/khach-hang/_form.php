@@ -1,6 +1,7 @@
 <?php
 use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
+use app\modules\khachhang\models\LoaiKhachHang;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\khachhang\models\KhachHang */
@@ -12,17 +13,19 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
+    	<div class="col-md-4">
+    	 	<?= $form->field($model, 'id_loai_khach_hang')->dropDownList(LoaiKhachHang::getList(), ['prompt'=>'-Tất cả-']) ?>
+    	 </div>
          <div class="col-md-4">
-               <?= $form->field($model, 'ho_ten')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'ho_ten')->textInput(['maxlength' => true]) ?>
          </div>
          <div class="col-md-4">
-               <?= $form->field($model, 'so_dien_thoai')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'so_dien_thoai')->textInput(['maxlength' => true]) ?>
          </div>
-         <div class="col-md-4">
-               <?= $form->field($model, 'dia_chi')->textInput(['maxlength' => true]) ?>
+         <div class="col-md-12">
+            <?= $form->field($model, 'dia_chi')->textarea(['rows' => 3]) ?>
          </div>
-   </div>
-    
+   </div>    
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">

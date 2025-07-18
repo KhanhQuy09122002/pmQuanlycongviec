@@ -40,7 +40,7 @@ use app\modules\user\models\User;
                         
                             <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
                             
-                            
+                             <?= $form->field($model, 'ho_ten')->textInput(['maxlength' => true]) ?>
                         
                             <?php // $form->field($model, 'status')->textInput() ?>
                         

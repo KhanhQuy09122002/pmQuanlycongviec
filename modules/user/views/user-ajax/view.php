@@ -16,9 +16,11 @@ use app\modules\user\models\User;
 				<li><a href="#tab1" class="active" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">
 					Thông tin chung
 				</a></li>
+				<?php /* ?>
 				<li><a href="#tab2" data-bs-toggle="tab" aria-selected="true" role="tab">
 					Lịch sử thay đổi
 				</a></li>
+				<?php */ ?>
 				<!-- <li><a href="#tab28" data-bs-toggle="tab" aria-selected="false" role="tab" class="" tabindex="-1">Tab 4</a></li> -->
 			</ul>
 		</div>
@@ -50,9 +52,11 @@ use app\modules\user\models\User;
             ]) ?>
             </div>
 			
+			<?php /* ?>
 			<div class="tab-pane" id="tab2" role="tabpanel">
-				<?= History::showHistory(KhoLuuTru::MODEL_ID, $model->id) ?>
+				<?php // History::showHistory(KhoLuuTru::MODEL_ID, $model->id) ?>
 			</div>
+			<?php */ ?>
 	</div>
 	</div>
 

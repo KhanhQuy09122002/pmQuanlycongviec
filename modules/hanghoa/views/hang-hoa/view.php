@@ -1,52 +1,34 @@
-<?php
-use yii\helpers\Html;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\hanghoa\models\HangHoa */
-?>
-
-<div class="card shadow-sm">
-    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-        <h5 class="mb-0"><i class="fa fa-box-open"></i> Thông tin hàng hóa</h5>
+<div class="card custom-card">
+    <div class="card-header custom-card-header rounded-bottom-0">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="add-detail-tab" data-bs-toggle="tab" href="#add-detail" role="tab" aria-controls="add-detail" aria-selected="false"style="color: blue;"><i class="fa fa-address-card"></i> Thông tin hàng hóa </a>
+            </li>
+            <?php if($model->co_ton_kho){ ?>
+          	<li class="nav-item" role="presentation">
+                <a class="nav-link" id="add-detail-tab" data-bs-toggle="tab" href="#tabTonKho" role="tab" aria-controls="tabTonKho" aria-selected="false"style="color: blue;"><i class="fa fa-cart-arrow-down"></i> Tồn kho </a>
+            </li>
+            <?php } ?>
+        </ul>
     </div>
-
-    <div class="card-body">
-        <table class="table table-bordered table-striped">
-            <tbody>
-                <tr>
-                    <th style="width: 200px;">Tên hàng hóa</th>
-                    <td><?= Html::encode($model->ten_hang_hoa) ?></td>
-                </tr>
-                <tr>
-                    <th>Mã hàng hóa</th>
-                    <td><?= Html::encode($model->ma_hang_hoa) ?></td>
-                </tr>
-                <tr>
-                    <th>Ngày sản xuất</th>
-                    <td><?= Yii::$app->formatter->asDate($model->ngay_san_xuat, 'php:d/m/Y') ?></td>
-                </tr>
-                <tr>
-                    <th>Số lượng tồn kho</th>
-                    <td><?= number_format($model->so_luong_ton_kho) ?></td>
-                </tr>
-                <tr>
-                    <th>Đơn giá</th>
-                    <td><?= number_format($model->don_gia, 0, ',', '.') ?> ₫</td>
-                </tr>
-                <tr>
-                    <th>Ghi chú</th>
-                    <td><?= nl2br(Html::encode($model->ghi_chu)) ?></td>
-                </tr>
-                <tr>
-                    <th>Người tạo</th>
-                    <td><?= Html::encode($model->nguoiTao ? $model->nguoiTao->username : 'Không rõ') ?></td>
-                </tr>
-                <tr>
-                    <th>Thời gian tạo</th>
-                    <td><?= Yii::$app->formatter->asDatetime($model->thoi_gian_tao, 'php:H:i d/m/Y') ?></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+   <div class="card-body">
+      <div class="skill-tags">
+      
+        <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="add-detail" role="tabpanel" aria-labelledby="add-detail-tab">
+                    <!-- hàng hóa -->
+                    <?= $this->render('view_hang_hoa', ['model' => $model]) ?>
+              </div>
+              <?php if($model->co_ton_kho){ ?>
+               <div class="tab-pane fade show" id="tabTonKho" role="tabpanel" aria-labelledby="tabTonKho-tab">
+                    <!-- tồn kho -->
+                    <?= $this->render('view_ton_kho', [
+                        'model' => $model->getLichSuTonKho()->orderBy(['id'=>SORT_DESC])->all()
+                    ]) ?>
+              </div>
+              <?php } ?>
+        </div>
+        
+      </div>
+   </div>
 </div>
-

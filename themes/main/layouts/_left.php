@@ -16,9 +16,6 @@ use app\modules\user\models\User;
 			</a>
 		</div>
 		
-		
-		
-		
 		<div class="main-sidemenu">
 			<!-- <div class="slide-left disabled" id="slide-left">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24"
@@ -26,9 +23,6 @@ use app\modules\user\models\User;
 					<path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path>
 				</svg>
 			</div> -->
-			
-			
-			
 
 			<ul class="side-menu">
 				<li class="side-item side-item-category" style="background-color:var(--primary-bg-color);padding:15px 20px;color:white;margin-top:-15px"><i class="fa fa-unlock-alt"></i>&nbsp;Xin chào, <?= User::getCurrentUser()->username ?></li>
@@ -43,11 +37,11 @@ use app\modules\user\models\User;
 				
 				<li class="side-item side-item-category">CHỨC NĂNG</li>
 	
-							
 				<?= $this->render('menus/cong-trinh') ?>	
 				<?= $this->render('menus/hang-hoa') ?>
+				<?= $this->render('menus/ban-hang') ?>
 				<?= $this->render('menus/nha-cung-cap') ?>
-				<?= $this->render('menus/khach-hang') ?>
+				<?php // $this->render('menus/khach-hang') ?>
 				<?= $this->render('menus/luong-nhan-vien') ?>
 				<?= $this->render('menus/tai-khoan') ?>		
 				<!-- 

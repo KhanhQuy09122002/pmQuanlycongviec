@@ -1,22 +1,31 @@
 <?php
+use yii\helpers\Url;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Modal;
 use kartik\grid\GridView;
+use cangak\ajaxcrud\CrudAsset; 
+use cangak\ajaxcrud\BulkButtonWidget;
 use yii\widgets\Pjax;
 
-
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\vanban\models\search\VBDenSearch */
+/* @var $searchModel app\modules\hanghoa\models\search\HangHoaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Danh sách hàng hóa';
+$this->title = 'Hàng hóa';
 $this->params['breadcrumbs'][] = $this->title;
-//CrudAsset::register($this);
 Yii::$app->params['showSearch'] = true;
-Yii::$app->params['showExport'] = true;
+Yii::$app->params['showView'] = true;
+//CrudAsset::register($this);
+
 ?>
 
-<div class="card border-default" id="divFilterExtend">
+<style>
+#crud-datatable-togdata-page{
+    border:0px!important;
+}
+</style>
+
+<?php if(Yii::$app->params['showSearch']):?><div class="card border-default" id="divFilterExtend">
 	<div class="card-header rounded-bottom-0 card-header text-dark" id="simple">
 		<h5 class="mt-2"><i class="fe fe-search"></i> Tìm kiếm</h5>
 	</div>
@@ -24,20 +33,19 @@ Yii::$app->params['showExport'] = true;
 		<div class="expanel expanel-default">
 			<div class="expanel-body">
 				<?php 
-                   // echo $this->render("_search", ["model" => $searchModel]);
-                ?>
-			</div>
+                    echo $this->render("_search", ["model" => $searchModel]);
+                ?>			</div>
 		</div>
 	</div>
 </div>
-
+<?php endif; ?>
 <?php Pjax::begin([
     'id'=>'myGrid',
     'timeout' => 10000,
     'formSelector' => '.myFilterForm'
 ]); ?>
 
-<div class="nhan-vien-index">
+<div class="hang-hoa-index">
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
             'id'=>'crud-datatable',
@@ -75,9 +83,10 @@ Yii::$app->params['showExport'] = true;
 						</div>
 					</div>
                     '.
+                    '{toggleData}'.
                     '{export}'
                 ],
-            ],          
+            ],             
             'striped' => false,
             'condensed' => true,
             'responsive' => false,
@@ -86,17 +95,47 @@ Yii::$app->params['showExport'] = true;
             'summary'=>'Tổng: {totalCount} dòng dữ liệu',
             'panel' => [
                 'headingOptions'=>['class'=>'card-header rounded-bottom-0 card-header text-dark'],
-                'heading' => '<i class="typcn typcn-folder-open"></i> DANH SÁCH HÀNG HÓA  ',
+                'heading' => '<i class="typcn typcn-folder-open"></i> DANH SÁCH HÀNG HÓA',
                 'before'=>false,
             ],
             'export'=>[
+                'fontAwesome' => true,
+                'showConfirmAlert' => false,
+                'target' => GridView::TARGET_BLANK, // xuất ra tab mới
+                'filename' => 'ds_hang_hoa_' . date('Y-m-d'), // tên file export mặc định
                 'options' => [
                     'class' => 'btn'
                 ]
-            ]
+            ] ,
+            'exportConfig' => [
+                GridView::EXCEL => [
+                    'label' => 'Xuất Excel',
+                    'filename' => 'ds_hang_hoa_' . date('Y-m-d'),
+                    'options' => ['title' => 'Danh sách hàng hóa'],
+                    'config' => [
+                        'worksheet' => 'Hàng hóa',
+                        'cssFile' => '', // nếu cần
+                    ],
+                ],
+                GridView::PDF => [
+                    'label' => 'Xuất PDF',
+                    'filename' => 'ds_loai_hang_hoa_' . date('Y-m-d'),
+                    'options' => ['title' => 'Danh sách hàng hóa'],
+                    'config' => [
+                        'methods' => [
+                            'SetHeader' => ['DANH SÁCH HÀNG HÓA|DANH SÁCH|Xuất ngày: ' . date("d/m/Y")],
+                            'SetFooter' => ['|Trang {PAGENO}|'],
+                        ],
+                        'options' => [
+                            'title' => 'Danh sách hàng hóa',
+                            'subject' => 'Xuất file PDF',
+                            'keywords' => 'export, pdf,',
+                        ],
+                    ],
+                ],
+            ],         
         ])?>
     </div>
-    
 </div>
 
 <?php Pjax::end(); ?>
@@ -106,11 +145,10 @@ Yii::$app->params['showExport'] = true;
         'id'=>'ajaxCrudModal',
         'tabindex' => false // important for Select2 to work properly
    ],
-   //'dialogOptions'=>['class'=>'modal-lg'],
+   'dialogOptions'=>['class'=>'modal-xl'],
    'closeButton'=>['label'=>'<span aria-hidden=\'true\'>×</span>'],
    'id'=>'ajaxCrudModal',
     'footer'=>'',// always need it for jquery plugin
-    'size'=>Modal::SIZE_EXTRA_LARGE
 ])?>
 
 <?php Modal::end(); ?>
@@ -120,32 +158,10 @@ Yii::$app->params['showExport'] = true;
         'id'=>'ajaxCrudModal2',
         'tabindex' => false // important for Select2 to work properly
    ],
-  // 'dialogOptions'=>['class'=>'modal-lg'],
+   'dialogOptions'=>['class'=>'modal-xs modal-dialog-centered'],
    'closeButton'=>['label'=>'<span aria-hidden=\'true\'>×</span>'],
    'id'=>'ajaxCrudModal2',
-    'footer'=>'',// always need it for jquery plugin
-    'size'=>Modal::SIZE_LARGE
-   // 'size'=>Modal::SIZE_EXTRA_LARGE
-])?>
+   'footer'=>'',// always need it for jquery plugin
+]) ?>
 
 <?php Modal::end(); ?>
-
-<?php
-    /* $searchContent = $this->render("_search", ["model" => $searchModel]);
-    echo FilterFormWidget::widget(["content"=>$searchContent, "description"=>"Nhập thông tin tìm kiếm."])  */
-?>
-<script>
-    $(document).ready(function () {
-    $('#ajaxCrudModal2').on('hidden.bs.modal', function () {
-        if ($('.modal.show').length) {
-            $('body').addClass('modal-open'); 
-        }
-    });
-    $('#ajaxCrudModal2').on('show.bs.modal', function () {
-        $('.modal-backdrop').not(':last').css('z-index', -1); 
-    }).on('hidden.bs.modal', function () {
-        $('.modal-backdrop').not(':last').css('z-index', ''); 
-    });
-    $('#ajaxCrudModal2').appendTo('body');
-});
-</script>

@@ -24,7 +24,7 @@ class ViboonAsset extends AssetBundle
         'assets/css/icons.css',
         'assets/switcher/css/switcher.css',
         'assets/switcher/demo.css',
-        'css/site.css?v=1.3',
+        'css/site.css?v=1.8',
         'assets/fontawesome-free-6.4.0-web/css/all.min.css',
     ];
     public $js = [
@@ -49,13 +49,16 @@ class ViboonAsset extends AssetBundle
         'assets/plugins/owl-carousel/owl.carousel.js',
         'assets/plugins/multislider/multislider.js',
         'assets/js/carousel.js',
+        'js/vue.js',//vuejs
         'js/print-this/printThis.js',
         'js/ModalRemote.js?v=2',
         'js/ajaxcrud.js?v=2',        
-        'js/custom.js?v=1',
+        'js/custom.js?v=2',
         'js/tinymce/tinymce_5.10.7.min.js'
         //'assets/plugins/tabs/jquery.multipurpose_tabcontent.js',
         //'assets/plugins/tabs/tab-content.js'
+        //'js/datatables/datatables.min.css',
+        //'js/datatables/datatables.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

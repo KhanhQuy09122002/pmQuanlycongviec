@@ -59,7 +59,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             			<div class="page-header">
             				<div>
             					<h2 class="main-content-title tx-20 mg-b-5">
-            						<i class="ion-model-s"></i> <?= $this->title ?>
+            						<i class="fa fa-bars"></i> <?= $this->title ?>
             					</h2>
             					<!-- <ol class="breadcrumb">
             						<li class="breadcrumb-item"><a href="javascript:void(0);"><?= Yii::$app->params['moduleID'] ?></a></li>

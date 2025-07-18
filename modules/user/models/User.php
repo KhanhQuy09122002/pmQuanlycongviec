@@ -5,6 +5,15 @@ use yii\helpers\ArrayHelper;
 use PhpParser\Node\Stmt\Expression;
 
 class User extends UserBase{
+    /**
+     * get list nhan vien
+     */
+    public static function getListUsers(){
+        $users = User::find()->all();
+        return ArrayHelper::map($users, 'id', function($model) {
+            return $model->ho_ten . ' (' . $model->username . ')';
+        });
+    }
     
     /**
      * lay danh sach tai khoan chua duoc lien ket voi nhan vien
@@ -14,6 +23,18 @@ class User extends UserBase{
     public function getListUnused($tenMacDinh=NULL){
         
        
+    }
+    /**
+     * lay ho ten cua user by id_user
+     * @param id of user $id
+     * @return string
+     */
+    public static function getHoTenByID($id){
+        $model = User::findOne($id);
+        if($model)
+            return $model->ho_ten;
+        else 
+            return '';
     }
     
     /**

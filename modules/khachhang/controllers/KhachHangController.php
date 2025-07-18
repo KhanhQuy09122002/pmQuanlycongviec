@@ -20,7 +20,7 @@ class KhachHangController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    /* public function behaviors() {
 		return [
 			'access' => [
 				'class' => AccessControl::className(),
@@ -39,6 +39,102 @@ class KhachHangController extends Controller
 				],
 			],
 		];
+	} */
+	
+	public function actionSearch($q = null)
+	{
+	    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+	    
+	    $query = KhachHang::find()
+	    ->select(['id', 'ho_ten AS text']);
+	    if (!empty($q)) {
+	        $query->where(['like', 'ho_ten', $q]);
+	    }
+	    $results = $query->limit(5)->asArray()->all();	    
+	    return $results;
+	}
+	
+	/**
+	 * refresh data in select2 dvt
+	 */
+	public function actionRefreshSelect2($selected){
+	    Yii::$app->response->format = Response::FORMAT_JSON;
+	    //lay list khach hang
+	    $options = array();
+	    $vts = KhachHang::find()->all();
+	    if($vts != null){
+	        foreach ($vts as $indexVt => $vt){
+	            $options[$indexVt]['id'] = $vt->id;
+	            $options[$indexVt]['text'] = $vt->ho_ten;
+	            $options[$indexVt]['selected'] = $vt->id==$selected ? true : false;
+	        }
+	    }
+	    return $options;
+	}
+	
+	/**
+	 * lấy thông tin khách hàng để tự động điền thông tin
+	 * @param int $idkh
+	 * @return string[]|NULL[]|string[]
+	 */
+	public function actionGetKhachHangAjax($idkh){
+	    Yii::$app->response->format = Response::FORMAT_JSON;
+	    $kh = KhachHang::findOne($idkh);
+	    if($kh != null){
+	        return [
+	            'status'=>'success',
+	            'khHoTen' => $kh->ho_ten,
+	            'khSDT' => $kh->so_dien_thoai,
+	            'khDiaChi' => $kh->dia_chi
+	        ];
+	    } else {
+	        return ['status'=>'failed'];
+	    }
+	}
+	
+	/**
+	 * Creates a new DVT model in popup.
+	 * For ajax request will return json object
+	 * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
+	 * @return mixed
+	 */
+	public function actionCreatePopup()
+	{
+	    $request = Yii::$app->request;
+	    $model = new KhachHang();
+	    if($request->isAjax){
+	        Yii::$app->response->format = Response::FORMAT_JSON;
+	        if($request->isGet){
+	            return [
+	                'title'=> "Thêm mới khách hàng",
+	                'content'=>$this->renderAjax('_form', [
+	                    'model' => $model,
+	                ]),
+	                'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
+	                Html::button('Lưu lại',['class'=>'btn btn-primary','type'=>"submit"])
+	            ];
+	        }else if($model->load($request->post()) && $model->save()){
+	            return [
+	                //'forceReload'=>'#crud-datatable-pjax',
+	                'forceClose'=>true,
+	                //'title'=> "Thêm mới Khách hàng",
+	                'runFunc' => true,
+	                'runFuncVal1' => $model->id,
+	                //'content'=>'<span class="text-success">Thêm dữ liệu thành công!</span>',
+	                //'footer'=> Html::a('Create More',['create'],['role'=>'modal-remote']) . '&nbsp;' .
+	                //Html::button('Close',['data-bs-dismiss'=>"modal"])
+	            ];
+	        }else{
+	            return [
+	                'title'=> "Thêm mới khách hàng",
+	                'content'=>$this->renderAjax('create', [
+	                    'model' => $model,
+	                ]),
+	                'footer'=> Html::button('Save',['type'=>"submit"]) . '&nbsp;' .
+	                Html::button('Close',['data-bs-dismiss'=>"modal"])
+	            ];
+	        }
+	    }
 	}
 
     /**

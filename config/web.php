@@ -27,6 +27,9 @@ $config = [
         'hanghoa' => [
             'class' => 'app\modules\hanghoa\HangHoa',
         ],
+        'banhang' => [
+            'class' => 'app\modules\banhang\Module',
+        ],
         'khachhang' => [
             'class' => 'app\modules\khachhang\KhachHang',
         ],

@@ -16,6 +16,12 @@ Yii::$app->params['showSearch'] = true;
 Yii::$app->params['showExport'] = true;
 ?>
 
+<style>
+#crud-datatable-togdata-page{
+    border:0px!important;
+}
+</style>
+
 <div class="card border-default" id="divFilterExtend">
 	<div class="card-header rounded-bottom-0 card-header text-dark" id="simple">
 		<h5 class="mt-2"><i class="fe fe-search"></i> Tìm kiếm</h5>
@@ -75,6 +81,7 @@ Yii::$app->params['showExport'] = true;
 						</div>
 					</div>
                     '.
+                    '{toggleData}'.
                     '{export}'
                 ],
             ],          
@@ -90,10 +97,41 @@ Yii::$app->params['showExport'] = true;
                 'before'=>false,
             ],
             'export'=>[
+                'fontAwesome' => true,
+                'showConfirmAlert' => false,
+                'target' => GridView::TARGET_BLANK, // xuất ra tab mới
+                'filename' => 'ds_khach_hang_' . date('Y-m-d'), // tên file export mặc định
                 'options' => [
                     'class' => 'btn'
                 ]
-            ]
+            ] ,
+            'exportConfig' => [
+                GridView::EXCEL => [
+                    'label' => 'Xuất Excel',
+                    'filename' => 'ds_khach_hang' . date('Y-m-d'),
+                    'options' => ['title' => 'Danh sách khách hàng'],
+                    'config' => [
+                        'worksheet' => 'Khách hàng',
+                        'cssFile' => '', // nếu cần
+                    ],
+                ],
+                GridView::PDF => [
+                    'label' => 'Xuất PDF',
+                    'filename' => 'ds_khach_hang_' . date('Y-m-d'),
+                    'options' => ['title' => 'Danh sách khách hàng'],
+                    'config' => [
+                        'methods' => [
+                            'SetHeader' => ['DANH SÁCH KHÁCH HÀNG  |DANH SÁCH|Xuất ngày: ' . date("d/m/Y")],
+                            'SetFooter' => ['|Trang {PAGENO}|'],
+                        ],
+                        'options' => [
+                            'title' => 'Danh sách khách hàng',
+                            'subject' => 'Xuất file PDF',
+                            'keywords' => 'export, pdf,',
+                        ],
+                    ],
+                ],
+            ],
         ])?>
     </div>
     
