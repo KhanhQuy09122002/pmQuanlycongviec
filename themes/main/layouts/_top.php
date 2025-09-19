@@ -110,7 +110,7 @@ use app\modules\user\models\User;
 						
 						<!-- SETTINGS -->
 						<li class="dropdown d-none d-md-flex mt-1">
-							<a class="nav-link icon" title="Cấu hình tài khoản">
+							<a href="/user/auth/change-own-password" class="nav-link icon" title="Thay đổi mật khẩu">
 								<i class="fe fe-settings floating"></i>
 							</a>
 						</li>

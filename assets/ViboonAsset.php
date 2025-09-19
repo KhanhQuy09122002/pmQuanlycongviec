@@ -24,8 +24,9 @@ class ViboonAsset extends AssetBundle
         'assets/css/icons.css',
         'assets/switcher/css/switcher.css',
         'assets/switcher/demo.css',
-        'css/site.css?v=1.8',
+        'css/site.css?v=1.9',
         'assets/fontawesome-free-6.4.0-web/css/all.min.css',
+        'js/datatables/datatables.min.css',
     ];
     public $js = [
         'assets/plugins/bootstrap/popper.min.js',
@@ -51,10 +52,11 @@ class ViboonAsset extends AssetBundle
         'assets/js/carousel.js',
         'js/vue.js',//vuejs
         'js/print-this/printThis.js',
-        'js/ModalRemote.js?v=2',
+        'js/ModalRemote.js?v=3',
         'js/ajaxcrud.js?v=2',        
         'js/custom.js?v=2',
-        'js/tinymce/tinymce_5.10.7.min.js'
+        'js/tinymce/tinymce_5.10.7.min.js',
+        'js/datatables/datatables.min.js'
         //'assets/plugins/tabs/jquery.multipurpose_tabcontent.js',
         //'assets/plugins/tabs/tab-content.js'
         //'js/datatables/datatables.min.css',

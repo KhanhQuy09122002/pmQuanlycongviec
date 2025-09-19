@@ -22,16 +22,9 @@ class NhaCungCapController extends Controller
      */
     public function behaviors() {
 		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+		    'ghost-access'=> [
+		        'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+		    ],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
@@ -162,7 +155,7 @@ class NhaCungCapController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật NhaCungCap #".$id,
+                    'title'=> "Cập nhật nhà cung cấp",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -172,7 +165,7 @@ class NhaCungCapController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "NhaCungCap #".$id,
+                    'title'=> "Xem nhà cung cấp",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -181,7 +174,7 @@ class NhaCungCapController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Cập nhật NhaCungCap #".$id,
+                    'title'=> "Cập nhật nhà cung cấp",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

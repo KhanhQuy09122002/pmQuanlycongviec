@@ -8,11 +8,11 @@ use app\modules\user\models\User;
 		<div class="app-sidebar__header">
 			<a class="main-logo" href="<?= Yii::getAlias('@web/') ?>">
 				<img src="<?= Yii::getAlias('@web') ?>/assets/images/brand/logo.png" class="desktop-logo desktop-logo-dark"
-					alt="viboonlogo">
-				<img src="<?= Yii::getAlias('@web') ?>/assets/images/brand/logo1.png" class="desktop-logo" alt="viboonlogo">
-				<img src="<?= Yii::getAlias('@web') ?>/assets/images/brand/favicon.png" class="mobile-logo mobile-logo-dark"
-					alt="viboonlogo">
-				<img src="<?= Yii::getAlias('@web') ?>/assets/images/brand/favicon-1.png" class="mobile-logo" alt="viboonlogo">
+					alt="Công ty TNHH VLXD Ba Vũ">
+				<img src="<?= Yii::getAlias('@web') ?>/assets/images/brand/logo1.png" class="desktop-logo" alt="Công ty TNHH VLXD Ba Vũ">
+				<img src="<?= Yii::getAlias('@web') ?>/assets/images/brand/logo_m.png" class="mobile-logo mobile-logo-dark"
+					alt="Công ty TNHH VLXD Ba Vũ">
+				<img src="<?= Yii::getAlias('@web') ?>/assets/images/brand/logo_m_1.png" class="mobile-logo" alt="Công ty TNHH VLXD Ba Vũ">
 			</a>
 		</div>
 		
@@ -38,9 +38,10 @@ use app\modules\user\models\User;
 				<li class="side-item side-item-category">CHỨC NĂNG</li>
 	
 				<?= $this->render('menus/cong-trinh') ?>	
-				<?= $this->render('menus/hang-hoa') ?>
+				
 				<?= $this->render('menus/ban-hang') ?>
-				<?= $this->render('menus/nha-cung-cap') ?>
+				<?= $this->render('menus/hang-hoa') ?>
+				<?php // $this->render('menus/nha-cung-cap') ?>
 				<?php // $this->render('menus/khach-hang') ?>
 				<?= $this->render('menus/luong-nhan-vien') ?>
 				<?= $this->render('menus/tai-khoan') ?>		

@@ -25,14 +25,19 @@ use app\custom\CustomFunc;
         <div class="col-md-6">
             <?= $form->field($model, 'ngay_thang_bao_lanh')->widget(DatePicker::classname(), [
              'options' => [
-             'placeholder' => 'Chọn ngày ...',
-             'value' => $model->ngay_thang_bao_lanh ?: date('d/m/Y'),
-              ],
+                 'placeholder' => 'Chọn ngày ...',
+                 'value' => $model->ngay_thang_bao_lanh,
+             ],
              'pluginOptions' => [
              'autoclose' => true,
              'format' => 'dd/mm/yyyy',
+                 'todayHighlight'=>true,
+                 'todayBtn'=>true
              ]
             ]); ?>
+        </div>
+         <div class="col-md-12">
+              <?= $form->field($model, 'ghi_chu')->textarea(['rows' => 3]) ?>
         </div>
     </div>
 

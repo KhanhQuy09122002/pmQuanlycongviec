@@ -20,18 +20,11 @@ class KhachHangController extends Controller
     /**
      * @inheritdoc
      */
-    /* public function behaviors() {
+    public function behaviors() {
 		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+		    'ghost-access'=> [
+		        'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+		    ],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
@@ -39,18 +32,18 @@ class KhachHangController extends Controller
 				],
 			],
 		];
-	} */
+	}
 	
 	public function actionSearch($q = null)
 	{
 	    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 	    
 	    $query = KhachHang::find()
-	    ->select(['id', 'ho_ten AS text']);
+	       ->select(['id', "CONCAT(ho_ten, ' (', so_dien_thoai , ')') AS text"]);
 	    if (!empty($q)) {
 	        $query->where(['like', 'ho_ten', $q]);
 	    }
-	    $results = $query->limit(5)->asArray()->all();	    
+	    $results = $query->limit(10)->asArray()->all();	    
 	    return $results;
 	}
 	
@@ -258,7 +251,7 @@ class KhachHangController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật KhachHang #".$id,
+                    'title'=> "Cập nhật khách hàng",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -268,7 +261,7 @@ class KhachHangController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "KhachHang #".$id,
+                    'title'=> "Xem khách hàng",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -277,7 +270,7 @@ class KhachHangController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Cập nhật KhachHang #".$id,
+                    'title'=> "Cập nhật khách hàng",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

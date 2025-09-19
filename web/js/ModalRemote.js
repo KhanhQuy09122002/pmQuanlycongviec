@@ -294,6 +294,14 @@ function ModalRemote(modalId) {
          if(typeof response.reloadType !== 'undefined'){
             $(response.reloadBlock).html(response.reloadContent);
 		}
+		
+		if(typeof response.reloadType2 !== 'undefined'){
+            $(response.reloadBlock2).html(response.reloadContent2);
+		}
+		//reload them div sum sau khi reload div chinh
+		if(response.reloadType == 'CT'){
+            $(response.reloadBlockSum).html(response.reloadContentSum);
+		}
         
 		/** process excute function after forceReload */
 		// Close modal if response contains forceClose field

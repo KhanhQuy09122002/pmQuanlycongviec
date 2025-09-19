@@ -12,10 +12,10 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 	
 	<div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12">
         <?= $form->field($model, 'ten_dvt')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-12">
         <?= $form->field($model, 'ghi_chu')->textarea(['rows' => 3]) ?>
         </div>
   

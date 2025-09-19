@@ -17,7 +17,7 @@ use app\modules\user\models\User;
 
     <?php $form = ActiveForm::begin([
         	'id'=>'myFilterForm',
-            'method' => 'post',
+            'method' => 'get',
             'options' => [
                 'class' => 'myFilterForm'
             ]
@@ -136,16 +136,18 @@ use app\modules\user\models\User;
         <div class="col-md-2">
                   <?= $form->field($model, 'nguoi_tao')->dropDownList(User::getListUsers(), 
                       ['prompt'=>'-Tất cả-'])->label('Nhân viên') ?>
-            </div>
+        </div>
+        
+        <div class="col-md-4">
+        	<label>&nbsp;</label>
+        	<div class="form-group">
+    	        <?= Html::submitButton('<i class="fa fa-search"></i> Tìm kiếm',['class' => 'btn btn-sm btn-primary']) ?>
+    	        <?= Html::resetButton('<i class="fa fa-times"></i> Xóa tìm kiếm', ['class' => 'btn btn-sm btn-outline-secondary']) ?>
+    	    </div>
+        </div>
         
         </div>  
 	</div>
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton('Tìm kiếm',['class' => 'btn btn-primary']) ?>
-	        <?= Html::resetButton('Xóa tìm kiếm', ['class' => 'btn btn-outline-secondary']) ?>
-	    </div>
-	<?php } ?>
 
     <?php ActiveForm::end(); ?>
     

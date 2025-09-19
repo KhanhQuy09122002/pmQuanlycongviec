@@ -16,21 +16,23 @@ use app\custom\CustomFunc;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
               <?= $form->field($model, 'ten_cong_trinh')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col-md-4">
-              <?= $form->field($model, 'dia_diem')->textInput(['maxlength' => true]) ?>
+        <div class="col-md-12">
+              <?= $form->field($model, 'dia_diem')->textarea(['rows' => 3]) ?>
         </div>
         <div class="col-md-4">
             <?= $form->field($model, 'thoi_han_hop_dong_tu_ngay')->widget(DatePicker::classname(), [
              'options' => [
              'placeholder' => 'Chọn ngày ...',
-             'value' => $model->thoi_han_hop_dong_tu_ngay ?: date('d/m/Y'),
+             'value' => $model->thoi_han_hop_dong_tu_ngay,
               ],
              'pluginOptions' => [
              'autoclose' => true,
              'format' => 'dd/mm/yyyy',
+                 'todayHighlight'=>true,
+                 'todayBtn'=>true
              ]
             ]); ?>
         </div>
@@ -38,11 +40,13 @@ use app\custom\CustomFunc;
             <?= $form->field($model, 'thoi_han_hop_dong_den_ngay')->widget(DatePicker::classname(), [
              'options' => [
              'placeholder' => 'Chọn ngày ...',
-             'value' => $model->thoi_han_hop_dong_den_ngay ?: date('d/m/Y'),
+             'value' => $model->thoi_han_hop_dong_den_ngay,
               ],
              'pluginOptions' => [
              'autoclose' => true,
              'format' => 'dd/mm/yyyy',
+                 'todayHighlight'=>true,
+                 'todayBtn'=>true
              ]
             ]); ?>
         </div>

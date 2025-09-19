@@ -22,16 +22,9 @@ class ThauPhuThanhToanController extends Controller
      */
     public function behaviors() {
 		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+		    'ghost-access'=> [
+		        'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+		    ],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
@@ -100,7 +93,7 @@ class ThauPhuThanhToanController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Thêm",
+                    'title'=> "Thêm thầu phụ thanh toán",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -113,19 +106,20 @@ class ThauPhuThanhToanController extends Controller
                 if ($model->save()) {
                     return [
                         'forceClose'=>true,   
-                         'reloadType'=>'TPTT',
+                         'reloadType'=>'CT',
                          'reloadBlock'=>'#tpttContent',
-                         'reloadContent'=>$this->renderAjax('_thau_phu_thanh_toan', [
-                            'modelCT'=>$modelCT,
-                            'TPTT' => $modelCT->thauPhuThanhToan  
-                            
+                         'reloadContent'=>$this->renderAjax('list', [
+                            'model'=>$modelCT,
                          ]),
-                         
                          'tcontent'=>'Thêm thầu phụ thanh toán thành công!',
+                        'reloadBlockSum'=>'#dThongKeSum',
+                        'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                            'model'=>$modelCT,
+                        ]),
                      ];  
                 }else{           
                 return [
-                    'title'=> "Create new ThauPhuThanhToan",
+                    'title'=> "Thêm thầu phụ thanh toán",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -168,7 +162,7 @@ class ThauPhuThanhToanController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật ThauPhuThanhToan #".$id,
+                    'title'=> "Cập nhật thầu phụ thanh toán",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -178,19 +172,20 @@ class ThauPhuThanhToanController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceClose'=>true,   
-                     'reloadType'=>'TPTT',
+                     'reloadType'=>'CT',
                      'reloadBlock'=>'#tpttContent',
-                     'reloadContent'=>$this->renderAjax('_thau_phu_thanh_toan', [
-                        'modelCT'=>$modelCT,
-                        'TPTT' => $modelCT->thauPhuThanhToan  
-                        
-                     ]),
-                     
+                     'reloadContent'=>$this->renderAjax('list', [
+                        'model'=>$modelCT
+                     ]),                     
                      'tcontent'=>'Cập nhật thầu phụ thanh toán thành công!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>$modelCT,
+                    ]),
                  ];     
             }else{
                  return [
-                    'title'=> "Update ThauPhuThanhToan #".$id,
+                    'title'=> "Cập nhật thầu phụ thanh toán",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -250,23 +245,40 @@ class ThauPhuThanhToanController extends Controller
     public function actionBulkdelete()
     {        
         $request = Yii::$app->request;
-        $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
-        foreach ( $pks as $pk ) {
-            $model = $this->findModel($pk);
-            $model->delete();
-        }
-
         if($request->isAjax){
+            $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
+            $idct = null;
+            foreach ( $pks as $pk ) {
+                $model = $this->findModel($pk);
+                if($idct === null){
+                    $idct = $model->id_cong_trinh;
+                }
+                $model->delete();
+            }
             /*
-            *   Process for ajax request
-            */
+             *   Process for ajax request
+             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+            $modelCT = CongTrinh::findOne($idct);
+            if($modelCT){
+                return [
+                    'forceClose'=>true,
+                    'reloadType'=>'CT',
+                    'reloadBlock'=>'#tpttContent',
+                    'reloadContent'=>$this->renderAjax('list', [
+                        'model'=>$modelCT
+                    ]), 
+                    'tcontent'=>'Đã xóa thầu phụ thanh toán!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>$modelCT,
+                    ]),
+                ];
+            } else {
+                return [
+                    'tcontent'=>'Có lỗi xảy ra!',
+                ];
+            }
         }
        
     }

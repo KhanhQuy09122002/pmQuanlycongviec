@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\modules\congtrinh\models\CaMayThanhToan;
 
 class SiteController extends Controller
 {
@@ -39,6 +40,17 @@ class SiteController extends Controller
                 'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
             ],
         ];
+    }
+    
+    public function actionAutoCaMay(){
+        for($i=1; $i<=22; $i++){
+            $model = new CaMayThanhToan();
+            $model->id_cong_trinh = 2;
+            $model->ten_ca_may = 'Ca máy test ' . $i;
+            $model->so_tien = 1000000;
+            $model->ghi_chu = 'Ca máy ghi chú ' .$i;
+            $model->save();
+        }
     }
 
     /**

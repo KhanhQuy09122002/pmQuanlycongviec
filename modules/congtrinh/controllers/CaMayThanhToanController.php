@@ -23,16 +23,9 @@ class CaMayThanhToanController extends Controller
      */
     public function behaviors() {
 		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+		    'ghost-access'=> [
+		        'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+		    ],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
@@ -69,12 +62,11 @@ class CaMayThanhToanController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "CaMayThanhToan #".$id,
+                    'title'=> "Xem ca máy",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"])
                 ];    
         }else{
             return $this->render('view', [
@@ -101,7 +93,7 @@ class CaMayThanhToanController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Thêm",
+                    'title'=> "Thêm ca máy",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -114,20 +106,21 @@ class CaMayThanhToanController extends Controller
                 if ($model->save()) {
                     return [
                         'forceClose'=>true,   
-                         'reloadType'=>'CMTT',
+                         'reloadType'=>'CT',
                          'reloadBlock'=>'#cmttContent',
-                         'reloadContent'=>$this->renderAjax('_ca_may_thanh_toan', [
-                            'modelCT'=>$modelCT,
-                            'CMTT' => $modelCT->caMayThanhToan  
-                            
-                         ]),
-                         
-                         'tcontent'=>'Thêm ca máy thanh toántoán thành công!',
+                         'reloadContent'=>$this->renderAjax('list', [
+                            'model'=>$modelCT,                            
+                         ]),                         
+                         'tcontent'=>'Thêm ca máy thanh toán thành công!',
+                        'reloadBlockSum'=>'#dThongKeSum',
+                        'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                            'model'=>$modelCT,
+                        ]),
                      ];  
                 }
                 else{           
                 return [
-                    'title'=> "Create new CaMayThanhToan",
+                    'title'=> "Thêm ca máy",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -170,7 +163,7 @@ class CaMayThanhToanController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật CaMayThanhToan #".$id,
+                    'title'=> 'Cập nhật ca máy',
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -180,19 +173,20 @@ class CaMayThanhToanController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceClose'=>true,   
-                     'reloadType'=>'CMTT',
+                     'reloadType'=>'CT',
                      'reloadBlock'=>'#cmttContent',
-                     'reloadContent'=>$this->renderAjax('_ca_may_thanh_toan', [
-                        'modelCT'=>$modelCT,
-                        'CMTT' => $modelCT->caMayThanhToan  
-                        
-                     ]),
-                     
-                     'tcontent'=>'Cập nhật ca máy thanh toántoán thành công!',
+                     'reloadContent'=>$this->renderAjax('list', [
+                        'model'=>$modelCT,                        
+                     ]),                     
+                     'tcontent'=>'Cập nhật ca máy thanh toán thành công!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>$modelCT,
+                    ]),
                  ];     
             }else{
                  return [
-                    'title'=> "Update CaMayThanhToan #".$id,
+                    'title'=> "Update Xem Ca máy".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -252,23 +246,40 @@ class CaMayThanhToanController extends Controller
     public function actionBulkdelete()
     {        
         $request = Yii::$app->request;
-        $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
-        foreach ( $pks as $pk ) {
-            $model = $this->findModel($pk);
-            $model->delete();
-        }
-
         if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+            $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
+            $idct = null;
+            foreach ( $pks as $pk ) {
+                $model = $this->findModel($pk);
+                if($idct === null){
+                    $idct = $model->id_cong_trinh;
+                }
+                $model->delete();
+            }
+                /*
+                *   Process for ajax request
+                */
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                $modelCT = CongTrinh::findOne($idct);
+                if($modelCT){
+                    return [
+                        'forceClose'=>true,
+                        'reloadType'=>'CT',
+                        'reloadBlock'=>'#cmttContent',
+                        'reloadContent'=>$this->renderAjax('list', [
+                            'model'=>$modelCT,
+                        ]),                        
+                        'tcontent'=>'Đã xóa ca máy thanh toán!',
+                        'reloadBlockSum'=>'#dThongKeSum',
+                        'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                            'model'=>$modelCT,
+                        ]),
+                    ];
+                } else {
+                    return [
+                        'tcontent'=>'Có lỗi xảy ra!',
+                    ];
+                }            
         }
        
     }

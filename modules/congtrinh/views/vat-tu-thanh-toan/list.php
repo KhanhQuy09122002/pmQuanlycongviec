@@ -1,0 +1,135 @@
+<?php
+use yii\helpers\Html;
+use app\custom\CustomFunc;
+use app\modules\user\models\User;
+
+$VTTT = $model->vatTuThanhToan; 
+$itemType = 'vattuthanhtoan';
+?>
+
+<div class="vttt" id="vtttContent">
+<div class="row">
+	<div class="col-md-12">
+    	<h5>VẬT TƯ THANH TOÁN</h5>
+    </div>
+	<div class="col-md-6">
+		 <?= Html::a('<i class="fa fa-plus"></i> Thêm mới', 
+                ['/congtrinh/vat-tu-thanh-toan/create', 'idCT' => $model->id], 
+                [
+                    'class' => 'btn btn-sm fw-bold btn-info',
+                    'style' => 'color: white;',
+                    'role' => 'modal-remote-2', 
+                    'title' => 'Thêm'
+                ]
+            ) ?>
+         <?= Html::a('<i class="fas fa fa-trash" aria-hidden="true"></i>&nbsp; Xóa dữ liệu',
+                        ["/congtrinh/vat-tu-thanh-toan/bulkdelete"],
+                        [
+                            'class'=>'btn btn-sm fw-bold btn-warning',
+                            'role'=>'modal-remote-bulk-2',
+                            'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                            'data-request-method'=>'post',
+                            'data-confirm-title'=>'Xác nhận xóa?',
+                            'data-confirm-message'=>'Bạn có chắc muốn xóa?',
+                            'itemtype'=>$itemType
+                        ]) ?>
+         
+         <div class="dropdown">
+			<button aria-expanded="false" aria-haspopup="true" class="btn ripple btn-info dropdown-toggle" data-bs-toggle="dropdown" type="button">Dropdown Menu<i class="fa fa-caret-down ms-1"></i></button>
+			<div class="dropdown-menu tx-13" style="">
+				<h6 class="dropdown-header tx-uppercase tx-11 tx-bold bg-info tx-spacing-1">
+					Dropdown header</h6>
+				<a class="dropdown-item" href="javascript:void(0);">Action</a> <a class="dropdown-item" href="javascript:void(0);">Another
+					action</a>
+				<a class="dropdown-item" href="javascript:void(0);">Something else here</a>
+				<div class="dropdown-divider"></div><a class="dropdown-item" href="javascript:void(0);">Separated link</a>
+			</div>
+		</div>
+		
+	</div>
+	<div class="col-md-6" style="text-align: right">
+		<span class="sTongTien">Tổng: <?= number_format($model->tongVatTuThanhToan, 0, ',', '.') ?> VND</span>
+	</div>
+</div>
+
+
+<table id="tblVatTuThanhToan" class="table table-bordered table-hover table-striped">
+    <thead class="table-light">
+        <tr>
+        	<th style="width:30px;text-align: center;"><span id="s-all-<?= $itemType ?>" style="cursor:pointer" >All</span>
+                		<span id="us-all-<?= $itemType ?>" style="cursor:pointer;display:none">xAll</span></th>
+            <th style="width: 30px;text-align: center;">STT</th>
+            <th style="width: 300px;text-align: center;">Tên vật tư</th>
+            <th style="width: 100px;text-align: center;">ĐVT</th>
+            <th style="width: 100px;text-align: center;">Số lượng</th>
+            <th style="width: 150px;text-align: center;">Đơn giá</th>
+            <th style="width: 150px;text-align: center;">Thành tiền</th>
+            <th style="width: 100px;text-align: center;">Ngày thanh toán</th>
+            <!-- <th style="width: 200px;text-align: center;">Ghi chú</th>-->
+            <th style="width: 80px;text-align: center;">Người tạo</th>
+            <th style="width: 100px;text-align: center;"></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php if (!empty($VTTT)): ?>
+        <?php 
+            foreach ($VTTT as $index => $item): 
+        ?>
+            <tr>
+            	<td><?= Html::checkbox('selection'.$itemType.'[]', false, ['class'=>'chk'.$itemType,'value'=>$item->id]) ?></td>
+                <td style="text-align: center;"><?= $index + 1 ?></td>
+                <td><?= $item->tenVatTu ?></td>
+                <td><?= $item->donViTinh ?></td>
+                <td style="text-align: right;"><?= $item->so_luong ?></td>
+                <td style="text-align: right;"><?= number_format($item->don_gia, 0, ',', '.') ?> </td>
+                <td style="text-align: right;"><?= number_format($item->thanh_tien, 0, ',', '.') ?> </td>
+                <td style="text-align: center;"><?= CustomFunc::convertYMDToDMY($item->ngay_thanh_toan) ?></td>
+                <!-- <td><?= $item->ghi_chu ?></td>-->
+                <td style="text-align: center;"><?= User::getNguoiTaoName($item->nguoi_tao) ?></td>
+                <td style="text-align: center;">
+                    <?= Html::a('<i class="fa fa-edit"></i>', 
+                        ['/congtrinh/vat-tu-thanh-toan/update', 'id' => $item->id, 'idCT' => $model->id], 
+                        [
+                            'class' => 'btn btn-sm fw-bold btn-warning',
+                            'style' => 'color: white;',
+                            'role' => 'modal-remote-2', 
+                            'title' => 'Sửa'
+                        ]
+                    ) ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        
+    <?php else: ?>
+        
+    <?php endif; ?>
+</tbody>
+
+</table>
+</div>
+
+<script>
+$('#s-all-<?= $itemType ?>').on('click', function(){
+	 $('.chk<?= $itemType ?>').not(":disabled").attr('checked','checked');
+	 $(this).hide();
+	$('#us-all-<?= $itemType ?>').show();
+});
+$('#us-all-<?= $itemType ?>').on('click', function(){
+	 $('.chk<?= $itemType ?>').removeAttr('checked');
+	 $(this).hide();
+	$('#s-all-<?= $itemType ?>').show();
+});
+
+var table = new DataTable('#tblVatTuThanhToan',{
+	//paging: false,
+    pageLength: 20,
+    "language": {
+        "sLengthMenu":    "Hiển thị _MENU_ dòng dữ liệu/trang",
+        "sInfo":          "Hiển thị _START_ - _END_ của _TOTAL_ dữ liệu",
+        "sSearch":        "<i class='fa-solid fa-magnifying-glass'></i>",
+        "emptyTable": "Chưa có dữ liệu",
+        "infoEmpty": ""
+    }
+});
+</script>
+

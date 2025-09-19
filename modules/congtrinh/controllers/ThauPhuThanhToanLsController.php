@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
+use app\modules\congtrinh\models\CongTrinh;
 
 /**
  * ThauPhuThanhToanLsController implements the CRUD actions for ThauPhuThanhToanLs model.
@@ -23,16 +24,9 @@ class ThauPhuThanhToanLsController extends Controller
      */
     public function behaviors() {
 		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+		    'ghost-access'=> [
+		        'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+		    ],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
@@ -101,7 +95,7 @@ class ThauPhuThanhToanLsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Thêm",
+                    'title'=> "Thêm chi tiết thanh toán",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'idCongTrinh'=>$idCongTrinh 
@@ -127,20 +121,28 @@ class ThauPhuThanhToanLsController extends Controller
           }
               return [
                   'forceClose'=>true,   
-                   'reloadType'=>'TPTTLS',
+                   'reloadType'=>'CT',
                    'reloadBlock'=>'#tpttlsContent',
-                   'reloadContent'=>$this->renderAjax('_thau_phu_thanh_toan_ls', [
+                   'reloadContent'=>$this->renderAjax('list', [
                       'idCongTrinh'=>$idCongTrinh,
-                      'dsNCTT'=> $dsTPTT,
+                      /* 'dsNCTT'=> $dsTPTT,
                       'ids'=> $ids,
-                      'TPTTLS'=> $TPTTLS
+                      'TPTTLS'=> $TPTTLS */
                    ]),
-                   
-                   'tcontent'=>'Thêm lS thầu phụ thanh toán thành công!',
+                  'reloadType2'=>'TPTT',
+                  'reloadBlock2'=>'#tpttContent',
+                  'reloadContent2'=>$this->renderAjax('../thau-phu-thanh-toan/list', [
+                      'model'=>CongTrinh::findOne($idCongTrinh)
+                  ]),
+                   'tcontent'=>'Thêm chi tiết thanh toán thành công!',
+                  'reloadBlockSum'=>'#dThongKeSum',
+                  'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                      'model'=>CongTrinh::findOne($idCongTrinh),
+                  ]),
                ];          
           }else{           
                 return [
-                    'title'=> "Create new ThauPhuThanhToanLs",
+                    'title'=> "Thêm chi tiết thanh toán",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'idCongTrinh'=>$idCongTrinh 
@@ -184,7 +186,7 @@ class ThauPhuThanhToanLsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật ThauPhuThanhToanLs #".$id,
+                    'title'=> "Cập nhật chi tiết thanh toán",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'idCongTrinh'=>$idCongTrinh 
@@ -209,20 +211,28 @@ class ThauPhuThanhToanLsController extends Controller
           }
               return [
                   'forceClose'=>true,   
-                   'reloadType'=>'TPTTLS',
-                   'reloadBlock'=>'#tpttlsContent',
-                   'reloadContent'=>$this->renderAjax('_thau_phu_thanh_toan_ls', [
-                      'idCongTrinh'=>$idCongTrinh,
-                      'dsNCTT'=> $dsTPTT,
-                      'ids'=> $ids,
-                      'TPTTLS'=> $TPTTLS
-                   ]),
-                   
-                   'tcontent'=>'Cập nhật lS thầu phụ thanh toán thành công!',
+                  'reloadType'=>'CT',
+                  'reloadBlock'=>'#tpttlsContent',
+                  'reloadContent'=>$this->renderAjax('list', [
+                     'idCongTrinh'=>$idCongTrinh,
+                     /* 'dsNCTT'=> $dsTPTT,
+                     'ids'=> $ids,
+                     'TPTTLS'=> $TPTTLS */
+                  ]),
+                  'reloadType2'=>'TPTT',
+                  'reloadBlock2'=>'#tpttContent',
+                  'reloadContent2'=>$this->renderAjax('../thau-phu-thanh-toan/list', [
+                      'model'=>CongTrinh::findOne($idCongTrinh)
+                  ]),
+                  'tcontent'=>'Cập nhật chi tiết thanh toán thành công!',
+                  'reloadBlockSum'=>'#dThongKeSum',
+                  'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                      'model'=>CongTrinh::findOne($idCongTrinh),
+                  ]),
                ];          
           }else{
                  return [
-                    'title'=> "Update ThauPhuThanhToanLs #".$id,
+                    'title'=> "Cập nhật chi tiết thanh toán",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -282,23 +292,45 @@ class ThauPhuThanhToanLsController extends Controller
     public function actionBulkdelete()
     {        
         $request = Yii::$app->request;
-        $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
-        foreach ( $pks as $pk ) {
-            $model = $this->findModel($pk);
-            $model->delete();
-        }
-
         if($request->isAjax){
+            $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
+            $idct = null;
+            foreach ( $pks as $pk ) {
+                $model = $this->findModel($pk);
+                if($idct === null){
+                    $idct = $model->thauPhuThanhToan->id_cong_trinh;
+                }
+                $model->delete();
+            }
             /*
-            *   Process for ajax request
-            */
+             *   Process for ajax request
+             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+            $modelCT = CongTrinh::findOne($idct);
+            if($modelCT){
+                return [
+                    'forceClose'=>true,
+                    'reloadType'=>'CT',
+                    'reloadBlock'=>'#tpttlsContent',
+                    'reloadContent'=>$this->renderAjax('list', [
+                        'idCongTrinh'=>$idct,
+                    ]), 
+                    'reloadType2'=>'TPTT',
+                    'reloadBlock2'=>'#tpttContent',
+                    'reloadContent2'=>$this->renderAjax('../thau-phu-thanh-toan/list', [
+                        'model'=>$modelCT
+                    ]), 
+                    'tcontent'=>'Đã xóa chi tiết thầu phụ thanh toán!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>$modelCT,
+                    ]),
+                ];
+            } else {
+                return [
+                    'tcontent'=>'Có lỗi xảy ra!',
+                ];
+            }
         }
        
     }

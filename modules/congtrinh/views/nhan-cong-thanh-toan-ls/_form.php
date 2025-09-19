@@ -41,19 +41,21 @@ use app\custom\CustomFunc;
             <?= $form->field($model, 'ngay_thanh_toan')->widget(DatePicker::classname(), [
              'options' => [
              'placeholder' => 'Chọn ngày ...',
-             'value' => $model->ngay_thanh_toan ?: date('d/m/Y'),
+             'value' => $model->ngay_thanh_toan,
               ],
              'pluginOptions' => [
              'autoclose' => true,
              'format' => 'dd/mm/yyyy',
+                 'todayHighlight'=>true,
+                 'todayBtn'=>true
              ]
             ]); ?>
          </div>
          <div class="col-md-4">
                <?= $form->field($model, 'so_tien')->textInput() ?>
          </div>
-         <div class="col-md-4">
-              <?= $form->field($model, 'ghi_chu')->textarea(['rows' => 6]) ?>
+         <div class="col-md-12">
+              <?= $form->field($model, 'ghi_chu')->textarea(['rows' => 3]) ?>
          </div>
     </div>
 

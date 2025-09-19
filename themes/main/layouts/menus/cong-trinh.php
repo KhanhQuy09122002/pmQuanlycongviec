@@ -1,3 +1,7 @@
+<?php
+use app\modules\congtrinh\models\CongTrinh;
+use app\custom\CustomFunc;
+?>
 <li class="slide">
 	<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);">
 		<!-- <span class="side-menu__icon"><i class="fe fe-lock side_menu_img"></i></span> -->
@@ -27,6 +31,12 @@
 							</li>
 							<li><a href="<?= Yii::getAlias('@web/congtrinh/cong-trinh?menu=ct1') ?>" class="slide-item" data-menu="ct1"><i class="fe fe-file-text"></i> Danh sách công trình</a>
 							</li>
+							<?php 
+                        	foreach (CongTrinh::getListGhimMenu() as $iMn=>$ghimMN){
+                        	?>
+                        	<li class="item-remote"><a href="/congtrinh/cong-trinh/view?id=<?= $ghimMN->id ?>" class="slide-item" role="modal-remote"><i class="fe fe-file-text"></i> <?= CustomFunc::getWordsLimit($ghimMN->ten_cong_trinh, 15) ?></a>
+							</li>
+                        	<?php } ?>
 						</ul>
 						<div class="menutabs-content px-0">
 							<!-- menu tab here -->

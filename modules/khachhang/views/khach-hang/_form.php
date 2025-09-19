@@ -13,13 +13,13 @@ use app\modules\khachhang\models\LoaiKhachHang;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
-    	<div class="col-md-4">
+    	<div class="col-md-12">
     	 	<?= $form->field($model, 'id_loai_khach_hang')->dropDownList(LoaiKhachHang::getList(), ['prompt'=>'-Tất cả-']) ?>
     	 </div>
-         <div class="col-md-4">
+         <div class="col-md-12">
             <?= $form->field($model, 'ho_ten')->textInput(['maxlength' => true]) ?>
          </div>
-         <div class="col-md-4">
+         <div class="col-md-12">
             <?= $form->field($model, 'so_dien_thoai')->textInput(['maxlength' => true]) ?>
          </div>
          <div class="col-md-12">

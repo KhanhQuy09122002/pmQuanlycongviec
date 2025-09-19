@@ -73,9 +73,9 @@ class HoaDonBase extends \app\models\KhDonHang
     public static function getDmTrangThaiLabelWithBadge($val){
         $label = '';
         if($val == self::TRANGTHAI_NHAP){
-            $label = '<span class="badge bg-primary">Bản nháp</span>';
+            $label = '<span class="badge bg-warning">Bản nháp</span>';
         }else if($val == self::TRANGTHAI_CHUA_TT){
-            $label = '<span class="badge bg-warning">Chưa thanh toán</span>';
+            $label = '<span class="badge bg-danger">Chưa thanh toán</span>';
         }else if($val == self::TRANGTHAI_DA_TT){
             $label = '<span class="badge bg-success">Đã xuất</span>';
         }
@@ -108,9 +108,9 @@ class HoaDonBase extends \app\models\KhDonHang
     public static function getDmHinhThucThanhToanLabel($val){
         $label = '';
         if($val == self::THANHTOAN_TM){
-            $label = 'Tiền mặt';
+            $label = 'Tiền mặt (TM)';
         }else if($val == self::THANHTOAN_CK){
-            $label = 'Chuyển khoản';
+            $label = 'C. khoản (CK)';
         }
         return $label;
     }    
@@ -180,7 +180,7 @@ class HoaDonBase extends \app\models\KhDonHang
          if($this->so_vao_so != null){
              return /* 'HĐ-' .  */$this->fillNumber($this->so_vao_so) . '/' . $this->namVaoSo;
          } else {
-             return 'BN-' . $this->fillNumber($this->getSoHoaDonCuoi($this->nam) + 1) . '/' . $this->namVaoSo;
+             return 'N-' . $this->fillNumber($this->getSoHoaDonCuoi($this->nam) + 1) . '/' . $this->namVaoSo;
          }
      }
      

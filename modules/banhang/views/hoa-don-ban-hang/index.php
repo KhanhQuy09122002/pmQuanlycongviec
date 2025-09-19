@@ -48,6 +48,7 @@ Yii::$app->params['showView'] = true;
             'dataProvider' => $dataProvider,
             //'filterModel' => $searchModel,
             'pjax'=>true,
+            'showPageSummary' => true,
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
@@ -74,8 +75,23 @@ Yii::$app->params['showView'] = true;
                             'data-confirm-title'=>'Xác nhận xóa?',
                             'data-confirm-message'=>'Bạn có chắc muốn xóa?'
                         ])
-                    .
+                    .'
+						</div>
+					</div>
+                    '.
                     '
+                    <div class="dropdown">
+						<button aria-expanded="false" aria-haspopup="true" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button"><i class="fa fa-line-chart"></i></button>
+						<div class="dropdown-menu tx-13" style="">
+							<h6 class="dropdown-header tx-uppercase tx-11 tx-bold bg-info tx-spacing-1">
+								Chọn chức năng</h6>'
+                    .
+                    Html::a('<i class="fas fa-clipboard-list"></i> Báo cáo bán hàng <br/>(doanh thu theo HĐ)', ['report/rp-theo-ca'],
+                        ['role'=>'modal-remote','title'=> 'Thống kê doanh số','class'=>'dropdown-item'])
+                    .'<li><hr class="dropdown-divider"></li>'
+                    . Html::a('<i class="fas fa-clipboard-list"></i> Báo cáo xuất kho <br/>(doanh thu theo <br/>hàng hóa)', ['report/rp-xuat-kho'],
+                        ['role'=>'modal-remote','title'=> 'Danh sách xuất kho','class'=>'dropdown-item'])
+                    .'
 						</div>
 					</div>
                     '.

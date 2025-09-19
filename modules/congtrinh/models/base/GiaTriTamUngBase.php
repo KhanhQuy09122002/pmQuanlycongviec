@@ -10,8 +10,9 @@ use app\custom\CustomFunc;
  *
  * @property int $id
  * @property int $id_cong_trinh
- * @property double $so_tien
+ * @property float $so_tien
  * @property string $ngay_thang_bao_lanh
+ * @property string|null $ghi_chu
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
  *
@@ -22,20 +23,13 @@ class GiaTriTamUngBase extends \app\models\CtGiaTriTamUng
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
-        return 'ct_gia_tri_tam_ung';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
             [['id_cong_trinh', 'so_tien', 'ngay_thang_bao_lanh'], 'required'],
             [['id_cong_trinh', 'nguoi_tao'], 'integer'],
             [['so_tien'],'number'],
+            [['ghi_chu'], 'string'],
             [['ngay_thang_bao_lanh', 'thoi_gian_tao'], 'safe'],
             [['id_cong_trinh'], 'exist', 'skipOnError' => true, 'targetClass' => CongTrinh::class, 'targetAttribute' => ['id_cong_trinh' => 'id']],
         ];
@@ -51,6 +45,7 @@ class GiaTriTamUngBase extends \app\models\CtGiaTriTamUng
             'id_cong_trinh' => 'Công trình',
             'so_tien' => 'Số tiền',
             'ngay_thang_bao_lanh' => 'Ngày tháng bảo lãnh',
+            'ghi_chu' => 'Ghi chú',
             'nguoi_tao' => 'Người tạo',
             'thoi_gian_tao' => 'Thời gian tạo',
         ];

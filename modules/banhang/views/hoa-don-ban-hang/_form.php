@@ -8,6 +8,7 @@ use app\modules\banhang\models\HoaDon;
 use kartik\date\DatePicker;
 use app\custom\CustomFunc;
 use app\modules\user\models\User;
+use app\widgets\CardWidget;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\banhang\models\HoaDon */
@@ -27,9 +28,24 @@ $model->ngay_giao_hang = CustomFunc::convertYMDToDMY($model->ngay_giao_hang);
 
 <div class="hoa-don-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['action' => $model->isNewRecord?'':['/banhang/hoa-don-ban-hang/update', 'id'=>$model->id]]); ?>
 	
 	<div class="row">
+		<?php if($model->isNewRecord){?>
+		<div class="col-md-12">
+			<div class="alert alert-outline-success" role="alert">
+        	<button aria-label="Close" class="btn-close float-end" data-bs-dismiss="alert" type="button">
+        		<span aria-hidden="true">×</span></button>
+        	<strong><span class="alert-inner--icon d-inline-block me-1"><i class="fe fe-bell"></i></span> Thêm phiếu bán hàng</strong>: 
+        	<ul>
+        		<li><i class="fa fa-angle-double-right mb-2 me-2"></i> Chọn khách hàng.</li>
+        		<li><i class="fa fa-angle-double-right mb-2 me-2"></i> Chọn hình thức thanh toán.</li>
+        		<li><i class="fa fa-angle-double-right mb-2 me-2"></i> Bấm lưu lại để xuất hiện danh sách hàng hóa.</li>
+        	</ul>
+        </div>
+		</div>
+		<?php } ?>
+		
         <div class="col-md-3">
             <?php // $form->field($model, 'id_khach_hang')->textInput() ?>
             <?php 
@@ -76,17 +92,23 @@ $model->ngay_giao_hang = CustomFunc::convertYMDToDMY($model->ngay_giao_hang);
                 ] */
             ])->label(false); ?>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label>Họ tên</label> <br/>
-            <span id="khHoTen" style="font-weight:bold"><?= $model->khachHang ? $model->khachHang->ho_ten : '' ?></span>
+            <?= Html::textInput('ho_ten', 
+                ($model->khachHang ? $model->khachHang->ho_ten : ''), 
+                ['id'=>'khHoTen', 'class'=>'form-control', 'disabled'=>true]) ?>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label>Số điện thoại</label><br/>
-            <span id="khSDT" style="font-weight:bold"><?= $model->khachHang ? $model->khachHang->so_dien_thoai : '' ?></span>
+             <?= Html::textInput('sdt', 
+                ($model->khachHang ? $model->khachHang->so_dien_thoai : ''), 
+                ['id'=>'khSDT', 'class'=>'form-control', 'disabled'=>true]) ?>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-5">
             <label>Địa chỉ</label><br/>
-            <span id="khDiaChi" style="font-weight:bold"><?= $model->khachHang ? $model->khachHang->dia_chi : '' ?></span>
+            <?= Html::textInput('khDiaChi', 
+                ($model->khachHang ? $model->khachHang->dia_chi : ''), 
+                ['id'=>'khDiaChi', 'class'=>'form-control', 'disabled'=>true]) ?>
         </div>
         <!-- <div class="col-md-1">
             <?= $form->field($model, 'so_don_hang')->textInput()->label('SĐH') ?>
@@ -132,7 +154,7 @@ $model->ngay_giao_hang = CustomFunc::convertYMDToDMY($model->ngay_giao_hang);
         <div class="col-md-2">
             <?= $form->field($model, 'hinh_thuc_thanh_toan')->dropDownList(
                 HoaDon::getDmHinhThucThanhToan(),
-                ['prompt'=>'-Chưa chọn-']
+                //['prompt'=>'-Chưa chọn-']
             ) ?>
         </div>
          <!-- 
@@ -250,20 +272,26 @@ $model->ngay_giao_hang = CustomFunc::convertYMDToDMY($model->ngay_giao_hang);
 </div><!-- end #obj -->
 
 <?php if($model->trang_thai=='BAN_NHAP' || $model->edit_mode){ ?>
-<a href="#" onClick="AddVatTu()" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Thêm hàng hóa</a>
+	<a href="#" onClick="AddVatTu()" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Thêm hàng hóa</a>
 <?php } ?>
 
 <a href="#" onClick="InHoaDon()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> In Hóa đơn</a>
 <?php if($model->trang_thai == 'BAN_NHAP') { ?>
-<a class="btn btn-primary btn-sm" href="/banhang/hoa-don-ban-hang/xuat-va-thanh-toan?id=<?= $model->id ?>" role="modal-remote"><i class="fa-solid fa-file-export"></i> Xuất và thanh toán</a>
+	<a class="btn btn-primary btn-sm" href="/banhang/hoa-don-ban-hang/xuat-va-thanh-toan?id=<?= $model->id ?>" role="modal-remote"><i class="fa-solid fa-file-export"></i> Xuất và thanh toán</a>
 <?php } ?>
 
-<?php } //end if isNewRecord ?>
+<?php } else { //end if isNewRecord ?>
+
+<?php CardWidget::begin(['title'=>'CHI TIẾT HÓA ĐƠN']) ?>
+<span class="text-success">Vui lòng lưu thông tin khách hàng để nhập chi tiết hàng hóa!</span>
+<?php CardWidget::end() ?>
+
+<?php }//end else if isNewRecord?>
 
 <div style="display:none">
-<div id="print">
-<?= $this->render('_print_phieu', compact('model')) ?>
-</div>
+	<div id="print">
+		<?= $this->render('_print_phieu', compact('model')) ?>
+	</div>
 </div>
 
     
@@ -293,7 +321,7 @@ var vue1 = new Vue({
 function deleteVatTu(id){
 	$.ajax({
         type: 'post',
-        url: '/banle/hoa-don-chi-tiet/delete-vat-tu?id=' + id,
+        url: '/banhang/hoa-don-chi-tiet/delete-vat-tu?id=' + id,
         //data: frm.serialize(),
         success: function (data) {
             console.log('Submission was successful.');
@@ -579,9 +607,9 @@ function getKhachHangAjax(idkh){
             console.log('Submission was successful.');
             console.log(data);            
             if(data.status == 'success'){
-            	$('#khHoTen').text(data.khHoTen);
-            	$('#khSDT').text(data.khSDT);
-            	$('#khDiaChi').text(data.khDiaChi);
+            	$('#khHoTen').val(data.khHoTen);
+            	$('#khSDT').val(data.khSDT);
+            	$('#khDiaChi').val(data.khDiaChi);
             } else {
             	alert('Thông tin Khách hàng không còn tồn tại trên hệ thống!');
             }
@@ -594,9 +622,9 @@ function getKhachHangAjax(idkh){
 }
 
 function clearInfoKhachHang(){
-	$('#khHoTen').text('');
-	$('#khSDT').text('');
-	$('#khDiaChi').text('');
+	$('#khHoTen').val('');
+	$('#khSDT').val('');
+	$('#khDiaChi').val('');
 }
     	
 $('#khach-hang-dropdown').on("select2:select", function(e) { 

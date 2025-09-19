@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property int $id_nhan_cong_thanh_toan
  * @property string $ngay_thanh_toan
- * @property double $so_tien
+ * @property float $so_tien
  * @property string|null $ghi_chu
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
@@ -19,6 +19,8 @@ use Yii;
  */
 class CtNhanCongThanhToanLichSu extends \yii\db\ActiveRecord
 {
+
+
     /**
      * {@inheritdoc}
      */
@@ -33,10 +35,11 @@ class CtNhanCongThanhToanLichSu extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['ghi_chu', 'nguoi_tao', 'thoi_gian_tao'], 'default', 'value' => null],
             [['id_nhan_cong_thanh_toan', 'ngay_thanh_toan', 'so_tien'], 'required'],
             [['id_nhan_cong_thanh_toan', 'nguoi_tao'], 'integer'],
-            [['so_tien'],'number'],
             [['ngay_thanh_toan', 'thoi_gian_tao'], 'safe'],
+            [['so_tien'], 'number'],
             [['ghi_chu'], 'string'],
             [['id_nhan_cong_thanh_toan'], 'exist', 'skipOnError' => true, 'targetClass' => CtNhanCongThanhToan::class, 'targetAttribute' => ['id_nhan_cong_thanh_toan' => 'id']],
         ];
@@ -67,4 +70,5 @@ class CtNhanCongThanhToanLichSu extends \yii\db\ActiveRecord
     {
         return $this->hasOne(CtNhanCongThanhToan::class, ['id' => 'id_nhan_cong_thanh_toan']);
     }
+
 }

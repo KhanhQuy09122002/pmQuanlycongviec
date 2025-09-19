@@ -23,16 +23,9 @@ class GiaTriThucHienHopDongController extends Controller
      */
     public function behaviors() {
 		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+		    'ghost-access'=> [
+		        'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+		    ],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
@@ -101,7 +94,7 @@ class GiaTriThucHienHopDongController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Thêm GiaTriThucHienHopDong",
+                    'title'=> "Thêm mới",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -114,25 +107,27 @@ class GiaTriThucHienHopDongController extends Controller
                 if ($model->save()) {
                     return [
                         'forceClose'=>true,   
-                         'reloadType'=>'GTTHHD',
+                         'reloadType'=>'CT',
                          'reloadBlock'=>'#gtthhdContent',
-                         'reloadContent'=>$this->renderAjax('_gia_tri_thuc_hien_hop_dong', [
-                            'modelCT'=>$modelCT,
-                            'GTTHHD' => $modelCT->giaTriThucHienHopDong 
-                            
+                         'reloadContent'=>$this->renderAjax('list', [
+                            'model'=>$modelCT,                            
                          ]),
                          
                          'tcontent'=>'Thêm giá trị thực hiện hợp đồng thành công!',
+                        'reloadBlockSum'=>'#dThongKeSum',
+                        'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                            'model'=>$modelCT,
+                        ]),
                      ];  
                 }
             }else{           
                 return [
-                    'title'=> "Create new GiaTriThucHienHopDong",
+                    'title'=> "Thêm mới",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Lưu lạilại',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Lưu lại',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -170,7 +165,7 @@ class GiaTriThucHienHopDongController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật GiaTriThucHienHopDong #".$id,
+                    'title'=> "Cập nhật giá trị thực hiện hợp đồng",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -180,24 +175,26 @@ class GiaTriThucHienHopDongController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceClose'=>true,   
-                     'reloadType'=>'GTTHHD',
+                     'reloadType'=>'CT',
                      'reloadBlock'=>'#gtthhdContent',
-                     'reloadContent'=>$this->renderAjax('_gia_tri_thuc_hien_hop_dong', [
-                        'modelCT'=>$modelCT,
-                        'GTTHHD' => $modelCT->giaTriThucHienHopDong 
-                        
+                     'reloadContent'=>$this->renderAjax('list', [
+                        'model'=>$modelCT,                        
                      ]),
                      
                      'tcontent'=>'Cập nhật giá trị thực hiện hợp đồng thành công!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>$modelCT,
+                    ]),
                  ];    
             }else{
                  return [
-                    'title'=> "Cập nhật GiaTriThucHienHopDong #".$id,
+                    'title'=> "Cập nhật Giá trị thực hiện hợp đồng",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                                Html::button('Lưu lạilại',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Lưu lại',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -250,25 +247,41 @@ class GiaTriThucHienHopDongController extends Controller
      * @return mixed
      */
     public function actionBulkdelete()
-    {        
+    {
         $request = Yii::$app->request;
-        $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
-        foreach ( $pks as $pk ) {
-            $model = $this->findModel($pk);
-            $model->delete();
-        }
-
         if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
+            $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
+            $idct = null;
+            foreach ( $pks as $pk ) {
+                $model = $this->findModel($pk);
+                if($idct === null){
+                    $idct = $model->id_cong_trinh;
+                }
+                $model->delete();
+            }
+
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+            $modelCT = CongTrinh::findOne($idct);
+            if($modelCT){ 
+                return [
+                    'forceClose'=>true,
+                    'reloadType'=>'CT',
+                    'reloadBlock'=>'#gtthhdContent',
+                    'reloadContent'=>$this->renderAjax('list', [
+                        'model'=>$modelCT,
+                    ]),
+                    
+                    'tcontent'=>'Đã xóa giá trị thực hiện hợp đồng!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>$modelCT,
+                    ]),
+                ];
+            } else {
+                return [
+                    'tcontent'=>'Có lỗi xảy ra!',
+                ];
+            }
         }
        
     }

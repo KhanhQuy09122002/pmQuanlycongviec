@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
+use app\modules\congtrinh\models\CongTrinh;
 
 /**
  * NhanCongThanhToanLsController implements the CRUD actions for NhanCongThanhToanLs model.
@@ -23,16 +24,9 @@ class NhanCongThanhToanLsController extends Controller
      */
     public function behaviors() {
 		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+		    'ghost-access'=> [
+		        'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+		    ],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
@@ -101,7 +95,7 @@ class NhanCongThanhToanLsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Thêm",
+                    'title'=> "Thêm nhân công thanh toán",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'idCongTrinh'=>$idCongTrinh 
@@ -127,20 +121,28 @@ class NhanCongThanhToanLsController extends Controller
             }
                 return [
                     'forceClose'=>true,   
-                     'reloadType'=>'NCTTLS',
+                     'reloadType'=>'CT',
                      'reloadBlock'=>'#ncttlsContent',
-                     'reloadContent'=>$this->renderAjax('_nhan_cong_thanh_toan_ls', [
+                     'reloadContent'=>$this->renderAjax('list', [
                         'idCongTrinh'=>$idCongTrinh,
-                        'dsNCTT'=> $dsNCTT,
+                        /* 'dsNCTT'=> $dsNCTT,
                         'ids'=> $ids,
-                        'NCTTLS'=> $NCTTLS
+                        'NCTTLS'=> $NCTTLS */
                      ]),
-                     
+                    'reloadType2'=>'NCTT',
+                    'reloadBlock2'=>'#ncttContent',
+                    'reloadContent2'=>$this->renderAjax('../nhan-cong-thanh-toan/list', [
+                        'model'=>CongTrinh::findOne($idCongTrinh),
+                    ]),
                      'tcontent'=>'Thêm lS nhân công thanh toán thành công!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>CongTrinh::findOne($idCongTrinh),
+                    ]),
                  ];          
             }else{           
                 return [
-                    'title'=> "Create new NhanCongThanhToanLs",
+                    'title'=> "Thêm chi tiết thanh toán nhân công",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'idCongTrinh' => $idCongTrinh
@@ -185,7 +187,7 @@ class NhanCongThanhToanLsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật NhanCongThanhToanLs #".$id,
+                    'title'=> "Cập nhật chi tiết thanh toán nhân công",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'idCongTrinh'=>$idCongTrinh,
@@ -210,20 +212,28 @@ class NhanCongThanhToanLsController extends Controller
              }
                 return [
                     'forceClose'=>true,   
-                     'reloadType'=>'NCTTLS',
+                     'reloadType'=>'CT',
                      'reloadBlock'=>'#ncttlsContent',
-                     'reloadContent'=>$this->renderAjax('_nhan_cong_thanh_toan_ls', [
+                     'reloadContent'=>$this->renderAjax('list', [
                         'idCongTrinh'=>$idCongTrinh,
-                        'dsNCTT'=> $dsNCTT,
+                        /* 'dsNCTT'=> $dsNCTT,
                         'ids'=> $ids,
-                        'NCTTLS'=> $NCTTLS
-                     ]),
-                     
-                     'tcontent'=>'Cập nhật lS nhân công thanh toán thành công!',
+                        'NCTTLS'=> $NCTTLS */
+                     ]),  
+                    'reloadType2'=>'NCTT',
+                    'reloadBlock2'=>'#ncttContent',
+                    'reloadContent2'=>$this->renderAjax('../nhan-cong-thanh-toan/list', [
+                        'model'=>CongTrinh::findOne($idCongTrinh),
+                    ]),
+                     'tcontent'=>'Cập nhật chi tiết thanh toán nhân công thành công!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>CongTrinh::findOne($idCongTrinh),
+                    ]),
                  ];  
             }else{
                  return [
-                    'title'=> "Update NhanCongThanhToanLs #".$id,
+                    'title'=> "Cập nhật chi tiết nhân công thanh toán",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -283,23 +293,48 @@ class NhanCongThanhToanLsController extends Controller
     public function actionBulkdelete()
     {        
         $request = Yii::$app->request;
-        $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
-        foreach ( $pks as $pk ) {
-            $model = $this->findModel($pk);
-            $model->delete();
-        }
-
         if($request->isAjax){
+            $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
+            $idct = null;
+            foreach ( $pks as $pk ) {
+                $model = $this->findModel($pk);
+                if($idct === null){
+                    $idct = $model->nhanCongThanhToan->id_cong_trinh;
+                }
+                $model->delete();
+            }
             /*
-            *   Process for ajax request
-            */
+             *   Process for ajax request
+             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+            $modelCT = CongTrinh::findOne($idct);
+            if($modelCT){
+                return [
+                    'forceClose'=>true,
+                    'reloadType'=>'CT',
+                    'reloadBlock'=>'#ncttlsContent',
+                    'reloadContent'=>$this->renderAjax('list', [
+                        'idCongTrinh'=>$idct,
+                        /* 'dsNCTT'=> $dsNCTT,
+                         'ids'=> $ids,
+                         'NCTTLS'=> $NCTTLS */
+                    ]),
+                    'reloadType2'=>'NCTT',
+                    'reloadBlock2'=>'#ncttContent',
+                    'reloadContent2'=>$this->renderAjax('../nhan-cong-thanh-toan/list', [
+                        'model'=>$modelCT,
+                    ]),
+                    'tcontent'=>'Đã xóa chi tiết nhân công thanh toán!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>$modelCT,
+                    ]),
+                ];
+            } else {
+                return [
+                    'tcontent'=>'Có lỗi xảy ra!',
+                ];
+            }
         }
        
     }

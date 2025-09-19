@@ -91,6 +91,13 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ma_hang_hoa',
+        'value'=>function($model){
+        return Html::a($model->ma_hang_hoa, ['/hanghoa/hang-hoa/view', 'id'=>$model->id], [
+            'role'=>'modal-remote',
+            'class'=>'btn-in-grid'
+        ]);
+        },
+        'format'=>'raw',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

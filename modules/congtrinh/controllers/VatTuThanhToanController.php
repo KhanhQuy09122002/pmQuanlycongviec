@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
+use app\modules\hanghoa\models\HangHoa;
 
 /**
  * VatTuThanhToanController implements the CRUD actions for VatTuThanhToan model.
@@ -23,16 +24,9 @@ class VatTuThanhToanController extends Controller
      */
     public function behaviors() {
 		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+		    'ghost-access'=> [
+		        'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+		    ],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
@@ -40,6 +34,26 @@ class VatTuThanhToanController extends Controller
 				],
 			],
 		];
+	}
+	
+	/**
+	 * lấy thông tin vật tư để tự động điền thông tin
+	 * @param int $idkh
+	 * @return string[]|NULL[]|string[]
+	 */
+	public function actionGetVatTuAjax($idvt){
+	    Yii::$app->response->format = Response::FORMAT_JSON;
+	    $vt = HangHoa::findOne($idvt);
+	    if($vt != null){
+	        return [
+	            'status'=>'success',
+	            'vtTenVatTu' => $vt->ten_hang_hoa,
+	            'vtDonViTinh' => $vt->donViTinh?$vt->donViTinh->ten_dvt:'',
+	            'vtDonGia' => $vt->don_gia
+	        ];
+	    } else {
+	        return ['status'=>'failed'];
+	    }
 	}
 
     /**
@@ -101,7 +115,7 @@ class VatTuThanhToanController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Thêm",
+                    'title'=> "Thêm vật tư thanh toán",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -114,19 +128,20 @@ class VatTuThanhToanController extends Controller
                 if ($model->save()) {
                     return [
                         'forceClose'=>true,   
-                         'reloadType'=>'VTTT',
+                         'reloadType'=>'CT',
                          'reloadBlock'=>'#vtttContent',
-                         'reloadContent'=>$this->renderAjax('_vat_tu_thanh_toan', [
-                            'modelCT'=>$modelCT,
-                            'VTTT' => $modelCT->vatTuThanhToan  
-                            
+                         'reloadContent'=>$this->renderAjax('list', [
+                            'model'=>$modelCT,
                          ]),
-                         
                          'tcontent'=>'Thêm giá trị thanh toán thành công!',
+                        'reloadBlockSum'=>'#dThongKeSum',
+                        'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                            'model'=>$modelCT,
+                        ]),
                      ];  
                 }else{           
                 return [
-                    'title'=> "Thêm",
+                    'title'=> "Thêm vật tư thanh toán",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -169,7 +184,7 @@ class VatTuThanhToanController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật VatTuThanhToan #".$id,
+                    'title'=> "Cập nhật vật tư thanh toán",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -179,15 +194,16 @@ class VatTuThanhToanController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceClose'=>true,   
-                     'reloadType'=>'VTTT',
+                     'reloadType'=>'CT',
                      'reloadBlock'=>'#vtttContent',
-                     'reloadContent'=>$this->renderAjax('_vat_tu_thanh_toan', [
-                        'modelCT'=>$modelCT,
-                        'VTTT' => $modelCT->vatTuThanhToan  
-                        
+                     'reloadContent'=>$this->renderAjax('list', [
+                        'model'=>$modelCT,
                      ]),
-                     
                      'tcontent'=>'Cập nhật vật tư thanh toán thành công!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>$modelCT,
+                    ]),
                  ];    
             }else{
                  return [
@@ -238,7 +254,6 @@ class VatTuThanhToanController extends Controller
             return $this->redirect(['index']);
         }
 
-
     }
 
      /**
@@ -251,23 +266,40 @@ class VatTuThanhToanController extends Controller
     public function actionBulkdelete()
     {        
         $request = Yii::$app->request;
-        $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
-        foreach ( $pks as $pk ) {
-            $model = $this->findModel($pk);
-            $model->delete();
-        }
-
         if($request->isAjax){
+            $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
+            $idct = null;
+            foreach ( $pks as $pk ) {
+                $model = $this->findModel($pk);
+                if($idct === null){
+                    $idct = $model->id_cong_trinh;
+                }
+                $model->delete();
+            }
             /*
-            *   Process for ajax request
-            */
+             *   Process for ajax request
+             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+            $modelCT = CongTrinh::findOne($idct);
+            if($modelCT){
+                return [
+                    'forceClose'=>true,
+                    'reloadType'=>'CT',
+                    'reloadBlock'=>'#vtttContent',
+                    'reloadContent'=>$this->renderAjax('list', [
+                        'model'=>$modelCT,
+                    ]),
+                    'tcontent'=>'Đã xóa vật tư thanh toán!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>$modelCT,
+                    ]),
+                ];
+            } else {
+                return [
+                    'tcontent'=>'Có lỗi xảy ra!',
+                ];
+            }
         }
        
     }

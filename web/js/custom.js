@@ -83,3 +83,8 @@ setMenuActive();
 function toggleSearch(){
 	$("#divFilterExtend").toggle();
 }
+
+$(".item-remote").on('click', function(){
+	$('.slide-item').removeClass('active');
+	$(this).find('a').addClass('active');
+});

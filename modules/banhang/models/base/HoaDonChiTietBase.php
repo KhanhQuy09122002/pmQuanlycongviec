@@ -25,6 +25,9 @@ use app\modules\hanghoa\models\HangHoa;
  */
 class HoaDonChiTietBase extends \app\models\KhDonHangChiTiet
 {    
+    public $tongSoLuongSanPham;//su dung trong report
+    public $tongTienSanPham;
+    public $tongChietKhauSanPham;
     /**
      * {@inheritdoc}
      */
@@ -35,7 +38,7 @@ class HoaDonChiTietBase extends \app\models\KhDonHangChiTiet
             [['id_don_hang', 'id_hang_hoa', 'so_luong'], 'required'],
             [['id_don_hang', 'id_hang_hoa', 'nguoi_tao'], 'integer'],
             [['so_luong', 'don_gia', 'chiet_khau', 'thanh_tien'], 'number'],
-            [['thoi_gian_tao'], 'safe'],
+            [['thoi_gian_tao', 'tongSoLuongSanPham', 'tongTienSanPham', 'tongChietKhauSanPham'], 'safe'],
             [['ghi_chu'], 'string'],
             [['id_don_hang'], 'exist', 'skipOnError' => true, 'targetClass' => HoaDon::class, 'targetAttribute' => ['id_don_hang' => 'id']],
             [['id_hang_hoa'], 'exist', 'skipOnError' => true, 'targetClass' => HangHoa::class, 'targetAttribute' => ['id_hang_hoa' => 'id']],

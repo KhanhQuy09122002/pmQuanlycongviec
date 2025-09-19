@@ -94,6 +94,26 @@ class CustomFunc
     }
     
     /**
+     * Lấy tối đa N từ từ một chuỗi
+     *
+     * @param string $string Chuỗi gốc
+     * @param int $limit Số từ tối đa (mặc định 20)
+     * @return string Chuỗi đã cắt
+     */
+    public static function getWordsLimit($string, $limit = 20) {
+        // Tách chuỗi thành mảng các từ
+        $words = preg_split('/\s+/', trim($string));
+        
+        // Nếu số từ nhỏ hơn limit thì trả nguyên chuỗi
+        if (count($words) <= $limit) {
+            return implode(' ', $words);
+        }
+        
+        // Ngược lại thì lấy đúng $limit từ đầu tiên
+        return implode(' ', array_slice($words, 0, $limit)) . '...';
+    }
+    
+    /**
      * doc so tien thanh chu
      */
     function chuyenSoTienThanhChu($number) {

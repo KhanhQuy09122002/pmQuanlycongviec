@@ -22,14 +22,6 @@ class GiaTriThucHienHopDongBase extends \app\models\CtGiaTriThucHienHopDong
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
-        return 'ct_gia_tri_thuc_hien_hop_dong';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -37,6 +29,7 @@ class GiaTriThucHienHopDongBase extends \app\models\CtGiaTriThucHienHopDong
             [['id_cong_trinh','nguoi_tao'], 'integer'],
             [['so_tien'],'number'],
             [['ngay_thang_bao_lanh', 'thoi_gian_tao'], 'safe'],
+            [['ghi_chu'], 'string'],
             [['id_cong_trinh'], 'exist', 'skipOnError' => true, 'targetClass' => CongTrinh::class, 'targetAttribute' => ['id_cong_trinh' => 'id']],
         ];
     }
@@ -51,6 +44,7 @@ class GiaTriThucHienHopDongBase extends \app\models\CtGiaTriThucHienHopDong
             'id_cong_trinh' => 'Công trình',
             'so_tien' => 'Số tiền',
             'ngay_thang_bao_lanh' => 'Ngày tháng  bảo lãnh',
+            'ghi_chu' => 'Ghi chú',
             'nguoi_tao' => 'Người tạo',
             'thoi_gian_tao' => 'Thời gian tạo',
         ];

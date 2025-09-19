@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property string $ten_cong_trinh
  * @property string $dia_diem
- * @property double|null $gia_tri_hop_dong
+ * @property int|null $gia_tri_hop_dong
  * @property string $thoi_han_hop_dong_tu_ngay
  * @property string $thoi_han_hop_dong_den_ngay
  * @property int|null $gia_tri_tam_ung
@@ -22,6 +22,8 @@ use Yii;
  * @property string|null $trang_thai
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
+ * @property int|null $ghim_index
+ * @property int|null $ghim_menu
  *
  * @property CtCaMayThanhToan[] $ctCaMayThanhToans
  * @property CtChiPhiKhacThanhToan[] $ctChiPhiKhacThanhToans
@@ -35,6 +37,8 @@ use Yii;
  */
 class CtCongTrinh extends \yii\db\ActiveRecord
 {
+
+
     /**
      * {@inheritdoc}
      */
@@ -49,12 +53,13 @@ class CtCongTrinh extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['gia_tri_hop_dong', 'gia_tri_tam_ung', 'gia_tri_bao_lanh_thoi_han_hop_dong', 'gia_tri_bao_hanh', 'gia_tri_da_thanh_toan', 'gia_tri_hop_dong_con_lai', 'khoi_luong_phat_sinh_tang_giam', 'trang_thai', 'nguoi_tao', 'thoi_gian_tao', 'ghim_index', 'ghim_menu'], 'default', 'value' => null],
             [['ten_cong_trinh', 'dia_diem', 'thoi_han_hop_dong_tu_ngay', 'thoi_han_hop_dong_den_ngay'], 'required'],
-            [[ 'gia_tri_tam_ung', 'gia_tri_bao_lanh_thoi_han_hop_dong', 'gia_tri_bao_hanh', 'gia_tri_da_thanh_toan', 'gia_tri_hop_dong_con_lai', 'khoi_luong_phat_sinh_tang_giam', 'nguoi_tao'], 'integer'],
-            [['gia_tri_hop_dong'], 'number'],
+            [['gia_tri_tam_ung', 'gia_tri_bao_lanh_thoi_han_hop_dong', 'gia_tri_bao_hanh', 'gia_tri_da_thanh_toan', 'gia_tri_hop_dong_con_lai', 'khoi_luong_phat_sinh_tang_giam', 'nguoi_tao', 'ghim_index', 'ghim_menu'], 'integer'],
             [['thoi_han_hop_dong_tu_ngay', 'thoi_han_hop_dong_den_ngay', 'thoi_gian_tao'], 'safe'],
             [['ten_cong_trinh', 'dia_diem'], 'string', 'max' => 255],
             [['trang_thai'], 'string', 'max' => 30],
+            [['gia_tri_hop_dong'], 'number']
         ];
     }
 
@@ -79,6 +84,8 @@ class CtCongTrinh extends \yii\db\ActiveRecord
             'trang_thai' => 'Trang Thai',
             'nguoi_tao' => 'Nguoi Tao',
             'thoi_gian_tao' => 'Thoi Gian Tao',
+            'ghim_index' => 'Ghim Index',
+            'ghim_menu' => 'Ghim Menu',
         ];
     }
 
@@ -171,4 +178,5 @@ class CtCongTrinh extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CtVatTuThanhToan::class, ['id_cong_trinh' => 'id']);
     }
+
 }

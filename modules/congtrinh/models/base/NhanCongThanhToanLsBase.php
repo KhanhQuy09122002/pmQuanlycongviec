@@ -23,14 +23,6 @@ class NhanCongThanhToanLsBase extends \app\models\CtNhanCongThanhToanLichSu
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
-        return 'ct_nhan_cong_thanh_toan_lich_su';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -68,7 +60,7 @@ class NhanCongThanhToanLsBase extends \app\models\CtNhanCongThanhToanLichSu
         return parent::beforeSave($insert);
     }
 
-    public function afterSave($insert, $changedAttributes)
+    /* public function afterSave($insert, $changedAttributes)
     {
       parent::afterSave($insert, $changedAttributes);
 
@@ -83,6 +75,15 @@ class NhanCongThanhToanLsBase extends \app\models\CtNhanCongThanhToanLichSu
             $nctt->da_thanh_toan = $tongDaThanhToan;
             $nctt->save(false); 
           }
+    } */
+    
+    /**
+     * Gets query for [[NhanCongThanhToan]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNhanCongThanhToan()
+    {
+        return $this->hasOne(NhanCongThanhToan::class, ['id' => 'id_nhan_cong_thanh_toan']);
     }
-
-   }
+}

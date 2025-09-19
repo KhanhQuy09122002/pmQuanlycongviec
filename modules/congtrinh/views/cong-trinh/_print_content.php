@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use app\custom\CustomFunc;
 
 /** @var \app\models\CongTrinh $model */
 ?>
@@ -13,8 +14,8 @@ use yii\helpers\Html;
         <p><strong>Tên công trình:</strong> <?= Html::encode($model->ten_cong_trinh) ?></p>
         <p><strong>Địa điểm:</strong> <?= Html::encode($model->dia_diem) ?></p>
         <p><strong>Thời hạn hợp đồng:</strong>
-            <?= Yii::$app->formatter->asDate($model->thoi_han_hop_dong_tu_ngay, 'php:d/m/Y') ?>
-            - <?= Yii::$app->formatter->asDate($model->thoi_han_hop_dong_den_ngay, 'php:d/m/Y') ?>
+            <?= CustomFunc::convertYMDToDMY($model->thoi_han_hop_dong_tu_ngay) ?>
+            - <?= CustomFunc::convertYMDToDMY($model->thoi_han_hop_dong_den_ngay) ?>
         </p>
         <p><strong>Giá trị hợp đồng:</strong> <?= Yii::$app->formatter->asDecimal($model->gia_tri_hop_dong, 0) ?> VNĐ</p>
     </div>
@@ -27,36 +28,39 @@ use yii\helpers\Html;
 
 <?php if (!empty($model->giaTriThucHienHopDong)): ?>
     <?php
-        $tongGiaTriThucHien = 0;
+       /*  $tongGiaTriThucHien = 0;
         foreach ($model->giaTriThucHienHopDong as $item) {
             $tongGiaTriThucHien += $item->so_tien;
-        }
+        } */
     ?>
     <div class="section">
         <div class="section-title">GIÁ TRỊ THỰC HIỆN HỢP ĐỒNG</div>
         <table>
             <thead>
                 <tr>
-                    <th>STT</th>
-                    <th>Ngày tháng bảo lãnh</th>
+                    <th width="10%">STT</th>
+                    <th>Ngày</th>
                     <th>Số tiền</th>
+                    <th>Ghi chú</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($model->giaTriThucHienHopDong as $index => $item): ?>
                     <tr>
                         <td style="text-align: center"><?= $index + 1 ?></td>
-                        <td style="text-align: center"><?= Yii::$app->formatter->asDate($item->ngay_thang_bao_lanh, 'php:d/m/Y') ?></td>
-                        <td style="text-align: center">
-                             <?= number_format($item->so_tien, 0, ',', '.') ?> VNĐ
+                        <td style="text-align: center"><?= CustomFunc::convertYMDToDMY($item->ngay_thang_bao_lanh) ?></td>
+                        <td style="text-align: right">
+                             <?= number_format($item->so_tien, 0, ',', '.') ?>
                         </td>
+                        <td><?= $item->ghi_chu ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr>
                     <td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
-                    <td style="text-align: center; font-weight: bold;">
-                        <?= number_format($tongGiaTriThucHien, 0, ',', '.') ?> VNĐ
+                    <td style="text-align: right; font-weight: bold;">
+                        <?= number_format($model->tongGiaTriThucHienHopDong, 0, ',', '.') ?>
                     </td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
@@ -66,36 +70,39 @@ use yii\helpers\Html;
 
 <?php if (!empty($model->giaTriTamUng)): ?>
     <?php
-        $tongTamUng = 0;
+       /* $tongTamUng = 0;
         foreach ($model->giaTriTamUng as $item) {
             $tongTamUng += $item->so_tien;
-        }
+        } */
     ?>
     <div class="section">
         <div class="section-title">GIÁ TRỊ TẠM ỨNG</div>
         <table>
             <thead>
                 <tr>
-                    <th>STT</th>
-                    <th>Ngày tháng bảo lãnh</th>
+                    <th width="10%">STT</th>
+                    <th>Ngày</th>
                     <th>Số tiền</th>
+                    <th>Ghi chú</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($model->giaTriTamUng as $index => $item): ?>
                     <tr>
                         <td style="text-align: center"><?= $index + 1 ?></td>
-                        <td style="text-align: center"><?= Yii::$app->formatter->asDate($item->ngay_thang_bao_lanh, 'php:d/m/Y') ?></td>
-                        <td style="text-align: center">
-                             <?= number_format($item->so_tien, 0, ',', '.') ?> VNĐ
+                        <td style="text-align: center"><?= CustomFunc::convertYMDToDMY($item->ngay_thang_bao_lanh) ?></td>
+                        <td style="text-align: right">
+                             <?= number_format($item->so_tien, 0, ',', '.') ?>
                         </td>
+                        <td><?= $item->ghi_chu ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr>
                     <td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
-                    <td style="text-align: center; font-weight: bold;">
-                        <?= number_format($tongTamUng, 0, ',', '.') ?> VNĐ
+                    <td style="text-align: right; font-weight: bold;">
+                        <?= number_format($model->tongGiaTriTamUng, 0, ',', '.') ?>
                     </td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
@@ -106,36 +113,39 @@ use yii\helpers\Html;
 
 <?php if (!empty($model->giaTriBaoHanh)): ?>
     <?php
-        $tongBaoHanh = 0;
+        /* $tongBaoHanh = 0;
         foreach ($model->giaTriBaoHanh as $item) {
             $tongBaoHanh += $item->so_tien;
-        }
+        } */
     ?>
     <div class="section">
         <div class="section-title">GIÁ TRỊ BẢO HÀNH</div>
         <table>
             <thead>
                 <tr>
-                    <th>STT</th>
-                    <th>Ngày tháng bảo hành</th>
+                    <th width="10%">STT</th>
+                    <th>Ngày</th>
                     <th>Số tiền</th>
+                    <th>Ghi chú</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($model->giaTriBaoHanh as $index => $item): ?>
                     <tr>
                         <td style="text-align: center"><?= $index + 1 ?></td>
-                        <td style="text-align: center"><?= Yii::$app->formatter->asDate($item->ngay_thang_bao_hanh, 'php:d/m/Y') ?></td>
-                        <td style="text-align: center">
-                             <?= number_format($item->so_tien, 0, ',', '.') ?> VNĐ
+                        <td style="text-align: center"><?= CustomFunc::convertYMDToDMY($item->ngay_thang_bao_hanh) ?></td>
+                        <td style="text-align: right">
+                             <?= number_format($item->so_tien, 0, ',', '.') ?>
                         </td>
+                        <td><?= $item->ghi_chu ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr>
                     <td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
-                    <td style="text-align: center; font-weight: bold;">
-                        <?= number_format($tongBaoHanh, 0, ',', '.') ?> VNĐ
+                    <td style="text-align: right; font-weight: bold;">
+                        <?= number_format($model->tongGiaTriBaoHanh, 0, ',', '.') ?>
                     </td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
@@ -147,19 +157,21 @@ use yii\helpers\Html;
 
 <?php if (!empty($model->giaTriDaThanhToan)): ?>
     <?php
-        $tongGiaTriThanhToan = 0;
+        /* $tongGiaTriThanhToan = 0;
         foreach ($model->giaTriDaThanhToan as $item) {
             $tongGiaTriThanhToan += $item->so_tien;
-        }
+        } */
     ?>
     <div class="section">
         <div class="section-title">GIÁ TRỊ ĐÃ THANH TOÁN</div>
         <table>
             <thead>
                 <tr>
-                    <th>STT</th>
-                    <th>Tên lần thanh toán</th>
+                    <th width="10%">STT</th>
+                    <th>Lần thanh toán</th>
+                    <th>Ngày</th>
                     <th>Số tiền</th>
+                    <th>Ghi chú</th>
                 </tr>
             </thead>
             <tbody>
@@ -167,16 +179,19 @@ use yii\helpers\Html;
                     <tr>
                         <td style="text-align: center"><?= $index + 1 ?></td>
                         <td style="text-align: center"><?= $item->ten_lan_thanh_toan ?></td>
-                        <td style="text-align: center">
-                             <?= number_format($item->so_tien, 0, ',', '.') ?> VNĐ
+                        <td style="text-align: center"><?= CustomFunc::convertYMDToDMY($item->ngay_thanh_toan) ?></td>
+                        <td style="text-align: right">
+                             <?= number_format($item->so_tien, 0, ',', '.') ?>
                         </td>
+                        <td><?= $item->ghi_chu ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr>
-                    <td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
-                    <td style="text-align: center; font-weight: bold;">
-                        <?= number_format($tongGiaTriThanhToan, 0, ',', '.') ?> VNĐ
+                    <td colspan="3" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
+                    <td style="text-align: right; font-weight: bold;">
+                        <?= number_format($model->tongGiaTriDaThanhToan, 0, ',', '.') ?>
                     </td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
@@ -186,42 +201,49 @@ use yii\helpers\Html;
 
 <?php if (!empty($model->vatTuThanhToan)): ?>
     <?php
-        $tongVatTu = 0;
+        /* $tongVatTu = 0;
         foreach ($model->vatTuThanhToan as $item) {
             $tongVatTu += $item->thanh_tien;
-        }
+        } */
     ?>
     <div class="section">
         <div class="section-title">VẬT TƯ THANH TOÁN</div>
         <table>
             <thead>
                 <tr>
-                    <th>STT</th>
+                    <th width="5%">STT</th>
                     <th>Tên vật tư</th>
-                    <th>Số lượng (ĐVT)</th>
+                    <td>ĐVT</td>
+                    <td>Ngày</td>
+                    <th>Số lượng</th>
                     <th>Đơn giá</th>
                     <th>Thành tiền</th>
+                    <th>Ghi chú</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($model->vatTuThanhToan as $index => $item): ?>
                     <tr>
                         <td style="text-align: center"><?= $index + 1 ?></td>
-                        <td style="text-align: center"><?= Html::encode($item->ten_vat_tu) ?></td>
-                        <td style="text-align: center;"><?= $item->so_luong . ' (' . $item->don_vi_tinh . ')' ?></td>
-                        <td style="text-align: center">
-                             <?= number_format($item->don_gia, 0, ',', '.') ?> VNĐ
+                        <td><?= Html::encode($item->tenVatTu) ?></td>
+                        <td style="text-align: center;"><?= $item->donViTinh  ?></td>
+                        <td><?= CustomFunc::convertYMDToDMY($item->ngay_thanh_toan) ?></td>
+                        <td style="text-align: center;"><?= $item->so_luong ?></td>
+                        <td style="text-align: right">
+                             <?= number_format($item->don_gia, 0, ',', '.') ?>
                         </td>
-                        <td style="text-align: center">
-                             <?= number_format($item->thanh_tien, 0, ',', '.') ?> VNĐ
+                        <td style="text-align: right">
+                             <?= number_format($item->thanh_tien, 0, ',', '.') ?>
                         </td>
+                        <td><?= $item->ghi_chu ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr>
-                    <td colspan="4" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
-                    <td style="text-align: center; font-weight: bold;">
-                        <?= number_format($tongVatTu, 0, ',', '.') ?> VNĐ
+                    <td colspan="6" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
+                    <td style="text-align: right; font-weight: bold;">
+                        <?= number_format($model->tongVatTuThanhToan, 0, ',', '.') ?>
                     </td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
@@ -231,21 +253,22 @@ use yii\helpers\Html;
 
 <?php if (!empty($model->nhanCongThanhToan)): ?>
     <?php
-        $tongNhanCong = 0;
+        /* $tongNhanCong = 0;
         foreach ($model->nhanCongThanhToan as $item) {
             $tongNhanCong += $item->da_thanh_toan;
-        }
+        } */
     ?>
     <div class="section">
         <div class="section-title">NHÂN CÔNG THANH TOÁN</div>
         <table>
             <thead>
                 <tr>
-                    <th>STT</th>
-                    <th>Tên nhân công</th>
+                    <th width="5%">STT</th>
+                    <th>Họ và tên</th>
                     <th>Tổng hợp đồng</th>
                     <th>Đã thanh toán</th>
                     <th>Còn lại</th>
+                    <th>Ghi chú</th>
                 </tr>
             </thead>
             <tbody>
@@ -253,22 +276,30 @@ use yii\helpers\Html;
                     <tr>
                         <td style="text-align: center"><?= $index + 1 ?></td>
                         <td style="text-align: center"><?= Html::encode($item->ho_ten) ?></td>
-                        <td style="text-align: center">
-                             <?= number_format($item->tong_hop_dong, 0, ',', '.') ?> VNĐ
+                        <td style="text-align: right">
+                             <?= number_format($item->tong_hop_dong, 0, ',', '.') ?>
                         </td>
-                        <td style="text-align: center">
-                             <?= number_format($item->da_thanh_toan, 0, ',', '.') ?> VNĐ
+                        <td style="text-align: right">
+                             <?= number_format($item->tongDaThanhToan, 0, ',', '.') ?>
                         </td>
-                        <td style="text-align: center">
-                             <?= number_format($item->con_lai, 0, ',', '.') ?> VNĐ
+                        <td style="text-align: right">
+                             <?= number_format($item->tongChuaThanhToan, 0, ',', '.') ?>
                         </td>
+                        <td><?= $item->ghi_chu ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr>
-                  <td colspan="4" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
-                    <td style="text-align: center; font-weight: bold;">
-                       <?= number_format($tongNhanCong, 0, ',', '.') ?> VNĐ
+                  	<td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
+                  	 <td style="text-align: right; font-weight: bold;">
+                       <?= number_format($model->tongNhanCong, 0, ',', '.') ?>
                     </td>
+                    <td style="text-align: right; font-weight: bold;">
+                       <?= number_format($model->tongNhanCongDaThanhToan, 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right; font-weight: bold;">
+                       <?= number_format($model->tongNhanCongChuaThanhToan, 0, ',', '.') ?>
+                    </td>
+                    <td></td>
                </tr>
             </tbody>
         </table>
@@ -278,44 +309,55 @@ use yii\helpers\Html;
 
 <?php if (!empty($model->thauPhuThanhToan)): ?>
     <?php
-        $tongThauPhu = 0;
+        /* $tongThauPhu = 0;
         foreach ($model->thauPhuThanhToan as $item) {
             $tongThauPhu += $item->da_thanh_toan;
-        }
+        } */
     ?>
     <div class="section">
         <div class="section-title">THẦU PHỤ THANH TOÁN</div>
         <table>
             <thead>
                 <tr>
-                    <th>STT</th>
+                    <th width="5%">STT</th>
+                    <th>Tên nhà thầu</th>
                     <th>Tên công việc</th>
                     <th>Tổng hợp đồng</th>
                     <th>Đã thanh toán</th>
                     <th>Còn lại</th>
+                    <th>Ghi chú</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($model->thauPhuThanhToan as $index => $item): ?>
                     <tr>
                         <td style="text-align: center"><?= $index + 1 ?></td>
-                        <td style="text-align: center"><?= Html::encode($item->ten_cong_viec) ?></td>
-                        <td style="text-align: center">
-                             <?= number_format($item->tong_hop_dong, 0, ',', '.') ?> VNĐ
+                        <td><?= Html::encode($item->ten_thau_phu) ?></td>
+                        <td><?= Html::encode($item->ten_cong_viec) ?></td>
+                        <td style="text-align: right">
+                             <?= number_format($item->tong_hop_dong, 0, ',', '.') ?>
                         </td>
-                        <td style="text-align: center">
-                             <?= number_format($item->da_thanh_toan, 0, ',', '.') ?> VNĐ
+                        <td style="text-align: right">
+                             <?= number_format($item->tongDaThanhToan, 0, ',', '.') ?>
                         </td>
-                        <td style="text-align: center">
-                             <?= number_format($item->con_lai, 0, ',', '.') ?> VNĐ
+                        <td style="text-align: right">
+                             <?= number_format($item->tongChuaThanhToan, 0, ',', '.') ?>
                         </td>
+                        <td><?= $item->ghi_chu ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr>
-                  <td colspan="4" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
-                    <td style="text-align: center; font-weight: bold;">
-                       <?= number_format($tongThauPhu, 0, ',', '.') ?> VNĐ
+                  	<td colspan="3" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
+                    <td style="text-align: right; font-weight: bold;">
+                       <?= number_format($model->tongThauPhu, 0, ',', '.') ?>
                     </td>
+                    <td style="text-align: right; font-weight: bold;">
+                       <?= number_format($model->tongThauPhuDaThanhToan, 0, ',', '.') ?>
+                    </td>
+                    <td style="text-align: right; font-weight: bold;">
+                       <?= number_format($model->tongThauPhuChuaThanhToan, 0, ',', '.') ?>
+                    </td>
+                    <td></td>
                </tr>
 
             </tbody>
@@ -327,36 +369,41 @@ use yii\helpers\Html;
 
 <?php if (!empty($model->caMayThanhToan)): ?>
     <?php
-        $tongCaMay = 0;
+        /* $tongCaMay = 0;
         foreach ($model->caMayThanhToan as $item) {
             $tongCaMay += $item->so_tien;
-        }
+        } */
     ?>
     <div class="section">
         <div class="section-title">CA MÁY THANH TOÁN</div>
         <table>
             <thead>
                 <tr>
-                    <th>STT</th>
+                    <th width="5%">STT</th>
                     <th>Tên ca máy</th>
+                    <th>Ngày</th>
                     <th>Số tiền</th>
+                    <th>Ghi chú</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($model->caMayThanhToan as $index => $item): ?>
                     <tr>
                         <td style="text-align: center"><?= $index + 1 ?></td>
-                        <td style="text-align: center"><?= Html::encode($item->ten_ca_may) ?></td>
-                        <td style="text-align: center">
-                             <?= number_format($item->so_tien, 0, ',', '.') ?> VNĐ
+                        <td><?= Html::encode($item->ten_ca_may) ?></td>
+                        <td style="text-align: center"><?= CustomFunc::convertYMDToDMY($item->ngay_thanh_toan) ?>
+                        <td style="text-align: right">
+                             <?= number_format($item->so_tien, 0, ',', '.') ?>
                         </td>
+                        <td><?= $item->ghi_chu ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr>
-                    <td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
-                    <td style="text-align: center; font-weight: bold;">
-                        <?= number_format($tongCaMay, 0, ',', '.') ?> VNĐ
+                    <td colspan="3" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
+                    <td style="text-align: right; font-weight: bold;">
+                        <?= number_format($model->tongCaMayThanhToan, 0, ',', '.') ?>
                     </td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
@@ -367,77 +414,46 @@ use yii\helpers\Html;
 
 <?php if (!empty($model->chiPhiKhacThanhToan)): ?>
     <?php
-        $tongChiPhiKhac = 0;
+        /* $tongChiPhiKhac = 0;
         foreach ($model->chiPhiKhacThanhToan as $item) {
             $tongChiPhiKhac += $item->so_tien;
-        }
+        } */
     ?>
     <div class="section">
         <div class="section-title">CHI PHÍ KHÁC THANH TOÁN</div>
         <table>
             <thead>
                 <tr>
-                    <th>STT</th>
-                    <th>Tên chi phí</th>
+                    <th width="5%">STT</th>
+                    <th>Chi phí</th>
+                    <th>Ngày</th>
                     <th>Số tiền</th>
+                    <th>Ghi chú</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($model->chiPhiKhacThanhToan as $index => $item): ?>
                     <tr>
                         <td style="text-align: center"><?= $index + 1 ?></td>
-                        <td style="text-align: center"><?= Html::encode($item->ten_chi_phi) ?></td>
-                        <td style="text-align: center">
-                             <?= number_format($item->so_tien, 0, ',', '.') ?> VNĐ
+                        <td><?= Html::encode($item->ten_chi_phi) ?></td>
+                        <td style="text-align: center"><?= CustomFunc::convertYMDToDMY($item->ngay_thanh_toan) ?>
+                        <td style="text-align: right">
+                             <?= number_format($item->so_tien, 0, ',', '.') ?>
                         </td>
+                        <td><?= $item->ghi_chu ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr>
-                    <td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
-                    <td style="text-align: center; font-weight: bold;">
-                        <?= number_format($tongChiPhiKhac, 0, ',', '.') ?> VNĐ
+                    <td colspan="3" style="text-align: right; font-weight: bold;">Tổng cộng:</td>
+                    <td style="text-align: right; font-weight: bold;">
+                        <?= number_format($model->tongChiPhiKhac, 0, ',', '.') ?>
                     </td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
     </div>
 <?php endif; ?>
-
-
-<?php
-$giaTriHopDong = $model->gia_tri_hop_dong ?? 0;
-$giaTriConLai = $giaTriHopDong - $tongGiaTriThanhToan;
-
-$chiPhiThucTe = $tongVatTu + $tongNhanCong + $tongThauPhu + $tongCaMay + $tongChiPhiKhac;
-$khoiLuongPhatSinh = $giaTriHopDong - $chiPhiThucTe;
-?>
-<div class="section">
-    <div class="section-title" style="text-align: left; font-weight: bold;">
-        TỔNG HỢP THANH TOÁN
-    </div>
-    <table style="width: 100%; border-collapse: collapse;" border="1">
-        <tbody>
-            <tr>
-                <td style="padding: 8px; text-align: center;"><strong>Giá trị hợp đồng còn lại</strong></td>
-                <td style="text-align: center; padding: 8px;">
-                    <?= number_format($giaTriConLai, 0, ',', '.') ?> VNĐ
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; text-align: center;"><strong>Chi phí thi công thực tế đến hiện tại</strong></td>
-                <td style="text-align: center; padding: 8px;">
-                    <?= number_format($chiPhiThucTe, 0, ',', '.') ?> VNĐ
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; text-align: center;"><strong>Khối lượng phát sinh tăng/giảm</strong></td>
-                <td style="text-align: center; padding: 8px;">
-                    <?= number_format($khoiLuongPhatSinh, 0, ',', '.') ?> VNĐ
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
 
 
 

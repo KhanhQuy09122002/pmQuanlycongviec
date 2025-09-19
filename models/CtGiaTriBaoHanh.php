@@ -9,8 +9,9 @@ use Yii;
  *
  * @property int $id
  * @property int $id_cong_trinh
- * @property double $so_tien
+ * @property float $so_tien
  * @property string $ngay_thang_bao_hanh
+ * @property string|null $ghi_chu
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
  *
@@ -32,10 +33,12 @@ class CtGiaTriBaoHanh extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['ghi_chu', 'nguoi_tao', 'thoi_gian_tao'], 'default', 'value' => null],
             [['id_cong_trinh', 'so_tien', 'ngay_thang_bao_hanh'], 'required'],
             [['id_cong_trinh', 'nguoi_tao'], 'integer'],
-            [['so_tien'],'number'],
+            [['so_tien'], 'number'],
             [['ngay_thang_bao_hanh', 'thoi_gian_tao'], 'safe'],
+            [['ghi_chu'], 'string'],
             [['id_cong_trinh'], 'exist', 'skipOnError' => true, 'targetClass' => CtCongTrinh::class, 'targetAttribute' => ['id_cong_trinh' => 'id']],
         ];
     }
@@ -50,6 +53,7 @@ class CtGiaTriBaoHanh extends \yii\db\ActiveRecord
             'id_cong_trinh' => 'Id Cong Trinh',
             'so_tien' => 'So Tien',
             'ngay_thang_bao_hanh' => 'Ngay Thang Bao Hanh',
+            'ghi_chu' => 'Ghi Chu',
             'nguoi_tao' => 'Nguoi Tao',
             'thoi_gian_tao' => 'Thoi Gian Tao',
         ];
@@ -64,4 +68,5 @@ class CtGiaTriBaoHanh extends \yii\db\ActiveRecord
     {
         return $this->hasOne(CtCongTrinh::class, ['id' => 'id_cong_trinh']);
     }
+
 }

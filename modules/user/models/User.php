@@ -6,6 +6,29 @@ use PhpParser\Node\Stmt\Expression;
 
 class User extends UserBase{
     /**
+     * get list nhan vien nhan ho so
+     * @return array|unknown[]|mixed|unknown
+     */
+    public static function getListNvNhanHoSo()
+    {
+        // Lấy danh sách nhân viên  và sắp xếp theo thứ tự bảng chữ cái
+        $dsUser = User::find()
+        ->orderBy(['username' => SORT_ASC])
+        ->all();
+        
+        // Thêm dấu + vào trước tên nhân viên
+        return ArrayHelper::map($dsUser, 'id', function($model) {
+            return '+ ' . $model->ho_ten . ' (' . $model->username . ')'; // Thêm dấu + trước tên nhân viên
+        });
+    }
+    /**
+     * get ho ten of user, neu khong co thi lay username
+     * @return string
+     */
+    public function getHoTen(){
+        return $this->ho_ten?$this->ho_ten:$this->username;
+    }
+    /**
      * get list nhan vien
      */
     public static function getListUsers(){
@@ -85,4 +108,14 @@ class User extends UserBase{
         return 'test';
     }
     
+    /**
+     * get nguoi tao name by id
+     */
+    public static function getNguoiTaoName($id){
+        $user = User::findOne($id);
+        if($user)
+            return $user->username;
+        else
+            return '';
+    }
 }

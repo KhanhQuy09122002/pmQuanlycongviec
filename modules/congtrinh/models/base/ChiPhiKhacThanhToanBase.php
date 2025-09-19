@@ -4,6 +4,7 @@ namespace app\modules\congtrinh\models\base;
 
 use Yii;
 use app\modules\congtrinh\models\CongTrinh;
+use app\custom\CustomFunc;
 /**
  * This is the model class for table "ct_chi_phi_khac_thanh_toan".
  *
@@ -11,6 +12,7 @@ use app\modules\congtrinh\models\CongTrinh;
  * @property int $id_cong_trinh
  * @property string $ten_chi_phi
  * @property double $so_tien
+ * @property string|null $ngay_thanh_toan
  * @property string|null $ghi_chu
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
@@ -22,14 +24,6 @@ class ChiPhiKhacThanhToanBase extends \app\models\CtChiPhiKhacThanhToan
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
-        return 'ct_chi_phi_khac_thanh_toan';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -37,7 +31,7 @@ class ChiPhiKhacThanhToanBase extends \app\models\CtChiPhiKhacThanhToan
             [['id_cong_trinh', 'nguoi_tao'], 'integer'],
             [['so_tien'],'number'],
             [['ghi_chu'], 'string'],
-            [['thoi_gian_tao'], 'safe'],
+            [['thoi_gian_tao', 'ngay_thanh_toan'], 'safe'],
             [['ten_chi_phi'], 'string', 'max' => 255],
             [['id_cong_trinh'], 'exist', 'skipOnError' => true, 'targetClass' => CongTrinh::class, 'targetAttribute' => ['id_cong_trinh' => 'id']],
         ];
@@ -53,6 +47,7 @@ class ChiPhiKhacThanhToanBase extends \app\models\CtChiPhiKhacThanhToan
             'id_cong_trinh' => 'Id Cong Trinh',
             'ten_chi_phi' => 'Tên chi phí',
             'so_tien' => 'Số tiền',
+            'ngay_thanh_toan' => 'Ngày thanh toán',
             'ghi_chu' => 'Ghi chú',
             'nguoi_tao' => 'Nguoi Tao',
             'thoi_gian_tao' => 'Thoi Gian Tao',
@@ -60,6 +55,7 @@ class ChiPhiKhacThanhToanBase extends \app\models\CtChiPhiKhacThanhToan
     }
 
     public function beforeSave($insert) {
+        $this->ngay_thanh_toan = CustomFunc::convertDMYToYMD($this->ngay_thanh_toan);
         if ($this->isNewRecord) {
             $this->nguoi_tao = Yii::$app->user->identity->id;
             $this->thoi_gian_tao = date('Y-m-d H:i:s');        

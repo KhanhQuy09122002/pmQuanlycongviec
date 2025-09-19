@@ -73,6 +73,41 @@ $(document).ready(function () {
         // Open modal
         modal2.open(this, null);
     });
+    
+    // Catch click event on all buttons that want to open a modal
+    // with bulk action
+    $(document).on('click', '[role="modal-remote-bulk-2"]', function (event) {
+        event.preventDefault();
+
+        // Collect all selected ID's
+        var selectedIds = [];
+        
+        // See if we have a selector set
+        var selection = 'selection' + $(this).attr('itemtype');
+        //alert('selection' + $(this).attr('itemtype'));
+        if ($(this).data("selector") != null) {
+        	selection = $(this).data("selector");
+        }
+        
+        $('input:checkbox[name="' + selection + '[]"]').each(function () {
+            if (this.checked)
+                selectedIds.push($(this).val());
+        });
+
+        if (selectedIds.length == 0) {
+            // If no selected ID's show warning
+            modal2.show();
+            modal2.setTitle('Chưa chọn dữ liệu');
+            modal2.setContent('Vui lòng chọn dữ liệu để thực hiện hành động này!');
+            modal2.addFooterButton('Đóng lại', '','btn btn-default', function (button, event) {
+                this.hide();
+            });
+        } else {
+            // Open modal
+            modal2.open(this, selectedIds);
+        }
+    });
+    
     //Modal 3
     if ($('#ajaxCrubModal3').length > 0 && $('#ajaxCrudModal3').length == 0) {
         modal3 = new ModalRemote('#ajaxCrubModal3');

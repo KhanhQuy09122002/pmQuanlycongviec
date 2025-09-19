@@ -23,16 +23,9 @@ class GiaTriTamUngController extends Controller
      */
     public function behaviors() {
 		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+		    'ghost-access'=> [
+		        'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+		    ],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
@@ -101,7 +94,7 @@ class GiaTriTamUngController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Thêm",
+                    'title'=> "Thêm Tạm ứng",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -114,20 +107,21 @@ class GiaTriTamUngController extends Controller
                 if ($model->save()) {
                     return [
                         'forceClose'=>true,   
-                         'reloadType'=>'GTTHHD',
+                         'reloadType'=>'CT',
                          'reloadBlock'=>'#gttuContent',
-                         'reloadContent'=>$this->renderAjax('_gia_tri_tam_ung', [
-                            'modelCT'=>$modelCT,
-                            'GTTHHD' => $modelCT->giaTriTamUng 
-                            
+                         'reloadContent'=>$this->renderAjax('list', [
+                            'model'=>$modelCT,
                          ]),
-                         
                          'tcontent'=>'Thêm giá trị tạm ứng thành công!',
+                        'reloadBlockSum'=>'#dThongKeSum',
+                        'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                            'model'=>$modelCT,
+                        ]),
                      ];  
                 }
             }else{           
                 return [
-                    'title'=> "Thêm GiaTriTamUng",
+                    'title'=> "Thêm Tạm ứng",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -170,7 +164,7 @@ class GiaTriTamUngController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật #".$id,
+                    'title'=> "Cập nhật tạm ứng",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -180,19 +174,20 @@ class GiaTriTamUngController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceClose'=>true,   
-                     'reloadType'=>'GTTHHD',
+                     'reloadType'=>'CT',
                      'reloadBlock'=>'#gttuContent',
-                     'reloadContent'=>$this->renderAjax('_gia_tri_tam_ung', [
-                        'modelCT'=>$modelCT,
-                        'GTTHHD' => $modelCT->giaTriTamUng 
-                        
+                     'reloadContent'=>$this->renderAjax('list', [
+                        'model'=>$modelCT,                        
                      ]),
-                     
                      'tcontent'=>'Cập nhật giá trị tạm ứng thành công!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>$modelCT,
+                    ]),
                  ];  
             }else{
                  return [
-                    'title'=> "Update GiaTriTamUng #".$id,
+                    'title'=> "Cập nhật tạm ứng",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -252,23 +247,40 @@ class GiaTriTamUngController extends Controller
     public function actionBulkdelete()
     {        
         $request = Yii::$app->request;
-        $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
-        foreach ( $pks as $pk ) {
-            $model = $this->findModel($pk);
-            $model->delete();
-        }
-
         if($request->isAjax){
+            $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
+            $idct = null;
+            foreach ( $pks as $pk ) {
+                $model = $this->findModel($pk);
+                if($idct === null){
+                    $idct = $model->id_cong_trinh;
+                }
+                $model->delete();
+            }
             /*
-            *   Process for ajax request
-            */
+             *   Process for ajax request
+             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
+            $modelCT = CongTrinh::findOne($idct);
+            if($modelCT){
+                return [
+                    'forceClose'=>true,
+                    'reloadType'=>'CT',
+                    'reloadBlock'=>'#gttuContent',
+                    'reloadContent'=>$this->renderAjax('list', [
+                        'model'=>$modelCT,
+                    ]),
+                    'tcontent'=>'Đã xóa giá trị tạm ứng!',
+                    'reloadBlockSum'=>'#dThongKeSum',
+                    'reloadContentSum'=>$this->renderAjax('../cong-trinh/thong_ke_sum', [
+                        'model'=>$modelCT,
+                    ]),
+                ];
+            } else {
+                return [
+                    'tcontent'=>'Có lỗi xảy ra!',
+                ];
+            }
         }
        
     }

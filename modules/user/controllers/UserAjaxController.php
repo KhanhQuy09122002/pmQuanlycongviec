@@ -38,7 +38,7 @@ class UserAjaxController extends Controller
 	{
 	    Yii::$app->params['moduleID'] = 'Module Quản lý người dùng';
 	    Yii::$app->params['modelID'] = 'Quản lý tài khoản';
-	    return true;
+	    return parent::beforeAction($action);
 	}
 
     /**

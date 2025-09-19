@@ -11,7 +11,7 @@ use app\custom\CustomFunc;
  * @property int $id
  * @property int $id_thau_phu_thanh_toan
  * @property string $ngay_thanh_toan
- * @property double $so_tien
+ * @property float $so_tien
  * @property string|null $ghi_chu
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
@@ -20,14 +20,6 @@ use app\custom\CustomFunc;
  */
 class ThauPhuThanhToanLsBase extends \app\models\CtThauPhuThanhToanLichSu 
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'ct_thau_phu_thanh_toan_lich_su';
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -68,7 +60,7 @@ class ThauPhuThanhToanLsBase extends \app\models\CtThauPhuThanhToanLichSu
         return parent::beforeSave($insert);
     }
 
-    public function afterSave($insert, $changedAttributes)
+   /*  public function afterSave($insert, $changedAttributes)
     {
       parent::afterSave($insert, $changedAttributes);
 
@@ -83,5 +75,5 @@ class ThauPhuThanhToanLsBase extends \app\models\CtThauPhuThanhToanLichSu
             $nctt->da_thanh_toan = $tongDaThanhToan;
             $nctt->save(false); 
           }
-    }
+    } */
 }

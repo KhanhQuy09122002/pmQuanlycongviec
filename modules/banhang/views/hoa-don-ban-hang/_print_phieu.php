@@ -31,7 +31,7 @@ $custom = new CustomFunc();
     	
     	<table style="width: 100%; margin-top:5px;">
     		<tr>
-    			<td style="text-align: center"><span style="font-size:22pt;font-weight:bold">HÓA ĐƠN BÁN HÀNG</span></td>
+    			<td style="text-align: center"><span style="font-size:22pt;font-weight:bold">PHIẾU BÁN HÀNG</span></td>
     		</tr>
     	</table>
     	

@@ -148,7 +148,7 @@ Yii::$app->params['showExport'] = true;
    'closeButton'=>['label'=>'<span aria-hidden=\'true\'>×</span>'],
    'id'=>'ajaxCrudModal',
     'footer'=>'',// always need it for jquery plugin
-    'size'=>Modal::SIZE_EXTRA_LARGE
+    'size'=>Modal::SIZE_LARGE
 ])?>
 
 <?php Modal::end(); ?>
@@ -162,7 +162,7 @@ Yii::$app->params['showExport'] = true;
    'closeButton'=>['label'=>'<span aria-hidden=\'true\'>×</span>'],
    'id'=>'ajaxCrudModal2',
     'footer'=>'',// always need it for jquery plugin
-    'size'=>Modal::SIZE_EXTRA_LARGE
+    'size'=>Modal::SIZE_LARGE
    // 'size'=>Modal::SIZE_EXTRA_LARGE
 ])?>
 

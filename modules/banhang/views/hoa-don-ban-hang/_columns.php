@@ -62,9 +62,35 @@ return [
                        'data-bs-toggle'=>'tooltip-secondary'], 
 
     ],
+    
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'trang_thai',
+        'label'=>'',
+        'format'=>'html',
+        'value'=>function($model){
+            return $model->getDmTrangThaiLabelWithBadge($model->trang_thai);
+        },
+        'width' => '40px',
+        'contentOptions' => ['style' => 'text-align:center'],
+    ],
     [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'so_vao_so',
+        'label'=>'Số hóa đơn',
+        'value'=>function($model){
+            return Html::a($model->soHoaDon, ['/banhang/hoa-don-ban-hang/update', 'id'=>$model->id], [
+                'role'=>'modal-remote',
+                'class'=>'btn-in-grid'
+            ]);
+        },
+        'width' => '70px',
+        'format'=>'raw',
+        'contentOptions' => ['style' => 'text-align:center;font-weight:bold'],
     ],
         // [
         // 'class'=>'\kartik\grid\DataColumn',
@@ -75,32 +101,37 @@ return [
         'attribute'=>'id_khach_hang',
         'value'=>function($model){
             return $model->khachHang->ho_ten;
-        }
+        },
+        'width' => '140px',
     ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'id_khach_hang',
+        'label'=>'SĐT',
+        'value'=>function($model){
+            return $model->khachHang->so_dien_thoai;
+        },
+        'width' => '100px',
+   ],
+   /* [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'id_khach_hang',
+       'label'=>'Địa chỉ',
+        'value'=>function($model){
+            return $model->khachHang->dia_chi;
+        },
+        'width' => '200px',
+   ], */
     /* [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'so_don_hang',
     ], */
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'so_vao_so',
-        'label'=>'Số hóa đơn',
-        'value'=>function($model){
-            return $model->soHoaDon;
-        }
-    ],
+    
     /* [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nam',
     ], */
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'trang_thai',
-        'format'=>'html',
-        'value'=>function($model){
-            return $model->getDmTrangThaiLabelWithBadge($model->trang_thai);
-        }
-    ],
+    
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'ngay_dat_hang',
@@ -108,6 +139,7 @@ return [
             return CustomFunc::convertYMDToDMY($model->ngay_dat_hang);
         },
         'contentOptions' => ['style' => 'text-align:center'],
+        'width' => '70px',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -116,12 +148,31 @@ return [
             return CustomFunc::convertYMDToDMY($model->ngay_xuat);
         },
         'contentOptions' => ['style' => 'text-align:center'],
+        'width' => '70px',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'hinh_thuc_thanh_toan',
         'label'=>'HTTT',
+        'value'=>function($model){
+            return $model->getDmHinhThucThanhToanLabel($model->hinh_thuc_thanh_toan);
+        },
         'contentOptions' => ['style' => 'text-align:center'],
+        'pageSummary' => 'Tổng cộng',
+        'pageSummaryOptions' => ['class' => 'text-right text-end'],
+        'width' => '120px',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'label'=>'Tổng tiền (VNĐ)',
+        'value'=>function($model){
+            return $model->tongTien;  
+        },
+        'contentOptions' => ['style' => 'text-align:right;font-weight:bold;'],
+        'format' => ['decimal', 0],
+        'pageSummary' => true,
+        'pageSummaryOptions' => ['class' => 'text-right text-end'],
+        'width' => '120px',
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
@@ -139,16 +190,20 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'chi_phi_van_chuyen',
     // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'ghi_chu',
-    // ],
+    
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nguoi_tao',
         'value'=>function($model){
             return User::getHoTenByID($model->nguoi_tao);
-        }
+        },
+        'width' => '140px',
+        'contentOptions' => ['style' => 'text-align:center'],
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'ghi_chu',
+        'width' => '150px',
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',

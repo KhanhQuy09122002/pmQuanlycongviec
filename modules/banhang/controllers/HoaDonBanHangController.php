@@ -75,6 +75,7 @@ class HoaDonBanHangController extends Controller
 	        }
 	        
 	        return [
+	            'forceReload'=>'#crud-datatable-pjax',
 	            'title'=> "Cập nhật Hóa đơn",
 	            'content'=>$this->renderAjax('update', [
 	                'model' => $model,
@@ -162,7 +163,7 @@ class HoaDonBanHangController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
-                return [
+                /* return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Thêm mới hóa đơn",
                     'content'=>'<span class="text-success">Thêm mới thành công</span>',
@@ -170,7 +171,16 @@ class HoaDonBanHangController extends Controller
                     'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
                             Html::a('Tiếp tục thêm',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
-                ];         
+                ];     */
+                return [
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Cập nhật hóa đơn",
+                    'content'=>$this->renderAjax('update', [
+                        'model' => $model,
+                    ]),
+                    'tcontent'=>'Thêm mới thành công!',
+                    'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]) . Html::button('Lưu lại',['class'=>'btn btn-primary','type'=>"submit"])
+                ];  
             }else{           
                 return [
                     'title'=> "Thêm mới hóa đơn",
@@ -216,7 +226,7 @@ class HoaDonBanHangController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật hóa đơn",
+                    'title'=> "Cập nhật hóa đơn số " . $model->soHoaDon,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

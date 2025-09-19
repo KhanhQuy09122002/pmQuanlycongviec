@@ -10,7 +10,7 @@ use app\custom\CustomFunc;
  * @property int $id
  * @property string $ten_cong_trinh
  * @property string $dia_diem
- * @property double|null $gia_tri_hop_dong
+ * @property int|null $gia_tri_hop_dong
  * @property string $thoi_han_hop_dong_tu_ngay
  * @property string $thoi_han_hop_dong_den_ngay
  * @property int|null $gia_tri_tam_ung
@@ -22,6 +22,8 @@ use app\custom\CustomFunc;
  * @property string|null $trang_thai
  * @property int|null $nguoi_tao
  * @property string|null $thoi_gian_tao
+ * @property int|null $ghim_index
+ * @property int|null $ghim_menu
  *
  * @property CtCaMayThanhToan[] $ctCaMayThanhToans
  * @property CtChiPhiKhacThanhToan[] $ctChiPhiKhacThanhToans
@@ -38,23 +40,15 @@ class CongTrinhBase extends \app\models\CtCongTrinh
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
-        return 'ct_cong_trinh';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
             [['ten_cong_trinh', 'dia_diem', 'thoi_han_hop_dong_tu_ngay', 'thoi_han_hop_dong_den_ngay'], 'required'],
-            [['gia_tri_tam_ung', 'gia_tri_bao_lanh_thoi_han_hop_dong', 'gia_tri_bao_hanh', 'gia_tri_da_thanh_toan', 'gia_tri_hop_dong_con_lai', 'khoi_luong_phat_sinh_tang_giam', 'nguoi_tao'], 'integer'],
+            [['gia_tri_tam_ung', 'gia_tri_bao_lanh_thoi_han_hop_dong', 'gia_tri_bao_hanh', 'gia_tri_da_thanh_toan', 'gia_tri_hop_dong_con_lai', 'khoi_luong_phat_sinh_tang_giam', 'nguoi_tao', 'ghim_index', 'ghim_menu'], 'integer'],
             [['thoi_han_hop_dong_tu_ngay', 'thoi_han_hop_dong_den_ngay', 'thoi_gian_tao'], 'safe'],
             [['gia_tri_hop_dong'], 'number'],
             [['ten_cong_trinh', 'dia_diem'], 'string', 'max' => 255],
-            [['trang_thai'], 'string', 'max' => 30],
+            [['trang_thai'], 'string', 'max' => 30]
         ];
     }
 
@@ -79,6 +73,8 @@ class CongTrinhBase extends \app\models\CtCongTrinh
             'trang_thai' => 'Trạng thái',
             'nguoi_tao' => 'Người tạo',
             'thoi_gian_tao' => 'Thời gian tạo',
+            'ghim_index' => 'Ghim Index',
+            'ghim_menu' => 'Ghim Menu',
         ];
     }
     public function beforeSave($insert) {
@@ -86,7 +82,11 @@ class CongTrinhBase extends \app\models\CtCongTrinh
         $this->thoi_han_hop_dong_den_ngay = CustomFunc::convertDMYToYMD($this->thoi_han_hop_dong_den_ngay);
         if ($this->isNewRecord) {
             $this->nguoi_tao = Yii::$app->user->identity->id;
-            $this->thoi_gian_tao = date('Y-m-d H:i:s');        
+            $this->thoi_gian_tao = date('Y-m-d H:i:s');
+            if($this->ghim_index == null)
+                $this->ghim_index = 0;
+            if($this->ghim_menu == null)
+                $this->ghim_menu = 0;
         }
         return parent::beforeSave($insert);
     }

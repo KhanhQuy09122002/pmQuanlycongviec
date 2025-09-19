@@ -16,7 +16,7 @@ use app\custom\CustomFunc;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
               <?= $form->field($model, 'gia_tri_hop_dong')->textInput(['maxlength' => true]) ?>
         </div>
     </div>

@@ -27,16 +27,9 @@ class CongTrinhController extends Controller
      */
     public function behaviors() {
 		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'update','create','delete','bulkdelete','choose-print','choose-excel','get-print-content','export-excel','update-gtct'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+		    'ghost-access'=> [
+		        'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+		    ],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
@@ -44,6 +37,90 @@ class CongTrinhController extends Controller
 				],
 			],
 		];
+	}
+	
+	/**
+	 * sét ghim công trình lên menu hoặc trang chủ
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionGhim($idct, $type)
+	{
+	    $request = Yii::$app->request;
+	    $model = $this->findModel($idct);
+	    
+	    if($request->isAjax){
+	        /*
+	         *   Process for ajax request
+	         */
+	        Yii::$app->response->format = Response::FORMAT_JSON;
+	        if($model != null){
+	            if($type=='index'){
+	                $model->ghim_index = 1;
+	                $model->updateAttributes(['ghim_index']);
+	            } else if($type=='menu'){
+	                $model->ghim_menu = 1;
+	                $model->updateAttributes(['ghim_menu']);
+	            }
+	        }
+	        return [
+	            //'forceClose'=>true,
+	            'forceReload'=>'#crud-datatable-pjax',
+	            'title'=> 'Thông báo!',
+	            'content'=>'<span class="text-success">Ghim công trình <strong>'.$model->ten_cong_trinh.'</strong> vào trang chủ thành công!</span>',
+	            'tcontent'=>'Ghim công trình <strong>'.$model->ten_cong_trinh.'</strong> vào trang chủ thành công!',
+	            'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"])
+	        ];
+	    }else{
+	        /*
+	         *   Process for non-ajax request
+	         */
+	        return $this->redirect(['index']);
+	    }
+	    
+	    
+	}
+	
+	/**
+	 * sét học viên có xuất hóa đơn thuế
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionCancelGhim($idct, $type)
+	{
+	    $request = Yii::$app->request;
+	    $model = $this->findModel($idct);
+	    
+	    if($request->isAjax){
+	        /*
+	         *   Process for ajax request
+	         */
+	        Yii::$app->response->format = Response::FORMAT_JSON;
+	        if($model != null){
+	            if($type=='index'){
+    	            $model->ghim_index = 0;
+    	            $model->updateAttributes(['ghim_index']);
+	            } else if($type=='menu'){
+	                $model->ghim_menu = 0;
+	                $model->updateAttributes(['ghim_menu']);
+	            }
+	        }
+	        return [
+	            //'forceClose'=>true,
+	            'forceReload'=>'#crud-datatable-pjax',
+	            'title'=> 'Thông báo!',
+	            'content'=>'<span class="text-success">Hủy ghim công trình <strong>'.$model->ten_cong_trinh.'</strong> vào trang chủ thành công!</span>',
+	            'tcontent'=>'Hủy ghim công trình <strong>'.$model->ten_cong_trinh.'</strong> vào trang chủ thành công!',
+	            'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"])
+	        ];
+	    }else{
+	        /*
+	         *   Process for non-ajax request
+	         */
+	        return $this->redirect(['index']);
+	    }
+	    
+	    
 	}
 
     /**
@@ -73,12 +150,11 @@ class CongTrinhController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "CongTrinh #".$id,
+                    'title'=> "Xem công trình",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Sửa',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"])
                 ];    
         }else{
             return $this->render('view', [
@@ -167,7 +243,7 @@ class CongTrinhController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật CongTrinh #".$id,
+                    'title'=> "Cập nhật Công trình",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -177,16 +253,16 @@ class CongTrinhController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "CongTrinh #".$id,
+                    'title'=> "Xem công trình",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"]).
-                            Html::a('Sửa',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'tcontent'=>'Đã lưu thông tin!',
+                    'footer'=> Html::button('Đóng lại',['class'=>'btn btn-default pull-left','data-bs-dismiss'=>"modal"])
                 ];    
             }else{
                  return [
-                    'title'=> "Cập nhật CongTrinh #".$id,
+                    'title'=> "Cập nhật Công trình",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -220,7 +296,7 @@ class CongTrinhController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Cập nhật CongTrinh #".$id,
+                    'title'=> "Cập nhật Công trình",
                     'content'=>$this->renderAjax('updateGTCT', [
                         'model' => $model,
                     ]),
@@ -343,7 +419,7 @@ class CongTrinhController extends Controller
     {
         $request = Yii::$app->request;
         $model = new \yii\base\DynamicModel(['id_cong_trinh']);
-        $model->addRule(['id_cong_trinh'], 'required');
+        $model->addRule(['id_cong_trinh'], 'required', ['message'=>'Công trình không được để trống']);
     
         $congTrinhList = \yii\helpers\ArrayHelper::map(
             CongTrinh::find()->all(), 

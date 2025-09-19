@@ -18,6 +18,12 @@ use yii\widgets\ActiveForm;
         <div class="col-md-4">
               <?= $form->field($model, 'tong_hop_dong')->textInput() ?>
         </div>
+         <div class="col-md-4">
+              <?= $form->field($model, 'so_hop_dong')->textInput() ?>
+        </div>
+        <div class="col-md-12">
+              <?= $form->field($model, 'ghi_chu')->textarea(['rows' => 3]) ?>
+        </div>
     </div>
 
 	<?php if (!Yii::$app->request->isAjax){ ?>

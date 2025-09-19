@@ -20,6 +20,16 @@ use app\modules\hanghoa\models\HangHoa;
 class HoaDonChiTietController extends Controller
 {
     /**
+     * @inheritdoc
+     */
+    public function behaviors() {
+        return [
+            'ghost-access'=> [
+                'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+            ],
+        ];
+    }
+    /**
      * lấy danh sách hàng hóa đổ vào dropdownlist
      * @param int $selected: nếu thêm mới thì là null, còn sửa vật tư thì truyền vào id của vật tư đang chọn
      * @return string[]
@@ -180,7 +190,7 @@ class HoaDonChiTietController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $vatTu = HoaDonChiTiet::findOne($id);
         if($vatTu != null){
-            $hoaDonId = $vatTu->id_hoa_don;
+            $hoaDonId = $vatTu->id_don_hang;
             if($vatTu->delete()){
                 $hoaDon = HoaDon::findOne($hoaDonId);
                 return [

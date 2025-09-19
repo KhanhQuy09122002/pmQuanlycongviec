@@ -2,8 +2,6 @@
 $this->registerCssFile('@web/css/cong-trinh.css', [
     'depends' => [\yii\bootstrap5\BootstrapAsset::className()],
 ]);
-/* @var $this yii\web\View */
-/* @var $model app\modules\nhanvien\models\NhanVien */
 ?>
 <div class="cong-trinh-view">
     <div class="row">
@@ -80,6 +78,9 @@ $this->registerCssFile('@web/css/cong-trinh.css', [
 
        <!-- Nội dung bên phải -->
 <div class="col-xl-9 col-md-12">
+	<div style="color: #5D5FEF; font-weight: bold;text-transform: uppercase;font-size:18px;margin:10px 0px">
+		<strong><?= $model->ten_cong_trinh ?></strong>
+	</div>
     <div class="card custom-card">
         <div class="card-header custom-card-header rounded-bottom-0">
             <div class="tab-content" id="myTabContent">
@@ -89,52 +90,54 @@ $this->registerCssFile('@web/css/cong-trinh.css', [
                 </div>
                 <div class="tab-pane fade" id="ct1" role="tabpanel" aria-labelledby="ct1-tab">
                     <!-- Giá trị thực hiện hợp đồng -->
-                    <?= $this->render('gia_tri_thuc_hien_hop_dong', ['model' => $model]) ?>
+                    <?= $this->render('../gia-tri-thuc-hien-hop-dong/list', ['model' => $model]) ?>
                 </div>
                 <div class="tab-pane fade" id="ct2" role="tabpanel" aria-labelledby="ct2-tab">
                     <!-- Giá trị tạm ứng -->
-                    <?= $this->render('gia_tri_tam_ung', ['model' => $model]) ?>
+                    <?= $this->render('../gia-tri-tam-ung/list', ['model' => $model]) ?>
                 </div>
                 <div class="tab-pane fade" id="ct3" role="tabpanel" aria-labelledby="ct3-tab">
                     <!-- Giá trị bảo hành -->
-                    <?= $this->render('gia_tri_bao_hanh', ['model' => $model]) ?>
+                    <?= $this->render('../gia-tri-bao-hanh/list', ['model' => $model]) ?>
                 </div>
                 <div class="tab-pane fade" id="ct4" role="tabpanel" aria-labelledby="ct4-tab">
                     <!-- Giá trị đã thanh toán -->
-                    <?= $this->render('gia_tri_da_thanh_toan', ['model' => $model]) ?>
+                    <?= $this->render('../gia-tri-da-thanh-toan/list', ['model' => $model]) ?>
                 </div>
                 <div class="tab-pane fade" id="ct5" role="tabpanel" aria-labelledby="ct5-tab">
                     <!-- Nhân công thanh toán -->
-                    <?= $this->render('nhan_cong_thanh_toan', ['model' => $model]) ?>
+                    <?= $this->render('../nhan-cong-thanh-toan/list', ['model' => $model]) ?>
                 </div>
                 <div class="tab-pane fade" id="ct10" role="tabpanel" aria-labelledby="ct10-tab">
                     <!-- Nhân công thanh toán lịch sử -->
-                    <?= $this->render('nhan_cong_thanh_toan_ls', ['idCongTrinh' => $model->id]) ?>
+                    <?= $this->render('../nhan-cong-thanh-toan-ls/list', ['idCongTrinh' => $model->id]) ?>
                 </div>
                 <div class="tab-pane fade" id="ct6" role="tabpanel" aria-labelledby="ct6-tab">
                     <!-- Vật tư thanh toán -->
-                    <?= $this->render('vat_tu_thanh_toan', ['model' => $model]) ?>
+                    <?= $this->render('../vat-tu-thanh-toan/list', ['model' => $model]) ?>
                 </div>
                 <div class="tab-pane fade" id="ct7" role="tabpanel" aria-labelledby="ct7-tab">
                     <!-- Thầu phụ thanh toán -->
-                    <?= $this->render('thau_phu_thanh_toan', ['model' => $model]) ?>
+                    <?= $this->render('../thau-phu-thanh-toan/list', ['model' => $model]) ?>
                 </div>
                 <div class="tab-pane fade" id="ct11" role="tabpanel" aria-labelledby="ct11-tab">
                     <!-- Thầu phụ thanh toán lịch sử -->
-                    <?= $this->render('thau_phu_thanh_toan_ls', ['idCongTrinh' => $model->id]) ?>
+                    <?= $this->render('../thau-phu-thanh-toan-ls/list', ['idCongTrinh' => $model->id]) ?>
                 </div>
                 <div class="tab-pane fade" id="ct8" role="tabpanel" aria-labelledby="ct8-tab">
                     <!-- Ca máy thanh toán -->
-                    <?= $this->render('ca_may_thanh_toan', ['model' => $model]) ?>
+                    <?= $this->render('../ca-may-thanh-toan/list', ['model' => $model]) ?>
                 </div>
                 <div class="tab-pane fade" id="ct9" role="tabpanel" aria-labelledby="ct9-tab">
                     <!-- Chi phí khác thanh toán -->
-                    <?= $this->render('chi_phi_khac_thanh_toan', ['model' => $model]) ?>
+                    <?= $this->render('../chi-phi-khac-thanh-toan/list', ['model' => $model]) ?>
                 </div>
               
             </div>
         </div>
     </div>
+</div>
+
 </div>
 
 </div>

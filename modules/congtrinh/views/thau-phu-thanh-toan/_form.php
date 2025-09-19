@@ -12,11 +12,20 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-8">
               <?= $form->field($model, 'ten_cong_viec')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-4">
               <?= $form->field($model, 'tong_hop_dong')->textInput() ?>
+        </div>  
+        <div class="col-md-6">
+              <?= $form->field($model, 'ten_thau_phu')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-6">
+              <?= $form->field($model, 'so_hop_dong')->textInput() ?>
+        </div>              
+        <div class="col-md-12">
+              <?= $form->field($model, 'ghi_chu')->textarea(['rows' => 3]) ?>
         </div>
     </div>
 

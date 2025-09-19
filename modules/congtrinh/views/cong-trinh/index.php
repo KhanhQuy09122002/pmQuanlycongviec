@@ -53,28 +53,28 @@ Yii::$app->params['showExport'] = true;
 						<div class="dropdown-menu tx-13" style="">
 							<h6 class="dropdown-header tx-uppercase tx-11 tx-bold bg-info tx-spacing-1">
 								Chọn chức năng</h6>'
-                                .
-                                Html::a('<i class="fas fa-print" aria-hidden="true"></i> In chi tiết', 
-                                ['/congtrinh/cong-trinh/choose-print'], 
-                                    [
-                                      'role'=>'modal-remote-2',
-                                      'title'=> 'In chi tiết',
-                                      'class'=>'dropdown-item text-primary'
-                                    ])
-                                    .
-                                    Html::a('<i class="fas fa-file-excel" aria-hidden="true"></i> Xuất Excel', 
-                                        ['/congtrinh/cong-trinh/choose-excel'], 
-                                            [
-                                              'role'=>'modal-remote-2',
-                                              'title'=> 'Xuất Excel',
-                                              'class'=>'dropdown-item text-primary'
-                                            ])
                     .
                     Html::a('<i class="fas fa fa-plus" aria-hiddi="true"></i> Thêm mới', ['create'],
                         ['role'=>'modal-remote','title'=> 'Thêm mới','class'=>'dropdown-item'])
                     .
                     Html::a('<i class="fas fa fa-sync" aria-hidden="true"></i> Tải lại', [''],
                         ['data-pjax'=>1, 'class'=>'dropdown-item', 'title'=>'Tải lại'])
+                    .
+                    Html::a('<i class="fas fa-print" aria-hidden="true"></i> In chi tiết', 
+                    ['/congtrinh/cong-trinh/choose-print'], 
+                        [
+                          'role'=>'modal-remote-2',
+                          'title'=> 'In chi tiết',
+                          'class'=>'dropdown-item text-primary'
+                        ])
+                    /* .
+                    Html::a('<i class="fas fa-file-excel" aria-hidden="true"></i> Xuất Excel', 
+                        ['/congtrinh/cong-trinh/choose-excel'], 
+                            [
+                              'role'=>'modal-remote-2',
+                              'title'=> 'Xuất Excel',
+                              'class'=>'dropdown-item text-primary'
+                            ]) */
                     .
                     Html::a('<i class="fas fa fa-trash" aria-hidden="true"></i>&nbsp; Xóa danh sách',
                         ["bulkdelete"],
@@ -122,11 +122,11 @@ Yii::$app->params['showExport'] = true;
         'id'=>'ajaxCrudModal',
         'tabindex' => false // important for Select2 to work properly
    ],
-   //'dialogOptions'=>['class'=>'modal-lg'],
+   'dialogOptions'=>['class'=>'modal-xl modal-xxl'],
    'closeButton'=>['label'=>'<span aria-hidden=\'true\'>×</span>'],
    'id'=>'ajaxCrudModal',
     'footer'=>'',// always need it for jquery plugin
-    'size'=>Modal::SIZE_EXTRA_LARGE
+    //'size'=>Modal::SIZE_EXTRA_LARGE
 ])?>
 
 <?php Modal::end(); ?>
@@ -164,4 +164,70 @@ Yii::$app->params['showExport'] = true;
     });
     $('#ajaxCrudModal2').appendTo('body');
 });
+</script>
+
+<!-- Phần tử ẩn chứa nội dung in -->
+<div style="display:none">
+    <div id="print-cong-trinh2"></div>
+</div>
+
+<script>
+function inChiTietCongTrinh2(idCongTrinh) {
+    if (!idCongTrinh) {
+        alert('Vui lòng chọn công trình.');
+        return;
+    }
+
+    $.ajax({
+        type: 'GET',
+        url: '/congtrinh/cong-trinh/get-print-content',
+        data: { id: idCongTrinh },
+        success: function (data) {
+            if (data.status === 'success') {
+                $('#print-cong-trinh2').html(data.content);
+                printCongTrinh2();
+            } else {
+                alert(data.message || 'Không thể tải nội dung in.');
+            }
+        },
+        error: function (xhr, status, error) {
+            alert('Lỗi khi tải nội dung in: ' + error);
+        }
+    });
+}
+
+function printCongTrinh2() {
+    var printContents = document.getElementById('print-cong-trinh2').innerHTML;
+
+    var iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.width = '0px';
+    iframe.style.height = '0px';
+    iframe.style.border = 'none';
+    document.body.appendChild(iframe);
+
+    var doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(`
+        <html>
+            <head>
+                <title>In công trình</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    h2 { margin-bottom: 20px; }
+                    p { margin: 5px 0; }
+                </style>
+            </head>
+            <body>
+                ${printContents}
+            </body>
+        </html>
+    `);
+    doc.close();
+
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print();
+
+    setTimeout(() => document.body.removeChild(iframe), 1000);
+}
 </script>
