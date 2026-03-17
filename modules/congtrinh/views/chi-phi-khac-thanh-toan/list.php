@@ -57,18 +57,19 @@ $itemType = 'chiphikhac';
 
 
 
-<table id="tblChiPhiKhac" class="table table-bordered table-hover table-striped">
+<div class="table-responsive cpktt-table-wrap">
+<table id="tblChiPhiKhac" class="table table-bordered table-hover table-striped w-100">
     <thead class="table-light">
         <tr>
-        	<th style="width:3%"><span id="s-all-<?= $itemType ?>" style="cursor:pointer" >All</span>
+        	<th><span id="s-all-<?= $itemType ?>" style="cursor:pointer" >All</span>
                 		<span id="us-all-<?= $itemType ?>" style="cursor:pointer;display:none">xAll</span></th>
-            <th style="width: 40px;text-align: center;">#</th>
-            <th style="width: 200px;text-align: center;">Tên chi phí</th>
-            <th style="width: 200px;text-align: center;">Số tiền</th>
-            <th style="width: 100px;text-align: center;">Ngày thanh toán</th>
-            <th style="width: 300px;text-align: center;">Ghi chú</th>
-            <th style="width: 80px;text-align: center;">Người tạo</th>
-            <th style="width: 100px;text-align: center;">Thao tác</th>
+            <th style="text-align: center;">#</th>
+            <th style="text-align: center;">Tên chi phí</th>
+            <th style="text-align: center;">Số tiền</th>
+            <th style="text-align: center;">Ngày thanh toán</th>
+            <th style="text-align: center;">Ghi chú</th>
+            <th style="text-align: center;">Người tạo</th>
+            <th style="text-align: center;">Thao tác</th>
         </tr>
     </thead>
     <tbody>
@@ -107,6 +108,7 @@ $itemType = 'chiphikhac';
 
 </table>
 </div>
+</div>
 
 <script>
 $('#s-all-<?= $itemType ?>').on('click', function(){
@@ -123,6 +125,7 @@ $('#us-all-<?= $itemType ?>').on('click', function(){
 var table = new DataTable('#tblChiPhiKhac',{
 	//paging: false,
     pageLength: 20,
+    autoWidth: true,
     "language": {
         "sLengthMenu":    "Hiển thị _MENU_ dòng dữ liệu/trang",
         "sInfo":          "Hiển thị _START_ - _END_ của _TOTAL_ dữ liệu",

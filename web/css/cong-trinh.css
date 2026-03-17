@@ -192,3 +192,36 @@
     .tptt .dataTables_wrapper {
         width: 100%;
     }
+
+    .gttt-table-wrap,
+    .tpttls-table-wrap,
+    .cmtt-table-wrap,
+    .cpktt-table-wrap {
+        width: 100%;
+    }
+
+    #tblGiaTriDaThanhToan,
+    #tblThauPhuThanhToanLs,
+    #tblCaMay,
+    #tblChiPhiKhac {
+        width: 100% !important;
+        table-layout: fixed;
+    }
+
+    #tblGiaTriDaThanhToan th,
+    #tblGiaTriDaThanhToan td,
+    #tblThauPhuThanhToanLs th,
+    #tblThauPhuThanhToanLs td,
+    #tblCaMay th,
+    #tblCaMay td,
+    #tblChiPhiKhac th,
+    #tblChiPhiKhac td {
+        width: auto !important;
+    }
+
+    .gttt .dataTables_wrapper,
+    .tpttls .dataTables_wrapper,
+    .cmtt .dataTables_wrapper,
+    .cpktt .dataTables_wrapper {
+        width: 100%;
+    }
