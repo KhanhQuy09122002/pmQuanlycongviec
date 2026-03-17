@@ -56,18 +56,19 @@ if (!empty($ids)) {
     	</div>
     </div>
 
-    <table id="tblNhanCongThanhToanLs" class="table table-bordered table-hover table-striped">
+    <div class="table-responsive ncttls-table-wrap">
+    <table id="tblNhanCongThanhToanLs" class="table table-bordered table-hover table-striped w-100">
         <thead class="table-light">
             <tr>
-            	<th style="width:3%"><span id="s-all-<?= $itemType ?>" style="cursor:pointer" >All</span>
+            	<th><span id="s-all-<?= $itemType ?>" style="cursor:pointer" >All</span>
                 		<span id="us-all-<?= $itemType ?>" style="cursor:pointer;display:none">xAll</span></th>
-                <th style="width: 30px;text-align: center;">STT</th>
-                <th style="width: 200px;text-align: center;">Nhân công</th>
-                <th style="width: 100px;text-align: center;">Số tiền</th>
-                <th style="width: 100px;text-align: center;">Ngày</th>                
-                <th style="width: 200px;text-align: center;">Ghi chú</th>
-                <th style="width: 80px;text-align: center;">Người tạo</th>
-                <th style="width: 100px;text-align: center;"></th>
+                <th style="text-align: center;">STT</th>
+                <th style="text-align: center;">Nhân công</th>
+                <th style="text-align: center;">Số tiền</th>
+                <th style="text-align: center;">Ngày</th>                
+                <th style="text-align: center;">Ghi chú</th>
+                <th style="text-align: center;">Người tạo</th>
+                <th style="text-align: center;"></th>
             </tr>
         </thead>
         <tbody>
@@ -105,6 +106,7 @@ if (!empty($ids)) {
 	</tbody>
 
     </table>
+    </div>
 </div>
 
 <script>
@@ -122,6 +124,7 @@ $('#us-all-<?= $itemType ?>').on('click', function(){
 var table = new DataTable('#tblNhanCongThanhToanLs',{
 	//paging: false,
     pageLength: 20,
+    autoWidth: true,
     "language": {
         "sLengthMenu":    "Hiển thị _MENU_ dòng dữ liệu/trang",
         "sInfo":          "Hiển thị _START_ - _END_ của _TOTAL_ dữ liệu",

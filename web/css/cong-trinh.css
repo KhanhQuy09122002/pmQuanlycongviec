@@ -50,3 +50,145 @@
     .nav-pills .nav-link.active {
         background-color: #5D5FEF;
     }
+
+    .gthd-card {
+        background: #ffffff;
+        border-radius: 12px;
+    }
+
+    .gthd-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        background: rgba(93, 95, 239, 0.12);
+        color: #5D5FEF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+
+    .gthd-title {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #6b7280;
+        font-weight: 600;
+    }
+
+    .gthd-amount {
+        font-size: 22px;
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .gthd-currency {
+        margin-left: 6px;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        color: #6b7280;
+        font-weight: 600;
+    }
+
+    .gthd-divider {
+        margin: 16px 0;
+        opacity: 0.6;
+    }
+
+    .gthd-info {
+        background: #f9fafb;
+        border: 1px solid #eef0f4;
+        border-radius: 10px;
+        padding: 12px 14px;
+    }
+
+    .gthd-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #6b7280;
+        font-weight: 600;
+    }
+
+    .gthd-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .gthd-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(16, 185, 129, 0.12);
+        color: #0f766e;
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    .gthd-status .fa-circle {
+        font-size: 8px;
+    }
+
+    .gthd-summary {
+        background: linear-gradient(135deg, #f6f7ff 0%, #f9fbff 100%);
+        border: 1px dashed #e5e7ff;
+        border-radius: 12px;
+    }
+
+    .gtthhd-table-wrap {
+        width: 100%;
+    }
+
+    #tblGiaTriThucHienHopDong {
+        width: 100%;
+    }
+
+    .gtthhd .dataTables_wrapper {
+        width: 100%;
+    }
+
+    #tblGiaTriThucHienHopDong {
+        width: 100% !important;
+        table-layout: fixed;
+    }
+
+    #tblGiaTriThucHienHopDong th,
+    #tblGiaTriThucHienHopDong td {
+        width: auto !important;
+    }
+
+    .gttu-table-wrap,
+    .gtbh-table-wrap,
+    .ncttls-table-wrap,
+    .tptt-table-wrap {
+        width: 100%;
+    }
+
+    #tblTamUng,
+    #tblBaoHanh,
+    #tblNhanCongThanhToanLs,
+    #tblThauPhuThanhToan {
+        width: 100% !important;
+        table-layout: fixed;
+    }
+
+    #tblTamUng th,
+    #tblTamUng td,
+    #tblBaoHanh th,
+    #tblBaoHanh td,
+    #tblNhanCongThanhToanLs th,
+    #tblNhanCongThanhToanLs td,
+    #tblThauPhuThanhToan th,
+    #tblThauPhuThanhToan td {
+        width: auto !important;
+    }
+
+    .gttu .dataTables_wrapper,
+    .gtbh .dataTables_wrapper,
+    .ncttls .dataTables_wrapper,
+    .tptt .dataTables_wrapper {
+        width: 100%;
+    }

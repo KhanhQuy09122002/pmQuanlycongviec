@@ -55,17 +55,18 @@ $itemType = 'baohanh';
 	</div>
 </div>
 
-<table id="tblBaoHanh" class="table table-bordered table-hover table-striped">
+<div class="table-responsive gtbh-table-wrap">
+<table id="tblBaoHanh" class="table table-bordered table-hover table-striped w-100">
     <thead class="table-light">
         <tr>
-        	<th style="width:3%"><span id="s-all-<?= $itemType ?>" style="cursor:pointer" >All</span>
+        	<th><span id="s-all-<?= $itemType ?>" style="cursor:pointer" >All</span>
                 		<span id="us-all-<?= $itemType ?>" style="cursor:pointer;display:none">xAll</span></th>
-            <th style="width: 40px;text-align: center;">#</th>
-            <th style="width: 120px;text-align: center;">Số tiền</th>
-            <th style="width: 200px;text-align: center;">Ngày</th>
-            <th style="width: 300px;text-align: center;">Ghi chú</th>
-            <th style="width: 80px;text-align: center;">Người tạo</th>
-            <th style="width: 100px;text-align: center;"></th>
+            <th style="text-align: center;">#</th>
+            <th style="text-align: center;">Số tiền</th>
+            <th style="text-align: center;">Ngày</th>
+            <th style="text-align: center;">Ghi chú</th>
+            <th style="text-align: center;">Người tạo</th>
+            <th style="text-align: center;"></th>
         </tr>
     </thead>
     <tbody>
@@ -102,6 +103,7 @@ $itemType = 'baohanh';
 
 </table>
 </div>
+</div>
 
 <script>
 $('#s-all-<?= $itemType ?>').on('click', function(){
@@ -118,6 +120,7 @@ $('#us-all-<?= $itemType ?>').on('click', function(){
 var table = new DataTable('#tblBaoHanh',{
 	//paging: false,
     pageLength: 20,
+    autoWidth: true,
     "language": {
         "sLengthMenu":    "Hiển thị _MENU_ dòng dữ liệu/trang",
         "sInfo":          "Hiển thị _START_ - _END_ của _TOTAL_ dữ liệu",
