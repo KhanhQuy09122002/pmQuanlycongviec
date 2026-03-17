@@ -142,4 +142,53 @@ $this->registerCssFile('@web/css/cong-trinh.css', [
 
 </div>
 
+<!-- print component -->
+<div style="display:none">
+    <div id="print">
+    </div>
+</div>
+
+<script>
+function InCT(type){
+	$.ajax({
+        type: 'post',
+        url: '/congtrinh/cong-trinh/print-chi-tiet?idct=' + <?= $model->id?$model->id:"''" ?> + '&type=' + type,
+        //data: frm.serialize(),
+        success: function (data) {
+            console.log('Submission was successful.');
+            console.log(data);            
+            if(data.status == 'success'){
+            	$('#print').html(data.content);
+            	printPhieu();//call from script.js
+            } else {
+            	alert('Lỗi!');
+            }
+        },
+        error: function (data) {
+            console.log('An error occurred.');
+            console.log(data);
+        },
+    });	
+}
+function InCT2(type,id){
+	$.ajax({
+        type: 'post',
+        url: '/congtrinh/cong-trinh/print-chi-tiet2?type=' + type + '&id=' + id,
+        success: function (data) {
+            console.log('Submission was successful.');
+            console.log(data);            
+            if(data.status == 'success'){
+            	$('#print').html(data.content);
+            	printPhieu();//call from script.js
+            } else {
+            	alert('Lỗi!');
+            }
+        },
+        error: function (data) {
+            console.log('An error occurred.');
+            console.log(data);
+        },
+    });	
+}
+</script>
 

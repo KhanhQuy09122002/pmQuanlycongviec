@@ -15,6 +15,8 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use app\modules\congtrinh\models\NhanCongThanhToan;
+use app\modules\congtrinh\models\ThauPhuThanhToan;
 
 
 /**
@@ -38,6 +40,74 @@ class CongTrinhController extends Controller
 			],
 		];
 	}
+	
+	/**
+	 * print chi tiết các mục của công trình
+	 */
+	public function actionPrintChiTiet($idct,$type){
+	    $model = CongTrinh::findOne($idct);
+	    if($type=='giatrithuchienhopdong'){
+	        $content = $this->renderPartial('../gia-tri-thuc-hien-hop-dong/_print_phieu', [
+	            'model'=>$model
+	        ]);
+	    }else if($type=='giatritamung'){
+	        $content = $this->renderPartial('../gia-tri-tam-ung/_print_phieu', [
+	            'model'=>$model
+	        ]);
+	    }else if($type=='giatribaohanh'){
+	        $content = $this->renderPartial('../gia-tri-bao-hanh/_print_phieu', [
+	            'model'=>$model
+	        ]);
+	    }else if($type=='giatridathanhtoan'){
+	        $content = $this->renderPartial('../gia-tri-da-thanh-toan/_print_phieu', [
+	            'model'=>$model
+	        ]);
+	    }else if($type=='camaythanhtoan'){
+	        $content = $this->renderPartial('../ca-may-thanh-toan/_print_phieu', [
+	            'model'=>$model
+	        ]);
+	    }else if($type=='chiphikhacthanhtoan'){
+	        $content = $this->renderPartial('../chi-phi-khac-thanh-toan/_print_phieu', [
+	            'model'=>$model
+	        ]);
+	    }else if($type=='vattuthanhtoan'){
+    	    $content = $this->renderPartial('../vat-tu-thanh-toan/_print_phieu', [
+    	        'model'=>$model
+    	    ]);
+	    }else if($type=='nhancongthanhtoan'){
+	        $content = $this->renderPartial('../nhan-cong-thanh-toan/_print_phieu', [
+	            'model'=>$model
+	        ]);
+	    }else if($type=='thauphuthanhtoan'){
+	        $content = $this->renderPartial('../thau-phu-thanh-toan/_print_phieu', [
+	            'model'=>$model
+	        ]);
+	    }
+	    
+	    return $this->asJson([
+	        'status' => 'success',
+	        'content' => $content,
+	    ]);
+	}
+	public function actionPrintChiTiet2($type,$id){
+	    if($type=='nhancongthanhtoan'){
+	        $model = NhanCongThanhToan::findOne($id);
+	        $content = $this->renderPartial('../nhan-cong-thanh-toan-ls/_print_phieu', [
+	            'model'=>$model
+	        ]);
+	    }else if($type=='thauphuthanhtoan'){
+	        $model = ThauPhuThanhToan::findOne($id);
+	        $content = $this->renderPartial('../thau-phu-thanh-toan-ls/_print_phieu', [
+	            'model'=>$model
+	        ]);
+	    }
+	    
+	    return $this->asJson([
+	        'status' => 'success',
+	        'content' => $content,
+	    ]);
+	}
+	
 	
 	/**
 	 * sét ghim công trình lên menu hoặc trang chủ

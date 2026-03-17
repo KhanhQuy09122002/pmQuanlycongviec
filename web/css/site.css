@@ -272,6 +272,7 @@ textarea.form-control {
     padding-left: 0; 
     transition: padding-left 0.3s ease; /* Smooth transition for padding */
     position: relative; /* Needed for absolute positioning of the icon if desired */
+    color:rgb(93, 95, 239);
 }
 
 .btn-in-grid::before {
@@ -414,6 +415,20 @@ a.desc:after {
 #ajaxCrudModal .custom-card .card-header {
 	min-height: 3rem;
     padding: .5rem 1rem;
+}
+
+.sButton{
+	display: block;
+    padding: 6px 12px !important;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.428571429;
+    color: #76839a;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.sButton:hover{
+    color: orange;
 }
 
 

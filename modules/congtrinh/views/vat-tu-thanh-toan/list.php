@@ -22,7 +22,7 @@ $itemType = 'vattuthanhtoan';
                     'title' => 'Thêm'
                 ]
             ) ?>
-         <?= Html::a('<i class="fas fa fa-trash" aria-hidden="true"></i>&nbsp; Xóa dữ liệu',
+         <?= Html::a('<i class="fas fa fa-trash" aria-hidden="true"></i> Xóa dữ liệu',
                         ["/congtrinh/vat-tu-thanh-toan/bulkdelete"],
                         [
                             'class'=>'btn btn-sm fw-bold btn-warning',
@@ -34,16 +34,23 @@ $itemType = 'vattuthanhtoan';
                             'itemtype'=>$itemType
                         ]) ?>
          
-         <div class="dropdown">
-			<button aria-expanded="false" aria-haspopup="true" class="btn ripple btn-info dropdown-toggle" data-bs-toggle="dropdown" type="button">Dropdown Menu<i class="fa fa-caret-down ms-1"></i></button>
-			<div class="dropdown-menu tx-13" style="">
-				<h6 class="dropdown-header tx-uppercase tx-11 tx-bold bg-info tx-spacing-1">
-					Dropdown header</h6>
-				<a class="dropdown-item" href="javascript:void(0);">Action</a> <a class="dropdown-item" href="javascript:void(0);">Another
-					action</a>
-				<a class="dropdown-item" href="javascript:void(0);">Something else here</a>
-				<div class="dropdown-divider"></div><a class="dropdown-item" href="javascript:void(0);">Separated link</a>
-			</div>
+         
+         <!-- tiep tuc o day........................... -->
+         <div class="btn-group mt-2 mb-2">
+			<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+				<i class="fa fa-print"></i> In - Xuất file <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li class="dropdown-plus-title">
+					Chọn chức năng
+					<b class="fa fa-angle-up" aria-hidden="true"></b>
+				</li>
+				<li><span onClick="InCT('vattuthanhtoan')" class="sButton"><i class="fa fa-print"></i> In báo cáo (A4)</span></li>
+				<!-- 
+				<li class="divider"></li>
+				<li><span onClick="ExcelCT('vattuthanhtoan')" class="sButton"><i class="fa fa-file-excel-o"></i> Xuất file excel</span></li>
+				 -->
+			</ul>
 		</div>
 		
 	</div>

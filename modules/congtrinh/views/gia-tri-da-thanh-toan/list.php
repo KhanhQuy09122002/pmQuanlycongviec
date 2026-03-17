@@ -33,6 +33,22 @@ $itemType = 'dathanhtoan';
                             'data-confirm-message'=>'Bạn có chắc muốn xóa?',
                             'itemtype'=>$itemType
                         ]) ?>
+         <div class="btn-group mt-2 mb-2">
+			<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+				<i class="fa fa-print"></i> In - Xuất file <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li class="dropdown-plus-title">
+					Chọn chức năng
+					<b class="fa fa-angle-up" aria-hidden="true"></b>
+				</li>
+				<li><span onClick="InCT('giatridathanhtoan')" class="sButton"><i class="fa fa-print"></i> In báo cáo (A4)</span></li>
+				<!-- 
+				<li class="divider"></li>
+				<li><span onClick="ExcelCT('vattuthanhtoan')" class="sButton"><i class="fa fa-file-excel-o"></i> Xuất file excel</span></li>
+				 -->
+			</ul>
+		</div>
 	</div>
 	<div class="col-md-6" style="text-align: right">
 		<span class="sTongTien">Tổng: <?= number_format($model->tongGiaTriDaThanhToan, 0, ',', '.') ?> VND</span>

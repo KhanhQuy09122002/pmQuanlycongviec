@@ -33,6 +33,22 @@ $itemType = 'nctt';
                             'data-confirm-message'=>'Bạn có chắc muốn xóa?',
                             'itemtype'=>$itemType
                         ]) ?>
+         <div class="btn-group mt-2 mb-2">
+			<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+				<i class="fa fa-print"></i> In - Xuất file <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li class="dropdown-plus-title">
+					Chọn chức năng
+					<b class="fa fa-angle-up" aria-hidden="true"></b>
+				</li>
+				<li><span onClick="InCT('nhancongthanhtoan')" class="sButton"><i class="fa fa-print"></i> In báo cáo (A4)</span></li>
+				<!-- 
+				<li class="divider"></li>
+				<li><span onClick="ExcelCT('vattuthanhtoan')" class="sButton"><i class="fa fa-file-excel-o"></i> Xuất file excel</span></li>
+				 -->
+			</ul>
+		</div>
 	</div>
 	<div class="col-md-6" style="text-align: right">
 		Tổng: <span class="sTongTien"><?= number_format($model->tongNhanCong, 0, ',', '.') ?> VND</span> 
@@ -48,13 +64,13 @@ $itemType = 'nctt';
         	<th style="width:3%"><span id="s-all-<?= $itemType ?>" style="cursor:pointer" >All</span>
                 		<span id="us-all-<?= $itemType ?>" style="cursor:pointer;display:none">xAll</span></th>
             <th style="width: 40px;text-align: center;">STT</th>
-            <th style="width: 250px;">Họ tên</th>
+            <th style="width: 200px;">Họ tên</th>
             <th style="width: 200px;text-align: right;">Tổng hợp đồng</th>
             <th style="width: 200px;text-align: right;">Đã thanh toán</th>
             <th style="width: 200px;text-align: right;">Còn lại</th>
-            <th style="width: 200px;">Ghi chú</th>
+            <!-- <th style="width: 150px;">Ghi chú</th>-->
             <th style="width: 80px;text-align: center;">Người tạo</th>
-            <th style="width: 100px;text-align: center;"></th>
+            <th style="width: 200px;text-align: center;"></th>
         </tr>
     </thead>
     <tbody>
@@ -69,9 +85,9 @@ $itemType = 'nctt';
                 <td style="text-align: right;"><?= number_format($item->tong_hop_dong, 0, ',', '.') ?> </td>
                 <td style="text-align: right;"><?= number_format($item->tongDaThanhToan, 0, ',', '.') ?> </td>
                 <td style="text-align: right;"><?= number_format($item->tongChuaThanhToan, 0, ',', '.') ?> </td>
-                <td>
+                <!-- <td>
                 	<?= $item->ghi_chu ?>
-                </td>
+                </td> -->
                 <td style="text-align: center;"><?= User::getNguoiTaoName($item->nguoi_tao) ?></td>
                 <td style="text-align: center;">
                     <?= Html::a('<i class="fa fa-edit"></i>', 
@@ -83,6 +99,7 @@ $itemType = 'nctt';
                             'title' => 'Sửa'
                         ]
                     ) ?>
+                    <span onClick="InCT2('nhancongthanhtoan',<?= $item->id ?>)" class="btn btn-sm btn-warning"><i class="fa fa-print"></i></span>
                 </td>
             </tr>
         <?php endforeach; ?>
