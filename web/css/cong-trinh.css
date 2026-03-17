@@ -225,3 +225,25 @@
     .cpktt .dataTables_wrapper {
         width: 100%;
     }
+
+    .gttt .dataTables_wrapper .dataTable,
+    .tpttls .dataTables_wrapper .dataTable,
+    .cmtt .dataTables_wrapper .dataTable,
+    .cpktt .dataTables_wrapper .dataTable {
+        width: 100% !important;
+    }
+
+    .gttt .dataTables_wrapper .dataTables_scroll,
+    .gttt .dataTables_wrapper .dataTables_scrollHead,
+    .gttt .dataTables_wrapper .dataTables_scrollBody,
+    .tpttls .dataTables_wrapper .dataTables_scroll,
+    .tpttls .dataTables_wrapper .dataTables_scrollHead,
+    .tpttls .dataTables_wrapper .dataTables_scrollBody,
+    .cmtt .dataTables_wrapper .dataTables_scroll,
+    .cmtt .dataTables_wrapper .dataTables_scrollHead,
+    .cmtt .dataTables_wrapper .dataTables_scrollBody,
+    .cpktt .dataTables_wrapper .dataTables_scroll,
+    .cpktt .dataTables_wrapper .dataTables_scrollHead,
+    .cpktt .dataTables_wrapper .dataTables_scrollBody {
+        width: 100% !important;
+    }
