@@ -10,7 +10,7 @@ use cangak\ajaxcrud\BulkButtonWidget;
 /* @var $searchModel app\modules\congtrinh\models\search\CaMayThanhToanSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Ca May Thanh Toans';
+$this->title = 'Ca Máy Thanh Toán';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -26,10 +26,10 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="fas fa fa-plus" aria-hidden="true"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Tambah Ca May Thanh Toans','class'=>'btn btn-default']).
+                    Html::a('<i class="fas fa-plus" aria-hidden="true"></i>', ['create'],
+                    ['role'=>'modal-remote','title'=> 'Thêm mới Ca Máy Thanh Toán','class'=>'btn btn-default']).
                     Html::a('<i class="fas fa fa-sync" aria-hidden="true"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Tải lại']).
                     '{toggleData}'.
                     '{export}'
                 ],
@@ -39,18 +39,18 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="fas fa fa-list" aria-hidden="true"></i> Ca May Thanh Toans listing',
-                'before'=>'<em>* Resize kolom table  serte kolom kanan dan kiri.</em>',
+                'heading' => '<i class="fas fa-list" aria-hidden="true"></i> Danh sách Ca Máy Thanh Toán',
+                'before'=>'<em>* Thay đổi kích thước các cột của bảng bằng cách kéo các cạnh của cột.</em>',
                 'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="fas fa fa-trash" aria-hidden="true"></i>&nbsp; Hapus semua',
+                            'buttons'=>Html::a('<i class="fas fa-trash" aria-hidden="true"></i>&nbsp; Xóa tất cả',
                                 ["bulkdelete"] ,
                                 [
                                     "class"=>"btn btn-danger btn-xs",
                                     'role'=>'modal-remote-bulk',
                                     'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                                     'data-request-method'=>'post',
-                                    'data-confirm-title'=>'Aapakah anda yakin?',
-                                    'data-confirm-message'=>'Apakah Anda yakin akan menghapus data ini?'
+                                    'data-confirm-title'=>'Bạn có chắc chắn không?',
+                                    'data-confirm-message'=>'Bạn có chắc chắn muốn xóa những mục này không?'
                                 ]),
                         ]).                        
                         '<div class="clearfix"></div>',

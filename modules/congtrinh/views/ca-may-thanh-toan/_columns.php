@@ -41,14 +41,14 @@ return [
         'urlCreator' => function($action, $model, $key, $index) { 
                 return Url::to([$action,'id'=>$key]);
         },
-        'viewOptions'=>['role'=>'modal-remote','title'=>'Lihat','data-toggle'=>'tooltip'],
-        'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
-        'deleteOptions'=>['role'=>'modal-remote','title'=>'Hapus', 
+        'viewOptions'=>['role'=>'modal-remote','title'=>'Xem','data-toggle'=>'tooltip'],
+        'updateOptions'=>['role'=>'modal-remote','title'=>'Sửa', 'data-toggle'=>'tooltip'],
+        'deleteOptions'=>['role'=>'modal-remote','title'=>'Xóa', 
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',
                           'data-toggle'=>'tooltip',
-                          'data-confirm-title'=>'Anda Yakin?',
-                          'data-confirm-message'=>'Apakah Anda yakin akan menghapus data ini?'], 
+                          'data-confirm-title'=>'Bạn có chắc chắn không?',
+                          'data-confirm-message'=>'Bạn có chắc là sẽ xóa mục này không?'], 
     ],
 
 ];   

@@ -11,48 +11,48 @@ $itemType = 'camay';
 
 <div class="row">
 	<div class="col-md-12">
-    	<h5>CA MÃY THANH TOÃN</h5>
+    	<h5>CA MÁY THANH TOÁN</h5>
     </div>
 	<div class="col-md-6">
-		 <?= Html::a('<i class="fa fa-plus"></i> ThÃªm má»›i', 
+		 <?= Html::a('<i class="fa fa-plus"></i> Thêm mới', 
                 ['/congtrinh/ca-may-thanh-toan/create', 'idCT' => $model->id], 
                 [
                     'class' => 'btn btn-sm fw-bold btn-info',
                     'style' => 'color: white;',
                     'role' => 'modal-remote-2', 
-                    'title' => 'ThÃªm'
+                    'title' => 'Thêm'
                 ]
             ) ?>
-         <?= Html::a('<i class="fas fa fa-trash" aria-hidden="true"></i>&nbsp; XÃ³a dá»¯ liá»‡u',
+         <?= Html::a('<i class="fas fa fa-trash" aria-hidden="true"></i>&nbsp; Xóa dữ liệu',
                         ["/congtrinh/ca-may-thanh-toan/bulkdelete"],
                         [
                             'class'=>'btn btn-sm fw-bold btn-warning',
                             'role'=>'modal-remote-bulk-2',
                             'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                             'data-request-method'=>'post',
-                            'data-confirm-title'=>'XÃ¡c nháº­n xÃ³a?',
-                            'data-confirm-message'=>'Báº¡n cÃ³ cháº¯c muá»‘n xÃ³a?',
+                            'data-confirm-title'=>'Xác nhận xóa?',
+                            'data-confirm-message'=>'Bạn có chắc muốn xóa?',
                             'itemtype'=>$itemType
                         ]) ?>
           <div class="btn-group mt-2 mb-2">
 			<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-				<i class="fa fa-print"></i> In - Xuáº¥t file <span class="caret"></span>
+				<i class="fa fa-print"></i> In - Xuất file <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" role="menu">
 				<li class="dropdown-plus-title">
-					Chá»n chá»©c nÄƒng
+					Chọn chức năng
 					<b class="fa fa-angle-up" aria-hidden="true"></b>
 				</li>
-				<li><span onClick="InCT('camaythanhtoan')" class="sButton"><i class="fa fa-print"></i> In bÃ¡o cÃ¡o (A4)</span></li>
+				<li><span onClick="InCT('camaythanhtoan')" class="sButton"><i class="fa fa-print"></i> In báo cáo (A4)</span></li>
 				<!-- 
 				<li class="divider"></li>
-				<li><span onClick="ExcelCT('vattuthanhtoan')" class="sButton"><i class="fa fa-file-excel-o"></i> Xuáº¥t file excel</span></li>
+				<li><span onClick="ExcelCT('vattuthanhtoan')" class="sButton"><i class="fa fa-file-excel-o"></i> Xuất file excel</span></li>
 				 -->
 			</ul>
 		</div>
 	</div>
 	<div class="col-md-6" style="text-align: right">
-		<span class="sTongTien">Tá»•ng: <?= number_format($model->tongCaMayThanhToan, 0, ',', '.') ?> VND</span>
+		<span class="sTongTien">Tổng: <?= number_format($model->tongCaMayThanhToan, 0, ',', '.') ?> VND</span>
 	</div>
 </div>
 
@@ -63,11 +63,11 @@ $itemType = 'camay';
         	<th><span id="s-all-<?= $itemType ?>" style="cursor:pointer" >All</span>
                 		<span id="us-all-<?= $itemType ?>" style="cursor:pointer;display:none">xAll</span></th>
             <th style="text-align: center;">STT</th>
-            <th style="text-align: center;">TÃªn ca mÃ¡y</th>
-            <th style="text-align: center;">Sá»‘ tiá»n (VNÄ)</th>
-            <th style="text-align: center;">NgÃ y thanh toÃ¡n</th>
+            <th style="text-align: center;">Tên ca máy</th>
+            <th style="text-align: center;">Số tiền (VNĐ)</th>
+            <th style="text-align: center;">Ngày thanh toán</th>
             <th style="text-align: center;">Ghi chÃº</th>
-            <th style="text-align: center;">NgÆ°á»i táº¡o</th>
+            <th style="text-align: center;">Người tạo</th>
             <th style="text-align: center;"></th>
         </tr>
     </thead>
@@ -95,7 +95,7 @@ $itemType = 'camay';
                             'class' => 'btn btn-sm fw-bold btn-warning',
                             'style' => 'color: white;',
                             'role' => 'modal-remote-2', 
-                            'title' => 'Sá»­a'
+                            'title' => 'Sửa'
                         ]
                     ) ?>
                 </td>
@@ -129,13 +129,12 @@ var table = new DataTable('#tblCaMay',{
     pageLength: 20,
     autoWidth: true,
     "language": {
-        "sLengthMenu":    "Hiá»ƒn thá»‹ _MENU_ dÃ²ng dá»¯ liá»‡u/trang",
-        "sInfo":          "Hiá»ƒn thá»‹ _START_ - _END_ cá»§a _TOTAL_ dá»¯ liá»‡u",
+        "sLengthMenu":    "Hiển thị _MENU_ dòng dữ liệu/trang",
+        "sInfo":          "Hiển thị _START_ - _END_ của _TOTAL_ dữ liệu",
         "sSearch":        "<i class='fa-solid fa-magnifying-glass'></i>",
-        "emptyTable": "ChÆ°a cÃ³ dá»¯ liá»‡u",
+        "emptyTable": "Chưa có dữ liệu",
         "infoEmpty": ""
     }
 });
 	table.columns.adjust().draw(false);
 </script>
-
