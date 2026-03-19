@@ -37,8 +37,8 @@
         Chưa thanh toán: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <span class="sTongTien">
-            <?= number_format(($model->tongNhanCongDaThanhToan
-                +  $model->tongThauPhuDaThanhToan ), 0, ',', '.') ?>
+            <?= number_format(($model->tongNhanCongChuaThanhToan
+                +  $model->tongThauPhuChuaThanhToan ), 0, ',', '.') ?>
         </span>
     </div>
 </div>
